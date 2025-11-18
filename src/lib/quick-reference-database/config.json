@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2024-10-18T00:00:00.000Z",
+  "defaultAudience": "pediatric",
+  "defaultWeight": 20,
+  "enabledFeatures": {
+    "adminInterface": true,
+    "dataValidation": true,
+    "autoBackup": false
+  },
+  "metadata": {
+    "totalMedications": 8,
+    "totalCategories": 6,
+    "lastMedicationAdded": "simethicone-quick",
+    "dataIntegrityLastChecked": "2024-10-18T00:00:00.000Z"
+  }
+}

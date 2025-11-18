@@ -1,0 +1,26 @@
+version = 1
+
+test_patterns = ["**/*.test.ts"]
+
+exclude_patterns = [
+    "public/**,",
+    ".gemini/**",
+    ".github/**",
+    ".idx/**",
+    ".trunk/**",
+    ".vscode/**"
+]
+
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  plugins = ["react"]
+  environment = [
+    "nodejs",
+    "vitest"
+  module_system = "es-modules"
+  dialect = "typescript"
+  style_guide = "google"
+  ]

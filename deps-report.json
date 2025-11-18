@@ -1,0 +1,86 @@
+{
+  "files": 235,
+  "edges": 407,
+  "topImported": [
+    {
+      "file": "src/lib/utils.ts",
+      "imports": 64
+    },
+    {
+      "file": "src/lib/quick-reference-database/types.ts",
+      "imports": 52
+    },
+    {
+      "file": "src/components/ui/button.tsx",
+      "imports": 20
+    },
+    {
+      "file": "src/components/ui/card.tsx",
+      "imports": 16
+    },
+    {
+      "file": "src/hooks/use-device.ts",
+      "imports": 13
+    },
+    {
+      "file": "src/components/ui/label.tsx",
+      "imports": 12
+    },
+    {
+      "file": "src/components/ui/alert.tsx",
+      "imports": 8
+    },
+    {
+      "file": "src/components/ui/radio-group.tsx",
+      "imports": 7
+    },
+    {
+      "file": "src/components/ui/input.tsx",
+      "imports": 7
+    },
+    {
+      "file": "src/lib/quick-reference-database/index.ts",
+      "imports": 7
+    },
+    {
+      "file": "src/lib/utils/centor-score.ts",
+      "imports": 5
+    },
+    {
+      "file": "src/lib/utils/phq-9-score.ts",
+      "imports": 5
+    },
+    {
+      "file": "src/lib/utils/stop-bang-score.ts",
+      "imports": 5
+    },
+    {
+      "file": "src/hooks/use-screen-reader.ts",
+      "imports": 5
+    },
+    {
+      "file": "src/lib/utils/dass-score.ts",
+      "imports": 4
+    },
+    {
+      "file": "src/components/ui/table.tsx",
+      "imports": 4
+    },
+    {
+      "file": "src/lib/quick-reference-database/calculations.ts",
+      "imports": 4
+    },
+    {
+      "file": "src/lib/stores/calculator-store.ts",
+      "imports": 4
+    },
+    {
+      "file": "src/lib/utils/framingham-score.ts",
+      "imports": 3
+    },
+    {
+      "file": "src/lib/quick-reference-database/filtering.ts",
+      "imports": 3
+    }
+  ]
+}
