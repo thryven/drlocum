@@ -9,7 +9,9 @@ describe('QuestionRow (rendered via Phq9ScorePage)', () => {
   it('renders the first question with numbered prompt and four options', () => {
     render(<Phq9ScorePage />)
 
-    const q = questions[0]!
+    const q = questions[0]
+    expect(q).toBeDefined()
+    if (!q) throw new Error('PHQ-9 question missing')
     // The RadioGroup uses aria-label equal to the question text
     const group = screen.getByLabelText(q.text)
     // The prompt includes the numeric prefix "1. "
@@ -37,7 +39,9 @@ describe('QuestionRow (rendered via Phq9ScorePage)', () => {
   it('checks the correct radio when an option is clicked within a question row', async () => {
     render(<Phq9ScorePage />)
     const user = userEvent.setup()
-    const q = questions[0]!
+    const q = questions[0]
+    expect(q).toBeDefined()
+    if (!q) throw new Error('PHQ-9 question missing')
     const group = screen.getByLabelText(q.text)
     const w = within(group)
 

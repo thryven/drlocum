@@ -47,9 +47,11 @@ export const mapIsEqual = (
   map2: Map<string, QuickReferenceCalculation>,
 ): boolean => {
   if (map1.size !== map2.size) return false
-  for (const key of Array.from(map1.keys())) {
-    const val = map1.get(key)!
-    if (!map2.has(key) || !calculationIsEqual(val, map2.get(key))) {
+  for (const key of map1.keys()) {
+    const val = map1.get(key)
+
+    const other = map2.get(key)
+    if (other === undefined || !calculationIsEqual(val, other)) {
       return false
     }
   }

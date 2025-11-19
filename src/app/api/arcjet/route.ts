@@ -2,8 +2,13 @@ import { isSpoofedBot } from '@arcjet/inspect'
 import arcjet, { detectBot, shield, tokenBucket } from '@arcjet/next'
 import { NextResponse } from 'next/server'
 
+const key = process.env.ARCJET_KEY
+if (!key) {
+  throw new Error('ARCJET_KEY environment variable is not set')
+}
+
 const aj = arcjet({
-  key: process.env.ARCJET_KEY!, // Get your site key from https://app.arcjet.com
+  key, // Get your site key from https://app.arcjet.com
   rules: [
     // Shield protects your app from common attacks e.g. SQL injection
     shield({ mode: 'LIVE' }),

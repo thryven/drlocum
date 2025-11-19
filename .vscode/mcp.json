@@ -8,5 +8,9 @@
 			],
 			"type": "stdio"
 		},
+		"trunk": {
+			"url": "https://mcp.trunk.io/mcp",
+			"type": "http"
+		}
 	}
 }

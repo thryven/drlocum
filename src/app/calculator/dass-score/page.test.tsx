@@ -110,7 +110,8 @@ describe('DassScorePage', () => {
     const groups = screen.getAllByRole('radiogroup')
     const firstQuestionGroup = groups[0]
     expect(firstQuestionGroup).toBeDefined()
-    const radioThree = within(firstQuestionGroup!).getByLabelText('Applied to me very much')
+    if (!firstQuestionGroup) throw new Error('First question group missing')
+    const radioThree = within(firstQuestionGroup).getByLabelText('Applied to me very much')
     await act(async () => {
       await user.click(radioThree)
     })
@@ -152,7 +153,8 @@ describe('DassScorePage', () => {
     for (const id of depressionIds) {
       const group = groups[idToIndex(id)]
       expect(group).toBeDefined()
-      const radio = within(group!).getByLabelText('Applied to me a considerable degree')
+      if (!group) throw new Error(`Question group ${id} missing`)
+      const radio = within(group).getByLabelText('Applied to me a considerable degree')
       // eslint-disable-next-line no-await-in-loop
       await act(async () => {
         await user.click(radio)
@@ -163,7 +165,8 @@ describe('DassScorePage', () => {
     for (const id of anxietyIds) {
       const group = groups[idToIndex(id)]
       expect(group).toBeDefined()
-      const radio = within(group!).getByLabelText('Applied to me to some degree')
+      if (!group) throw new Error(`Question group ${id} missing`)
+      const radio = within(group).getByLabelText('Applied to me to some degree')
       // eslint-disable-next-line no-await-in-loop
       await act(async () => {
         await user.click(radio)
@@ -174,7 +177,8 @@ describe('DassScorePage', () => {
     for (const id of stressIds) {
       const group = groups[idToIndex(id)]
       expect(group).toBeDefined()
-      const radio = within(group!).getByLabelText('Applied to me to some degree')
+      if (!group) throw new Error(`Question group ${id} missing`)
+      const radio = within(group).getByLabelText('Applied to me to some degree')
       // eslint-disable-next-line no-await-in-loop
       await act(async () => {
         await user.click(radio)
@@ -192,19 +196,22 @@ describe('DassScorePage', () => {
     // Depression: 28 => Extremely Severe (red-700 label)
     const depAlert = alerts[0]
     expect(depAlert).toBeDefined()
-    const depSeverity = within(depAlert!).getByText('Extremely Severe')
+    if (!depAlert) throw new Error('Depression alert missing')
+    const depSeverity = within(depAlert).getByText('Extremely Severe')
     expect(depSeverity.className).toMatch(/text-red-700/)
 
     // Anxiety: 14 => Moderate (orange label)
     const anxAlert = alerts[1]
     expect(anxAlert).toBeDefined()
-    const anxSeverity = within(anxAlert!).getByText('Moderate')
+    if (!anxAlert) throw new Error('Anxiety alert missing')
+    const anxSeverity = within(anxAlert).getByText('Moderate')
     expect(anxSeverity.className).toMatch(/text-orange-500/)
 
     // Stress: 0 => Normal (green label)
     const stressAlert = alerts[2]
     expect(stressAlert).toBeDefined()
-    const stressSeverity = within(stressAlert!).getByText('Normal')
+    if (!stressAlert) throw new Error('Stress alert missing')
+    const stressSeverity = within(stressAlert).getByText('Normal')
     expect(stressSeverity.className).toMatch(/text-green-600/)
   }, 15000)
 })
