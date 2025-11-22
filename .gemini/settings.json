@@ -1,13 +1,21 @@
 {
   "mcpServers": {
-    "next-devtools": {
-      "command": "npx",
-      "args": [
-        "next-devtools-mcp@latest"
-      ]
-    },
     "trunk": {
       "httpUrl": "https://mcp.trunk.io/mcp"
+    },
+    "next-devtools": {
+      "command": "npx",
+      "args": ["-y", "next-devtools-mcp@latest"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
+    },
+    "vitest": {
+      "command": "npx",
+      "args": ["-y", "@djankies/vitest-mcp"]
     }
   }
 }

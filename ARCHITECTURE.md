@@ -1,6 +1,6 @@
-# Doses Application Architecture
+# drlocum Application Architecture
 
-This document provides a high-level overview of the Doses application's architecture, technology stack, and key design patterns.
+This document provides a high-level overview of the drlocum application's architecture, technology stack, and key design patterns.
 
 ## 1. Technology Stack
 

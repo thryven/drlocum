@@ -2,7 +2,7 @@
 'use client'
 
 import { Weight } from 'lucide-react'
-import { useCallback, useEffect, useId, useRef } from 'react'
+import { useCallback, useEffect, useId, useState } from 'react'
 import { Label } from '@/components/ui/label'
 import { MobileFormField } from '@/components/ui/mobile-form'
 import { MobileInput } from '@/components/ui/mobile-input'
@@ -21,7 +21,6 @@ interface WeightInputSectionProps {
  * @returns The rendered weight input section as JSX
  */
 export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProps>) {
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const { isMobile } = useDevice()
   const { announceStatus } = useScreenReader()
 
@@ -30,54 +29,45 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
   const inputId = useId()
   const descriptionId = useId()
 
-  const debouncedWeightChange = useCallback(
-    (newWeight: number | undefined, isManual: boolean) => {
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current)
-      }
-
-      debounceRef.current = setTimeout(() => {
-        setDisplayWeight(newWeight)
-        setIsWeightManuallyEntered(isManual)
-
-        if (newWeight === undefined) {
-          announceStatus('Weight cleared')
-        } else {
-          announceStatus(`Weight updated to ${newWeight} kilograms`)
-        }
-      }, 300)
-    },
-    [setDisplayWeight, setIsWeightManuallyEntered, announceStatus],
+  // Local input string preserves what the user types (including "15." or ".5")
+  const [localValue, setLocalValue] = useState<string>(
+    displayWeight === undefined ? '' : String(displayWeight),
   )
 
   const handleInputChange = useCallback(
     (value: string) => {
+      setLocalValue(value)
+
       if (value.trim() === '') {
-        debouncedWeightChange(undefined, false) // Not a manual entry if cleared
+        // Cleared input: reflect that in store and don't mark as manual entry
+        setDisplayWeight(undefined)
+        setIsWeightManuallyEntered(false)
+        announceStatus('Weight cleared')
         return
       }
 
       const numericValue = Number.parseFloat(value)
       if (!Number.isNaN(numericValue) && numericValue > 0) {
-        debouncedWeightChange(numericValue, true)
+        // Valid numeric weight -> update immediately
+        setDisplayWeight(numericValue)
+        setIsWeightManuallyEntered(true)
+        announceStatus(`Weight updated to ${numericValue} kilograms`)
       } else {
-        // If user types something invalid, we still call onWeightChange with undefined
-        // to clear any existing calculations based on a now-invalid weight.
-        debouncedWeightChange(undefined, true)
+        // Invalid or incomplete decimal input (e.g., "15." or "abc") -> clear stored weight
+        setDisplayWeight(undefined)
+        setIsWeightManuallyEntered(true)
       }
     },
-    [debouncedWeightChange],
+    [announceStatus, setDisplayWeight, setIsWeightManuallyEntered],
   )
 
+  // Keep local input in sync if displayWeight is changed externally
   useEffect(() => {
-    return () => {
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current)
-      }
+    const displayStr = displayWeight === undefined ? '' : String(displayWeight)
+    if (displayStr !== localValue) {
+      setLocalValue(displayStr)
     }
-  }, [])
-
-  const displayValue = displayWeight === undefined ? '' : String(displayWeight)
+  }, [displayWeight])
 
   return (
     <div className='relative' id='weight-input'>
@@ -102,7 +92,7 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
               type='text'
               mobileKeyboard='decimal'
               placeholder='e.g., 15.5'
-              value={displayValue}
+              value={localValue}
               onChange={handleInputChange}
               scrollIntoViewOnFocus={true}
               size={isMobile ? 'default' : 'lg'}
