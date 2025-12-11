@@ -32,7 +32,7 @@ type MdxFrontmatter = {
  */
 async function getMdxContent(baseDrugId: string) {
   try {
-    const mdxDirectory = path.join(process.cwd(), 'src/lib/medication-reference/medication-summary-full/')
+    const mdxDirectory = path.join(process.cwd(), 'src/lib/medication-reference/medication-full/')
     const filePath = path.join(mdxDirectory, `${baseDrugId}.mdx`)
     const source = await fs.readFile(filePath, 'utf-8')
     const { frontmatter, strippedSource } = getFrontmatter<MdxFrontmatter>(source)
