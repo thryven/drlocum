@@ -1,4 +1,4 @@
-import type { QuickReferenceMedication } from '../../types'
+import type { QuickReferenceMedication } from '../types'
 
 /**
  * Erythromycin (Eryc)
