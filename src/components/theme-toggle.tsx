@@ -1,7 +1,7 @@
 // /src/components/theme-toggle.tsx
 
 'use client'
-import { Monitor, Moon, Sun } from 'lucide-react'
+import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import type React from 'react'
 import { useEffect, useState } from 'react'
@@ -11,7 +11,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 const themeIcons: Record<string, React.ElementType> = {
   light: Sun,
   dark: Moon,
-  system: Monitor,
 }
 
 /**
@@ -33,14 +32,14 @@ export function ThemeToggle(): React.ReactElement {
     setTheme(newTheme)
   }
 
-  const CurrentIcon = (theme && themeIcons[theme]) || Monitor
+  const CurrentIcon = (theme && themeIcons[theme]) || Sun
   const uniqueThemes = Array.from(new Set(themes ?? []))
 
   if (!mounted) {
     // Render a placeholder button to prevent layout shift during hydration and avoid hydration error.
     return (
       <Button variant='ghost' size='icon' disabled={true}>
-        <Monitor className='h-[1.2rem] w-[1.2rem]' />
+        <Sun className='h-[1.2rem] w-[1.2rem]' />
         <span className='sr-only'>Toggle theme</span>
       </Button>
     )

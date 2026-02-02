@@ -19,7 +19,7 @@ import { AppLayout } from './app-layout'
  * Wraps the application with theme, state, layout, and runtime service providers.
  *
  * This includes:
- * - ThemeProvider: For managing light/dark/system themes.
+ * - ThemeProvider: For managing light/dark themes.
  * - StoreInitializer: For hydrating Zustand stores on the client.
  * - AppLayout: The main layout structure of the application.
  * - Toaster: For displaying toast notifications.
@@ -30,7 +30,7 @@ import { AppLayout } from './app-layout'
  */
 export function AppProviders({ children }: { children: React.ReactNode }): React.ReactElement {
   return (
-    <ThemeProvider attribute='class' defaultTheme='system' enableSystem={true} themes={['light', 'dark', 'system']}>
+    <ThemeProvider attribute='class' defaultTheme='light' enableSystem={false} themes={['light', 'dark']}>
       <StoreInitializer />
       <AppLayout>{children}</AppLayout>
       <Toaster />
