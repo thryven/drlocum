@@ -2,7 +2,7 @@
 'use client'
 
 import type { LucideIcon } from 'lucide-react'
-import { Banana, Filter, ShieldAlert, ShieldCheck, Sparkles, Star, Thermometer, Waves, Wind, X } from 'lucide-react'
+import { Filter, Star, Waves, X } from 'lucide-react'
 import { useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import MobileSelect from '@/components/ui/mobile-select'
@@ -14,13 +14,7 @@ import { useCalculatorStore } from '@/lib/stores/calculator-store'
 import { cn } from '@/lib/utils'
 
 const iconMap: Record<string, LucideIcon> = {
-  ShieldCheck,
-  Thermometer,
-  Wind,
-  Banana,
-  ShieldAlert,
   Waves,
-  Sparkles,
   Star,
 }
 
