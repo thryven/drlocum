@@ -14,7 +14,7 @@
       "name": "pain-fever",
       "displayName": "Pain & Fever",
       "color": "orange",
-      "icon": "Thermometer",
+      "icon": "dew_point",
       "enabled": true,
       "sortOrder": 2
     },

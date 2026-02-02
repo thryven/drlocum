@@ -156,7 +156,7 @@ export function ComplaintFilterBar({
           >
             {allFilters.map((complaint) => {
               const isActive = selectedComplaint === complaint.id
-              const Icon = iconMap[complaint.icon]
+              const LucideIconComponent = iconMap[complaint.icon]
               return (
                 <Button
                   key={complaint.id}
@@ -173,7 +173,13 @@ export function ComplaintFilterBar({
                   disabled={isPending}
                   aria-label={complaint.displayName}
                 >
-                  {Icon && <Icon className={cn('h-5 w-5', complaint.id === 'favorites' && 'fill-current')} />}
+                  {LucideIconComponent ? (
+                    <LucideIconComponent className={cn('h-5 w-5', complaint.id === 'favorites' && 'fill-current')} />
+                  ) : (
+                    <span className={cn('material-symbols-outlined', 'text-[1.25rem] leading-none')}>
+                      {complaint.icon}
+                    </span>
+                  )}
                 </Button>
               )
             })}
@@ -182,13 +188,15 @@ export function ComplaintFilterBar({
       )
     } else {
       const filterOptions = allFilters.map((c) => {
-        const Icon = iconMap[c.icon]
+        const LucideIconComponent = iconMap[c.icon]
         return {
           value: c.id,
           label: c.displayName,
-          icon: Icon ? (
-            <Icon size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
-          ) : undefined,
+          icon: LucideIconComponent ? (
+            <LucideIconComponent size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
+          ) : (
+            <span className={cn('material-symbols-outlined', 'text-xl leading-none')}>{c.icon}</span>
+          ),
         }
       })
       return (
@@ -236,7 +244,17 @@ export function ComplaintFilterBar({
         >
           {allFilters.map((complaint) => {
             const isActive = selectedComplaint === complaint.id
-            const Icon = iconMap[complaint.icon]
+            const LucideIconComponent = iconMap[complaint.icon]
+
+            const iconElement = LucideIconComponent ? (
+              <LucideIconComponent
+                className={cn('w-4 h-4', !isCompactView && 'mr-2', complaint.id === 'favorites' && 'fill-current')}
+              />
+            ) : (
+              <span className={cn('material-symbols-outlined', 'text-base leading-none', !isCompactView && 'mr-2')}>
+                {complaint.icon}
+              </span>
+            )
 
             const button = (
               <Button
@@ -252,11 +270,7 @@ export function ComplaintFilterBar({
                 aria-selected={isActive}
                 disabled={isPending}
               >
-                {Icon && (
-                  <Icon
-                    className={cn('w-4 h-4', !isCompactView && 'mr-2', complaint.id === 'favorites' && 'fill-current')}
-                  />
-                )}
+                {iconElement}
                 {!isCompactView && complaint.displayName}
                 {isCompactView && <span className='sr-only'>{complaint.displayName}</span>}
               </Button>
@@ -273,11 +287,7 @@ export function ComplaintFilterBar({
               )
             }
 
-            return (
-              <div key={complaint.id}>
-                {button}
-              </div>
-            )
+            return <div key={complaint.id}>{button}</div>
           })}
         </div>
       </TooltipProvider>

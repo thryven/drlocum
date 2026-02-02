@@ -51,7 +51,13 @@ export default function RootLayout({
 }>): React.ReactElement {
   return (
     <html lang='en' className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning={true}>
-      <head>{/* PWA-related meta tags are handled by the Metadata object */}</head>
+      <head>
+      {/* PWA-related meta tags are handled by the Metadata object */}
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=dew_point"
+      />
+      </head>
       <body className='flex flex-col min-h-screen antialiased bg-background'>
         <AppProviders>{children}</AppProviders>
       </body>
