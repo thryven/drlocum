@@ -14,6 +14,7 @@ import type {
   QuickReferenceComplaintCategory,
   QuickReferenceMedication,
 } from '@/lib/medication-reference'
+import { useCalculatorStore } from '@/lib/stores/calculator-store'
 import { cn } from '@/lib/utils'
 import { AriaLabels } from '@/lib/utils/accessibility/labels'
 
@@ -199,6 +200,7 @@ export function DrugDosageCard({
   className,
 }: DrugDosageCardProps) {
   const { isMobile } = useDevice()
+  const { isCompactView } = useCalculatorStore()
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false)
   const [isPressing, setIsPressing] = useState(false)
   const primaryCategory = getPrimaryComplaintCategory(drug, categories)
@@ -273,7 +275,7 @@ export function DrugDosageCard({
       >
         <div className='flex flex-col gap-1'>
           <p className={cn('text-sm font-medium truncate', colors.text)}>{drug.name}</p>
-          {(calculationResult.doseRateText || calculationResult.concentrationText) && (
+          {!isCompactView && (calculationResult.doseRateText || calculationResult.concentrationText) && (
             <div className='text-xs text-muted-foreground'>
               {calculationResult.doseRateText && <span>{calculationResult.doseRateText}</span>}
               {calculationResult.concentrationText && (

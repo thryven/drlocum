@@ -13,6 +13,7 @@ interface CalculatorState {
   isWeightManuallyEntered: boolean
   selectedComplaintFilter: string | null
   drugCalculationResults: Map<string, QuickReferenceCalculation>
+  isCompactView: boolean
 
   // Quick Reference Actions
   setDisplayWeight: (weight: number | undefined) => void
@@ -20,6 +21,7 @@ interface CalculatorState {
   setIsWeightManuallyEntered: (isManual: boolean) => void
   setSelectedComplaintFilter: (complaintId: string | null) => void
   setDrugCalculationResults: (results: Map<string, QuickReferenceCalculation>) => void
+  toggleCompactView: () => void
   resetQuickReferenceState: () => void
 }
 
@@ -68,6 +70,7 @@ export const useCalculatorStore = create<CalculatorState>()(
       isWeightManuallyEntered: false,
       selectedComplaintFilter: null,
       drugCalculationResults: new Map(),
+      isCompactView: false,
 
       // Quick Reference Actions
       setDisplayWeight: (weight) => set({ displayWeight: weight }),
@@ -79,6 +82,7 @@ export const useCalculatorStore = create<CalculatorState>()(
           set({ drugCalculationResults: results })
         }
       },
+      toggleCompactView: () => set((state) => ({ isCompactView: !state.isCompactView })),
 
       resetQuickReferenceState: () => {
         set({
@@ -88,6 +92,7 @@ export const useCalculatorStore = create<CalculatorState>()(
           isWeightManuallyEntered: false,
           selectedComplaintFilter: null,
           drugCalculationResults: new Map(),
+          isCompactView: false,
         })
       },
     }),
@@ -101,6 +106,7 @@ export const useCalculatorStore = create<CalculatorState>()(
         displayAgeUnit: state.displayAgeUnit,
         selectedComplaintFilter: state.selectedComplaintFilter,
         isWeightManuallyEntered: state.isWeightManuallyEntered,
+        isCompactView: state.isCompactView,
       }),
     },
   ),

@@ -1,7 +1,7 @@
 // src/components/quick-reference/quick-drug-reference-page.tsx
 'use client'
 
-import { AlertTriangle, ArrowLeft, RefreshCw } from 'lucide-react'
+import { AlertTriangle, ArrowLeft, Maximize2, Minimize2, RefreshCw } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import type React from 'react'
 import { Component, useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
@@ -152,9 +152,11 @@ function QuickDrugReferenceContent({
     isWeightManuallyEntered,
     selectedComplaintFilter,
     drugCalculationResults,
+    isCompactView,
     setDisplayWeight,
     setSelectedComplaintFilter,
     setDrugCalculationResults,
+    toggleCompactView,
   } = useCalculatorStore()
 
   // Quick Reference Database hook
@@ -393,7 +395,18 @@ function QuickDrugReferenceContent({
               isMobile && ['shadow-xs border-0 bg-card/50', keyboard.isVisible && 'shadow-none bg-transparent'],
             )}
           >
-            <CardContent className={cn('padding-component', isMobile && 'pt-2 px-2 pb-2')}>
+            <CardHeader className='flex-row items-center justify-between p-4 pb-2'>
+              <CardTitle className='text-lg'>Patient Details</CardTitle>
+              <Button variant='ghost' size='icon' onClick={toggleCompactView} className='h-8 w-8'>
+                {isCompactView ? (
+                  <Maximize2 className='h-4 w-4' />
+                ) : (
+                  <Minimize2 className='h-4 w-4' />
+                )}
+                <span className='sr-only'>{isCompactView ? 'Expand view' : 'Compact view'}</span>
+              </Button>
+            </CardHeader>
+            <CardContent className={cn('p-4 pt-0', isMobile && 'pt-2 px-2 pb-2')}>
               <div className={cn('grid', isMobile ? 'grid-cols-1 gap-inline' : 'grid-cols-2 gap-component')}>
                 <AgeInputSection disabled={!isClient} />
                 <WeightInputSection disabled={!isClient} />
