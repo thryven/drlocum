@@ -5,14 +5,7 @@ import type { LucideIcon } from 'lucide-react'
 import { Filter, Star, Waves, X } from 'lucide-react'
 import type { ComponentType } from 'react'
 import { useTransition } from 'react'
-import {
-  AllergyIcon,
-  DewPointIcon,
-  GastroenterologyIcon,
-  HumerusAltIcon,
-  ImmunologyIcon,
-  PulmonologyIcon,
-} from '@/components/icons'
+import { CategoryIcon } from '@/components/icons/category-icon'
 import { Button } from '@/components/ui/button'
 import MobileSelect from '@/components/ui/mobile-select'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
@@ -25,12 +18,6 @@ import { cn } from '@/lib/utils'
 const iconMap: Record<string, ComponentType<any>> = {
   Star,
   Waves,
-  immunology: ImmunologyIcon,
-  dew_point: DewPointIcon,
-  pulmonology: PulmonologyIcon,
-  gastroenterology: GastroenterologyIcon,
-  allergy: AllergyIcon,
-  humerus_alt: HumerusAltIcon,
 }
 
 // Color mapping for complaint categories using Tailwind classes
@@ -166,6 +153,11 @@ export function ComplaintFilterBar({
             {allFilters.map((complaint) => {
               const isActive = selectedComplaint === complaint.id
               const IconComponent = iconMap[complaint.icon]
+              const iconElement = IconComponent ? (
+                <IconComponent className={cn('h-5 w-5', complaint.id === 'favorites' && 'fill-current')} />
+              ) : (
+                <CategoryIcon name={complaint.icon} className='h-5 w-5' />
+              )
               return (
                 <Button
                   key={complaint.id}
@@ -182,9 +174,7 @@ export function ComplaintFilterBar({
                   disabled={isPending}
                   aria-label={complaint.displayName}
                 >
-                  {IconComponent ? (
-                    <IconComponent className={cn('h-5 w-5', complaint.id === 'favorites' && 'fill-current')} />
-                  ) : null}
+                  {iconElement}
                 </Button>
               )
             })}
@@ -194,12 +184,15 @@ export function ComplaintFilterBar({
     } else {
       const filterOptions = allFilters.map((c) => {
         const IconComponent = iconMap[c.icon]
+        const iconElement = IconComponent ? (
+          <IconComponent size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
+        ) : (
+          <CategoryIcon name={c.icon} className='h-5 w-5' />
+        )
         return {
           value: c.id,
           label: c.displayName,
-          icon: IconComponent ? (
-            <IconComponent size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
-          ) : null,
+          icon: iconElement,
         }
       })
       return (
@@ -248,12 +241,13 @@ export function ComplaintFilterBar({
           {allFilters.map((complaint) => {
             const isActive = selectedComplaint === complaint.id
             const IconComponent = iconMap[complaint.icon]
-
             const iconElement = IconComponent ? (
               <IconComponent
                 className={cn('w-4 h-4', !isCompactView && 'mr-2', complaint.id === 'favorites' && 'fill-current')}
               />
-            ) : null
+            ) : (
+              <CategoryIcon name={complaint.icon} className={cn('w-4 h-4', !isCompactView && 'mr-2')} />
+            )
 
             const button = (
               <Button
