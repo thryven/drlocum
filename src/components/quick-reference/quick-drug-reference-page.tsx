@@ -179,7 +179,7 @@ function QuickDrugReferenceContent({
     if (selectedComplaintFilter === 'favorites') {
       medsToCalculate = medications.filter((med) => favorites.includes(med.id))
     } else {
-      medsToCalculate = getFilteredMedications(selectedComplaintFilter || undefined, 'paediatric')
+      medsToCalculate = getFilteredMedications(selectedComplaintFilter, 'paediatric')
     }
 
     const results = new Map<string, QuickReferenceCalculation>()
@@ -241,7 +241,7 @@ function QuickDrugReferenceContent({
   ])
 
   const handleFilterChange = useCallback(
-    (complaintId: string | null) => {
+    (complaintId: string) => {
       startTransition(() => {
         setSelectedComplaintFilter(complaintId)
       })
@@ -319,7 +319,7 @@ function QuickDrugReferenceContent({
 
       const nextComplaint = availableComplaints[nextIndex]
       if (nextComplaint) {
-        handleFilterChange(nextComplaint.id === 'all' ? null : nextComplaint.id)
+        handleFilterChange(nextComplaint.id)
       }
     },
     [availableComplaints, selectedComplaintFilter, handleFilterChange],
@@ -360,7 +360,7 @@ function QuickDrugReferenceContent({
     if (selectedComplaintFilter === 'favorites') {
       return medications.filter((med) => favorites.includes(med.id))
     }
-    return getFilteredMedications(selectedComplaintFilter || undefined, 'paediatric')
+    return getFilteredMedications(selectedComplaintFilter, 'paediatric')
   }, [medications, selectedComplaintFilter, favorites, getFilteredMedications])
 
   if (!isClient) {

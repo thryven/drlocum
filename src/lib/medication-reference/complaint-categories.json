@@ -1,14 +1,6 @@
 {
   "categories": [
     {
-      "id": "all",
-      "name": "all",
-      "displayName": "All Medications",
-      "color": "gray",
-      "enabled": true,
-      "sortOrder": 0
-    },
-    {
       "id": "antimicrobials",
       "name": "antimicrobials",
       "displayName": "Antimicrobials",

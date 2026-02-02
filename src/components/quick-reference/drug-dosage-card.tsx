@@ -155,18 +155,18 @@ function formatDosage(calculationResult: QuickReferenceCalculation): string {
  */
 function formatFrequency(frequencyText: string): string {
   const frequencyMap: Record<string, string> = {
-    od: 'OD',
-    bd: 'BD',
-    tds: 'TDS',
-    qid: 'QID',
-    on: 'ON',
-    om: 'OM',
-    prn: 'PRN',
-    eod: 'EOD',
-    'once daily': 'OD',
-    'twice daily': 'BD',
-    'three times daily': 'TDS',
-    'four times daily': 'QID',
+    od: 'od',
+    bd: 'bd',
+    tds: 'tds',
+    qid: 'qid',
+    on: 'on',
+    om: 'om',
+    prn: 'prn',
+    eod: 'eod',
+    'once daily': 'od',
+    'twice daily': 'bd',
+    'three times daily': 'tds',
+    'four times daily': 'qid',
   }
   return frequencyMap[frequencyText.toLowerCase()] || frequencyText.toUpperCase()
 }
@@ -224,7 +224,7 @@ export function DrugDosageCard({
   if (onFavorite) {
     contextMenuItems.push({
       icon: <Heart size={20} className={cn(isFavorite && 'fill-current text-pink-500')} />,
-      label: isFavorite ? 'Remove Favorite' : 'Add to Favorites',
+      label: isFavorite ? 'Unfavorite' : 'Favorite',
       onClick: onFavorite,
     })
   }
@@ -248,24 +248,6 @@ export function DrugDosageCard({
       label: 'Remove',
       onClick: onDelete,
       variant: 'destructive' as const,
-    })
-  }
-
-  const rightActions: SwipeAction[] = []
-  if (onFavorite) {
-    rightActions.push({
-      icon: <Heart size={20} />,
-      label: isFavorite ? 'Unfavorite' : 'Favorite',
-      onClick: onFavorite,
-      variant: 'favorite',
-    })
-  }
-  if (onDelete) {
-    rightActions.push({
-      icon: <Trash2 size={20} />,
-      label: 'Remove',
-      onClick: onDelete,
-      variant: 'delete',
     })
   }
 
@@ -347,14 +329,6 @@ export function DrugDosageCard({
   )
 
   if (enableSwipe && isMobile) {
-    const leftActions: SwipeAction[] = []
-    if (onHistory) {
-      leftActions.push({ icon: <History size={20} />, label: 'History', onClick: onHistory, variant: 'history' })
-    }
-    if (onShare) {
-      leftActions.push({ icon: <Share2 size={20} />, label: 'Share', onClick: onShare, variant: 'share' })
-    }
-
     return (
       <SwipeableCard
         onFavorite={onFavorite}

@@ -20,7 +20,7 @@ interface CalculatorState {
   displayAge: number
   displayAgeUnit: AgeInputUnit
   isWeightManuallyEntered: boolean
-  selectedComplaintFilter: string | null
+  selectedComplaintFilter: string
   drugCalculationResults: Map<string, QuickReferenceCalculation>
   isCompactView: boolean
   favorites: string[]
@@ -29,7 +29,7 @@ interface CalculatorState {
   setDisplayWeight: (weight: number | undefined) => void
   setDisplayAge: (age: number, unit: AgeInputUnit) => void
   setIsWeightManuallyEntered: (isManual: boolean) => void
-  setSelectedComplaintFilter: (complaintId: string | null) => void
+  setSelectedComplaintFilter: (complaintId: string) => void
   setDrugCalculationResults: (results: Map<string, QuickReferenceCalculation>) => void
   toggleCompactView: () => void
   toggleFavorite: (drugId: string) => void
@@ -79,7 +79,7 @@ export const useCalculatorStore = create<CalculatorState>()(
       displayAge: 6,
       displayAgeUnit: 'years',
       isWeightManuallyEntered: false,
-      selectedComplaintFilter: null,
+      selectedComplaintFilter: 'favorites',
       drugCalculationResults: new Map(),
       isCompactView: false,
       favorites: defaultFavorites,
@@ -107,7 +107,7 @@ export const useCalculatorStore = create<CalculatorState>()(
           displayAge: 6,
           displayAgeUnit: 'years',
           isWeightManuallyEntered: false,
-          selectedComplaintFilter: null,
+          selectedComplaintFilter: 'favorites',
           drugCalculationResults: new Map(),
           isCompactView: false,
           favorites: defaultFavorites,

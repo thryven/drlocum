@@ -12,8 +12,8 @@ import { cn } from '@/lib/utils'
 
 interface ComplaintFilterBarProps {
   availableComplaints: ComplaintCategory[]
-  selectedComplaint: string | null
-  onComplaintChange: (complaint: string | null) => void
+  selectedComplaint: string
+  onComplaintChange: (complaint: string) => void
   className?: string
 }
 
@@ -112,18 +112,17 @@ export function ComplaintFilterBar({
   const allFilters = [favoriteCategory, ...availableComplaints]
 
   const handleComplaintClick = (complaintId: string | null) => {
-    const complaint = allFilters.find((c) => c.id === complaintId)
+    const newFilterId = complaintId === null ? 'favorites' : complaintId
+    const complaint = allFilters.find((c) => c.id === newFilterId)
     startTransition(() => {
-      onComplaintChange(complaintId)
+      onComplaintChange(newFilterId)
     })
     if (complaint) {
       announceStatus(`Filtering by ${complaint.displayName}`)
-    } else {
-      announceStatus('Showing all categories')
     }
   }
 
-  if (allFilters.length <= 2) {
+  if (allFilters.length <= 1) {
     return null
   }
 
@@ -141,7 +140,7 @@ export function ComplaintFilterBar({
             <Filter size={16} />
             Filter by category
           </h2>
-          {selectedComplaint && selectedComplaint !== 'all' && (
+          {selectedComplaint && selectedComplaint !== 'favorites' && (
             <Button
               variant='ghost'
               size='sm'
@@ -156,8 +155,8 @@ export function ComplaintFilterBar({
         </div>
         <MobileSelect
           options={filterOptions}
-          value={selectedComplaint || 'all'}
-          onChange={(value) => handleComplaintClick(value === 'all' ? null : value)}
+          value={selectedComplaint}
+          onChange={(value) => handleComplaintClick(value)}
           placeholder='Select a category...'
           title='Filter by Category'
           searchPlaceholder='Search categories...'
@@ -176,13 +175,13 @@ export function ComplaintFilterBar({
         aria-label='Filter drugs by complaint category'
       >
         {allFilters.map((complaint) => {
-          const isActive = selectedComplaint === complaint.id || (!selectedComplaint && complaint.id === 'all')
+          const isActive = selectedComplaint === complaint.id
           return (
             <Button
               key={complaint.id}
               variant='outline'
               size='sm'
-              onClick={() => handleComplaintClick(complaint.id === 'all' ? null : complaint.id)}
+              onClick={() => handleComplaintClick(complaint.id)}
               className={cn(
                 'font-medium transition-all duration-200',
                 getComplaintColorClasses(complaint.color, isActive),
