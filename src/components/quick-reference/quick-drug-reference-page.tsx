@@ -67,7 +67,7 @@ class PageErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState
 }
 
 /**
- * Render a fullscreen error fallback UI for the quick reference page.
+ * Render a fullscreen error fallback UI for the dose guide page.
  *
  * Shows a descriptive error card with actions to retry loading or navigate back.
  *
@@ -94,7 +94,7 @@ function ErrorFallback({ error, onRetry }: Readonly<{ error: Error; onRetry: () 
           </div>
           <CardTitle className={cn(isMobile ? 'text-lg' : 'text-xl')}>Something went wrong</CardTitle>
           <CardDescription className={cn(isMobile ? 'text-sm' : 'text-xs')}>
-            We encountered an error while loading the quick reference. This has been reported automatically.
+            We encountered an error while loading the dose guide. This has been reported automatically.
           </CardDescription>
         </CardHeader>
         <CardContent className='space-y-3'>
@@ -122,7 +122,7 @@ function ErrorFallback({ error, onRetry }: Readonly<{ error: Error; onRetry: () 
 }
 
 /**
- * Render the pediatric quick drug reference UI and keep client-side dosing state in sync.
+ * Render the pediatric dose guide UI and keep client-side dosing state in sync.
  *
  * Computes and stores dose calculations for the currently filtered pediatric medication-summary based on the displayed age and either a manually entered or age-derived weight, and provides handlers for navigation and user interactions (filter changes, selection, favorites, delete, history, share, refresh, and swipe navigation).
  *
@@ -130,7 +130,7 @@ function ErrorFallback({ error, onRetry }: Readonly<{ error: Error; onRetry: () 
  * @param initialComplaintFilter - Optional initial complaint/category filter to apply
  * @param medications - Quick-reference medication-summary used for filtering and dose calculations
  * @param categories - Complaint categories used to build the category filter bar
- * @returns The quick drug reference content as a React element
+ * @returns The dose guide content as a React element
  */
 function QuickDrugReferenceContent({
   defaultWeight,
@@ -327,7 +327,7 @@ function QuickDrugReferenceContent({
     setIsClient(true)
     if (defaultWeight) setDisplayWeight(defaultWeight)
     if (initialComplaintFilter) setSelectedComplaintFilter(initialComplaintFilter)
-    announceStatus('Quick drug reference loaded for pediatric patients')
+    announceStatus('Dose guide loaded for pediatric patients')
   }, [defaultWeight, initialComplaintFilter, setDisplayWeight, setSelectedComplaintFilter, announceStatus])
 
   // Calculate doses when dependencies change
@@ -349,7 +349,7 @@ function QuickDrugReferenceContent({
       <div className='min-h-screen flex items-center justify-center'>
         <div className='text-center space-y-4'>
           <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto' />
-          <p className='text-sm text-muted-foreground'>Loading quick reference...</p>
+          <p className='text-sm text-muted-foreground'>Loading dose guide...</p>
         </div>
       </div>
     )
@@ -386,7 +386,7 @@ function QuickDrugReferenceContent({
             ],
           )}
           style={{ display: 'flex', flexDirection: 'column' }}
-          aria-label='Quick drug reference content'
+          aria-label='Dose guide content'
         >
           <Card
             className={cn(
@@ -439,10 +439,10 @@ function QuickDrugReferenceContent({
 }
 
 /**
- * Render the quick drug reference page wrapped in an error boundary.
+ * Render the dose guide page wrapped in an error boundary.
  *
  * @param props - Props forwarded to QuickDrugReferenceContent (page configuration and data)
- * @returns A React element that renders the quick drug reference content inside a page-level error boundary
+ * @returns A React element that renders the dose guide content inside a page-level error boundary
  */
 export function QuickDrugReferencePage(props: Readonly<QuickDrugReferencePageProps>) {
   return (

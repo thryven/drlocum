@@ -6,9 +6,9 @@ import { getWeightForAge } from '@/lib/medication-reference/calculations'
 import { loadComplaintCategories, loadMedications } from '@/lib/medication-reference/data-loader'
 
 /**
- * Renders a full-screen, centered loading indicator for the quick drug reference.
+ * Renders a full-screen, centered loading indicator for the dose guide.
  *
- * Shows a spinner and the text "Loading quick drug reference..." while content is loading.
+ * Shows a spinner and the text "Loading dose guide..." while content is loading.
  *
  * @returns A JSX element containing a full-screen centered spinner and the loading message.
  */
@@ -17,7 +17,7 @@ function LoadingFallback() {
     <div className='min-h-screen flex items-center justify-center'>
       <div className='text-center space-y-4'>
         <Loader2 className='animate-spin h-8 w-8 text-primary mx-auto' />
-        <p className='text-sm text-muted-foreground'>Loading quick drug reference...</p>
+        <p className='text-sm text-muted-foreground'>Loading dose guide...</p>
       </div>
     </div>
   )
@@ -36,7 +36,7 @@ interface PageProps {
 }
 
 /**
- * Server component that renders the quick drug reference page initialized from URL search parameters.
+ * Server component that renders the dose guide page initialized from URL search parameters.
  *
  * The component loads medication-summary and complaint categories on the server and passes them, along with
  *  the initial UI state, to the QuickDrugReferencePage.
@@ -44,7 +44,7 @@ interface PageProps {
  * @param searchParams - Query parameters from the URL. Recognized keys:
  *   - `weight`: parsed as a float to set the initial weight; if missing or invalid, the average weight for a 6-year-old (72 months) is used.
  *   - `complaint`: used as the initial complaint filter; an empty string is treated as undefined.
- * @returns The page element that renders the quick drug reference with server-loaded medication-summary and categories.
+ * @returns The page element that renders the dose guide with server-loaded medication-summary and categories.
  */
 export default async function HomePage({ searchParams }: PageProps) {
   // `searchParams` can be a Promise in the App Router — unwrap it first.
@@ -72,7 +72,7 @@ export default async function HomePage({ searchParams }: PageProps) {
 }
 
 export const metadata = {
-  title: 'Quick Drug Reference | Doses',
+  title: 'Dose Guide | Doses',
   description:
-    'Quick reference for medication dosages with real-time calculations and filtering by complaint categories. Your go-to tool for accurate drug dosing.',
+    'A quick guide for pediatric medication dosages with real-time calculations and filtering. Your go-to tool for accurate drug dosing.',
 }
