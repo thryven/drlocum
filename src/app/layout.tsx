@@ -55,7 +55,7 @@ export default function RootLayout({
       {/* PWA-related meta tags are handled by the Metadata object */}
       <link
         rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=dew_point"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=dew_point,immunology,pulmonology,gastroenterology,allergy,coronavirus,humerus_alt"
       />
       </head>
       <body className='flex flex-col min-h-screen antialiased bg-background'>
