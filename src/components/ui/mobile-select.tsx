@@ -2,7 +2,7 @@
 'use client'
 
 import { Check, ChevronDown, Search } from 'lucide-react'
-import { type ComponentPropsWithoutRef, type ElementRef, forwardRef, useMemo, useRef, useState } from 'react'
+import { type ComponentPropsWithoutRef, type ElementRef, forwardRef, type ReactNode, useMemo, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
@@ -12,6 +12,7 @@ export interface MobileSelectItem {
   value: string
   label: string
   group?: string
+  icon?: ReactNode
 }
 
 interface MobileSelectProps extends Omit<ComponentPropsWithoutRef<'button'>, 'onChange'> {
@@ -49,9 +50,11 @@ export const MobileSelect = forwardRef<ElementRef<'button'>, MobileSelectProps>(
     const [searchQuery, setSearchQuery] = useState('')
     const searchInputRef = useRef<HTMLInputElement>(null)
 
-    const selectedLabel = useMemo(() => {
-      return options.find((opt) => opt.value === value)?.label || placeholder
-    }, [value, options, placeholder])
+    const selectedOption = useMemo(() => {
+      return options.find((opt) => opt.value === value)
+    }, [value, options])
+
+    const selectedLabel = selectedOption?.label || placeholder
 
     const filteredOptions = useMemo(() => {
       if (!searchQuery.trim()) return options
@@ -111,7 +114,10 @@ export const MobileSelect = forwardRef<ElementRef<'button'>, MobileSelectProps>(
           onClick={() => handleOpenChange(true)}
           {...props}
         >
-          <span className='truncate wrap-break-word flex-1 text-left'>{selectedLabel}</span>
+          <span className='flex items-center gap-2 flex-1 truncate'>
+            {selectedOption?.icon}
+            <span className='truncate'>{selectedLabel}</span>
+          </span>
           <ChevronDown className='h-4 w-4 opacity-50 ml-2 shrink-0' />
         </Button>
 
@@ -156,7 +162,10 @@ export const MobileSelect = forwardRef<ElementRef<'button'>, MobileSelectProps>(
                           )}
                           onClick={() => handleSelect(option.value)}
                         >
-                          <span className='flex-1 truncate'>{option.label}</span>
+                          <span className='flex items-center gap-3 flex-1 truncate'>
+                            {option.icon}
+                            {option.label}
+                          </span>
                           {value === option.value && <Check className='h-4 w-4 text-primary ml-2 shrink-0' />}
                         </button>
                       ))}

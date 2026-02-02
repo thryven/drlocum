@@ -1,7 +1,19 @@
 // src/components/quick-reference/complaint-filter-bar.tsx
 'use client'
 
-import { Filter, Star, X } from 'lucide-react'
+import {
+  Banana,
+  Filter,
+  ShieldAlert,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  Thermometer,
+  Waves,
+  Wind,
+  X,
+} from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import MobileSelect from '@/components/ui/mobile-select'
@@ -10,11 +22,15 @@ import { useScreenReader } from '@/hooks/use-screen-reader'
 import type { QuickReferenceComplaintCategory as ComplaintCategory } from '@/lib/medication-reference'
 import { cn } from '@/lib/utils'
 
-interface ComplaintFilterBarProps {
-  availableComplaints: ComplaintCategory[]
-  selectedComplaint: string
-  onComplaintChange: (complaint: string) => void
-  className?: string
+const iconMap: Record<string, LucideIcon> = {
+  ShieldCheck,
+  Thermometer,
+  Wind,
+  Banana,
+  ShieldAlert,
+  Waves,
+  Sparkles,
+  Star,
 }
 
 // Color mapping for complaint categories using Tailwind classes
@@ -79,6 +95,12 @@ function getComplaintColorClasses(color: string, isActive: boolean): string {
   return isActive ? colorConfig.active : colorConfig.inactive
 }
 
+interface ComplaintFilterBarProps {
+  availableComplaints: ComplaintCategory[]
+  selectedComplaint: string
+  onComplaintChange: (complaint: string) => void
+  className?: string
+}
 /**
  * Render a responsive complaint category filter bar for selecting or clearing a complaint category.
  *
@@ -105,6 +127,7 @@ export function ComplaintFilterBar({
     name: 'favorites',
     displayName: 'Favorites',
     color: 'yellow',
+    icon: 'Star',
     enabled: true,
     sortOrder: -1, // Puts it at the start
   }
@@ -128,10 +151,14 @@ export function ComplaintFilterBar({
 
   // Mobile and Tablet View: Use a searchable modal select
   if (isMobile) {
-    const filterOptions = allFilters.map((c) => ({
-      value: c.id,
-      label: c.displayName,
-    }))
+    const filterOptions = allFilters.map((c) => {
+      const Icon = iconMap[c.icon]
+      return {
+        value: c.id,
+        label: c.displayName,
+        icon: Icon ? <Icon size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} /> : undefined,
+      }
+    })
     // Mobile View
     return (
       <div className={cn('w-full space-y-2', className)}>
@@ -176,6 +203,7 @@ export function ComplaintFilterBar({
       >
         {allFilters.map((complaint) => {
           const isActive = selectedComplaint === complaint.id
+          const Icon = iconMap[complaint.icon]
           return (
             <Button
               key={complaint.id}
@@ -191,7 +219,7 @@ export function ComplaintFilterBar({
               aria-selected={isActive}
               disabled={isPending}
             >
-              {complaint.id === 'favorites' && <Star className='w-4 h-4 -ml-1 mr-2 fill-current' />}
+              {Icon && <Icon className={cn('w-4 h-4 -ml-1 mr-2', complaint.id === 'favorites' && 'fill-current')} />}
               {complaint.displayName}
             </Button>
           )
