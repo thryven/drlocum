@@ -3,7 +3,7 @@
  */
 
 // Import JSON data
-import categoriesData from './complaint-categories.json'
+import categoriesData from '../medical-data/complaint-categories.json'
 import { medications } from './medication-summary'
 import type { QuickReferenceComplaintCategory, QuickReferenceMedication } from './types'
 
