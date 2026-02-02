@@ -78,6 +78,7 @@ export interface QuickReferenceCalculationResult {
   isValid: boolean
   warnings: string[]
   notes: string[]
+  doseRateText?: string | null
 }
 
 export interface ValidationResult {

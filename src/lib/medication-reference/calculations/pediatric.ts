@@ -75,6 +75,7 @@ export function calculatePediatricDose(
       isValid: false,
       warnings: weightValidation.errors,
       notes,
+      doseRateText: null,
     }
   }
   warnings.push(...weightValidation.warnings)
@@ -92,6 +93,7 @@ export function calculatePediatricDose(
         isValid: false,
         warnings: ageValidation.errors,
         notes,
+        doseRateText: null,
       }
     }
     warnings.push(...ageValidation.warnings)
@@ -110,6 +112,7 @@ export function calculatePediatricDose(
       isValid: false,
       warnings: ['No suitable dosing profile found for the given age and weight.'],
       notes,
+      doseRateText: null,
     }
   }
 
@@ -127,6 +130,7 @@ export function calculatePediatricDose(
         isValid: false,
         warnings: ageForMedValidation.errors,
         notes,
+        doseRateText: null,
       }
     }
     warnings.push(...ageForMedValidation.warnings)
@@ -152,6 +156,7 @@ export function calculatePediatricDose(
       isValid: false,
       warnings: [computeResult.error],
       notes,
+      doseRateText: null,
     }
   }
 
@@ -197,6 +202,7 @@ export function calculatePediatricDose(
       isValid: false,
       warnings: [...warnings, ...doseValidation.errors],
       notes,
+      doseRateText: null,
     }
   }
   warnings.push(...doseValidation.warnings)
@@ -211,6 +217,13 @@ export function calculatePediatricDose(
 
   const adminVolume = calculateAdminVolume(doseMg, medication.concentration)
 
+  let doseRateText: string | null = null
+  if (dosingProfile.formula === 'weight') {
+    doseRateText = `${dosingProfile.amount} ${dosingProfile.unit}`
+  } else if (dosingProfile.formula === 'weight-tiered') {
+    doseRateText = 'Tiered Dosing'
+  }
+
   return {
     medicationId: medication.id,
     doseMg,
@@ -221,5 +234,6 @@ export function calculatePediatricDose(
     isValid: doseMg > 0,
     warnings,
     notes,
+    doseRateText,
   }
 }

@@ -299,14 +299,28 @@ export function DrugDosageCard({
         aria-label={cardAriaLabel}
         {...(enableLongPress && isMobile ? longPressHandlers : {})}
       >
-        <div className='gap-inline' style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className='flex flex-col gap-1'>
           <p className={cn('text-sm font-medium truncate', colors.text)}>{drug.name}</p>
+          {(calculationResult.doseRateText || calculationResult.concentrationText) && (
+            <div className='text-xs text-muted-foreground'>
+              {calculationResult.doseRateText && <span>{calculationResult.doseRateText}</span>}
+              {calculationResult.concentrationText && (
+                <span className='ml-1'>({calculationResult.concentrationText})</span>
+              )}
+            </div>
+          )}
           {isValidCalculation ? (
-            <Badge className={cn('font-bold', colors.badge, isMobile ? 'text-sm px-3 py-1' : 'text-base px-4 py-1.5')}>
+            <Badge
+              className={cn(
+                'font-bold mt-2',
+                isMobile ? 'text-sm px-3 py-1' : 'text-base px-4 py-1.5',
+                colors.badge,
+              )}
+            >
               {dosageText}
             </Badge>
           ) : (
-            <div className='flex items-center gap-inline text-destructive'>
+            <div className='flex items-center gap-inline text-destructive mt-2'>
               <AlertTriangle size={12} />
               <span className='text-xs font-medium'>Calculation Error</span>
             </div>

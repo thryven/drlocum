@@ -210,7 +210,7 @@ function QuickDrugReferenceContent({
           isCalculationValid: result.isValid,
           hasWarnings: result.warnings.length > 0,
           warningCount: result.warnings.length,
-          doseRateText: null,
+          doseRateText: result.doseRateText ?? null,
           concentrationText: medication.concentration
             ? `${medication.concentration.amount}${medication.concentration.unit}`
             : 'N/A',
