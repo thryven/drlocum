@@ -3,7 +3,16 @@
 
 import type { LucideIcon } from 'lucide-react'
 import { Filter, Star, Waves, X } from 'lucide-react'
+import type { ComponentType } from 'react'
 import { useTransition } from 'react'
+import {
+  AllergyIcon,
+  DewPointIcon,
+  GastroenterologyIcon,
+  HumerusAltIcon,
+  ImmunologyIcon,
+  PulmonologyIcon,
+} from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import MobileSelect from '@/components/ui/mobile-select'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
@@ -13,9 +22,15 @@ import type { QuickReferenceComplaintCategory as ComplaintCategory } from '@/lib
 import { useCalculatorStore } from '@/lib/stores/calculator-store'
 import { cn } from '@/lib/utils'
 
-const iconMap: Record<string, LucideIcon> = {
-  Waves,
+const iconMap: Record<string, ComponentType<any>> = {
   Star,
+  Waves,
+  immunology: ImmunologyIcon,
+  dew_point: DewPointIcon,
+  pulmonology: PulmonologyIcon,
+  gastroenterology: GastroenterologyIcon,
+  allergy: AllergyIcon,
+  humerus_alt: HumerusAltIcon,
 }
 
 // Color mapping for complaint categories using Tailwind classes
@@ -150,7 +165,7 @@ export function ComplaintFilterBar({
           >
             {allFilters.map((complaint) => {
               const isActive = selectedComplaint === complaint.id
-              const LucideIconComponent = iconMap[complaint.icon]
+              const IconComponent = iconMap[complaint.icon]
               return (
                 <Button
                   key={complaint.id}
@@ -167,13 +182,9 @@ export function ComplaintFilterBar({
                   disabled={isPending}
                   aria-label={complaint.displayName}
                 >
-                  {LucideIconComponent ? (
-                    <LucideIconComponent className={cn('h-5 w-5', complaint.id === 'favorites' && 'fill-current')} />
-                  ) : (
-                    <span className={cn('material-symbols-outlined', 'text-[1.25rem] leading-none')}>
-                      {complaint.icon}
-                    </span>
-                  )}
+                  {IconComponent ? (
+                    <IconComponent className={cn('h-5 w-5', complaint.id === 'favorites' && 'fill-current')} />
+                  ) : null}
                 </Button>
               )
             })}
@@ -182,15 +193,13 @@ export function ComplaintFilterBar({
       )
     } else {
       const filterOptions = allFilters.map((c) => {
-        const LucideIconComponent = iconMap[c.icon]
+        const IconComponent = iconMap[c.icon]
         return {
           value: c.id,
           label: c.displayName,
-          icon: LucideIconComponent ? (
-            <LucideIconComponent size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
-          ) : (
-            <span className={cn('material-symbols-outlined', 'text-xl leading-none')}>{c.icon}</span>
-          ),
+          icon: IconComponent ? (
+            <IconComponent size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
+          ) : null,
         }
       })
       return (
@@ -238,17 +247,13 @@ export function ComplaintFilterBar({
         >
           {allFilters.map((complaint) => {
             const isActive = selectedComplaint === complaint.id
-            const LucideIconComponent = iconMap[complaint.icon]
+            const IconComponent = iconMap[complaint.icon]
 
-            const iconElement = LucideIconComponent ? (
-              <LucideIconComponent
+            const iconElement = IconComponent ? (
+              <IconComponent
                 className={cn('w-4 h-4', !isCompactView && 'mr-2', complaint.id === 'favorites' && 'fill-current')}
               />
-            ) : (
-              <span className={cn('material-symbols-outlined', 'text-base leading-none', !isCompactView && 'mr-2')}>
-                {complaint.icon}
-              </span>
-            )
+            ) : null
 
             const button = (
               <Button

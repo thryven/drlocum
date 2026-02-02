@@ -5,7 +5,7 @@
       "name": "antimicrobials",
       "displayName": "Antimicrobials",
       "color": "red",
-      "icon": "immunology",
+      "icon": "coronavirus",
       "enabled": true,
       "sortOrder": 1
     },
