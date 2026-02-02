@@ -4,3 +4,5 @@
 .env.local
 .vscode/
 .junie/
+.idea/
+.gemini/

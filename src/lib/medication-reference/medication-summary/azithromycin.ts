@@ -30,7 +30,7 @@ const azithromycin: QuickReferenceMedication = {
     unit: 'mg/5ml',
     formulation: 'suspension',
   },
-  complaintCategories: ['antibiotics'],
+  complaintCategories: ['antimicrobials'],
   enabled: true,
 }
 

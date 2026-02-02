@@ -45,7 +45,7 @@ const acyclovir: QuickReferenceMedication = {
     unit: 'mg/5ml',
     formulation: 'suspension',
   },
-  complaintCategories: ['antiviral'],
+  complaintCategories: ['antimicrobials'],
   enabled: true,
 }
 

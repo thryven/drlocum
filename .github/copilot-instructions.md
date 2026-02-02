@@ -27,22 +27,13 @@ Project-specific conventions
 - **State:** Project uses `zustand` stores — prefer small focused stores for local UI state.
 - **Styling:** Tailwind + `shadcn/ui` patterns. Follow existing utility classes for spacing and color tokens.
 
-Security & checks (required)
-
-- **Codacy / Trivy:** After editing files, run the Codacy CLI analyze step for each edited file (rootPath=repo root, file=edited path). If dependencies change, run Trivy scan and do not proceed if vulnerabilities are introduced.
-- **If required tools are missing:** Notify the user and offer to install or run via the repo's MCP server integrations.
+Security & checks
 
 Examples (how to implement common edits)
 
 - To add a new route: create `src/app/my-route/page.tsx` and `src/app/my-route/layout.tsx` (if shared UI is needed). Use server components for data fetching; add `"use client"` inside small interactive components only.
 - To add a server action: create an exported `async` function in a server file and use `"use server"` (see `GEMINI.md` for pattern). Invoke via a `<form action={myAction}>` or from server-handled events.
 - To add tests: create `src/.../component.test.tsx` adjacent to code. Use `vi.mock()` at top when mocking module-level constants.
-
-What to check before creating a PR
-
-- Create/update a todo list with the provided todo tool (this repo requires tracking work).
-- Run `npm run preflight` and fix all lint/type/test failures.
-- Run Codacy CLI analysis for each changed file and address its issues.
 
 Where to look for context
 

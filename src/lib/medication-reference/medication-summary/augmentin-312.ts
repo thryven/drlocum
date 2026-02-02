@@ -30,7 +30,7 @@ const augmentin_312: QuickReferenceMedication = {
     unit: 'mg/5ml',
     formulation: 'suspension',
   },
-  complaintCategories: ['antibiotics'],
+  complaintCategories: ['antimicrobials'],
   enabled: true,
 }
 

@@ -9,9 +9,9 @@
       "sortOrder": 0
     },
     {
-      "id": "antibiotics",
-      "name": "antibiotics",
-      "displayName": "Antibiotics",
+      "id": "antimicrobials",
+      "name": "antimicrobials",
+      "displayName": "Antimicrobials",
       "color": "red",
       "enabled": true,
       "sortOrder": 1
@@ -49,20 +49,12 @@
       "sortOrder": 5
     },
     {
-      "id": "antiviral",
-      "name": "antiviral",
-      "displayName": "Antiviral",
-      "color": "purple",
-      "enabled": true,
-      "sortOrder": 6
-    },
-    {
       "id": "antispasmodics",
       "name": "antispasmodics",
       "displayName": "Antispasmodics",
       "color": "yellow",
       "enabled": true,
-      "sortOrder": 7
+      "sortOrder": 6
     }
   ]
 }
