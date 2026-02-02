@@ -1,7 +1,7 @@
 // src/components/quick-reference/complaint-filter-bar.tsx
 'use client'
 
-import { Filter, X } from 'lucide-react'
+import { Filter, Star, X } from 'lucide-react'
 import { useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import MobileSelect from '@/components/ui/mobile-select'
@@ -56,6 +56,12 @@ const COMPLAINT_COLORS = {
     inactive:
       'bg-pink-50 text-pink-700 border-pink-200 hover:bg-pink-100 dark:bg-pink-950 dark:text-pink-300 dark:border-pink-800 dark:hover:bg-pink-900',
   },
+  yellow: {
+    active:
+      'bg-yellow-100 text-yellow-900 border-yellow-300 dark:bg-yellow-900 dark:text-yellow-100 dark:border-yellow-600',
+    inactive:
+      'bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100 dark:bg-yellow-950 dark:text-yellow-300 dark:border-yellow-800 dark:hover:bg-yellow-900',
+  },
 } as const
 
 type ColorKey = keyof typeof COMPLAINT_COLORS
@@ -94,8 +100,19 @@ export function ComplaintFilterBar({
   const { announceStatus } = useScreenReader()
   const [isPending, startTransition] = useTransition()
 
+  const favoriteCategory: ComplaintCategory = {
+    id: 'favorites',
+    name: 'favorites',
+    displayName: 'Favorites',
+    color: 'yellow',
+    enabled: true,
+    sortOrder: -1, // Puts it at the start
+  }
+
+  const allFilters = [favoriteCategory, ...availableComplaints]
+
   const handleComplaintClick = (complaintId: string | null) => {
-    const complaint = availableComplaints.find((c) => c.id === complaintId)
+    const complaint = allFilters.find((c) => c.id === complaintId)
     startTransition(() => {
       onComplaintChange(complaintId)
     })
@@ -106,13 +123,13 @@ export function ComplaintFilterBar({
     }
   }
 
-  if (availableComplaints.length <= 1) {
+  if (allFilters.length <= 2) {
     return null
   }
 
   // Mobile and Tablet View: Use a searchable modal select
   if (isMobile) {
-    const filterOptions = availableComplaints.map((c) => ({
+    const filterOptions = allFilters.map((c) => ({
       value: c.id,
       label: c.displayName,
     }))
@@ -158,7 +175,7 @@ export function ComplaintFilterBar({
         role='tablist'
         aria-label='Filter drugs by complaint category'
       >
-        {availableComplaints.map((complaint) => {
+        {allFilters.map((complaint) => {
           const isActive = selectedComplaint === complaint.id || (!selectedComplaint && complaint.id === 'all')
           return (
             <Button
@@ -175,6 +192,7 @@ export function ComplaintFilterBar({
               aria-selected={isActive}
               disabled={isPending}
             >
+              {complaint.id === 'favorites' && <Star className='w-4 h-4 -ml-1 mr-2 fill-current' />}
               {complaint.displayName}
             </Button>
           )
