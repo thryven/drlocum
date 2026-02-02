@@ -152,6 +152,8 @@ function QuickDrugReferenceContent({
     isWeightManuallyEntered,
     selectedComplaintFilter,
     drugCalculationResults,
+    favorites,
+    toggleFavorite,
     setDisplayWeight,
     setSelectedComplaintFilter,
     setDrugCalculationResults,
@@ -243,9 +245,11 @@ function QuickDrugReferenceContent({
     (drugId: string) => {
       const drug = medications.find((d) => d.id === drugId)
       if (!drug) return
-      announceStatus(`${drug.name} added to favorites`)
+      const isCurrentlyFavorite = favorites.includes(drugId)
+      toggleFavorite(drugId)
+      announceStatus(`${drug.name} ${isCurrentlyFavorite ? 'removed from' : 'added to'} favorites`)
     },
-    [medications, announceStatus],
+    [medications, announceStatus, toggleFavorite, favorites],
   )
 
   const handleDrugDelete = useCallback(
@@ -344,6 +348,13 @@ function QuickDrugReferenceContent({
     }
   }, [databaseError])
 
+  const filteredDrugs = useMemo(() => {
+    if (selectedComplaintFilter === 'favorites') {
+      return medications.filter((med) => favorites.includes(med.id))
+    }
+    return getFilteredMedications(selectedComplaintFilter || undefined, 'paediatric')
+  }, [medications, selectedComplaintFilter, favorites, getFilteredMedications])
+
   if (!isClient) {
     return (
       <div className='min-h-screen flex items-center justify-center'>
@@ -354,11 +365,6 @@ function QuickDrugReferenceContent({
       </div>
     )
   }
-
-  const filteredDrugs: QuickReferenceMedication[] = getFilteredMedications(
-    selectedComplaintFilter || undefined,
-    'paediatric',
-  )
 
   return (
     <MobileViewport
@@ -428,6 +434,7 @@ function QuickDrugReferenceContent({
             onDrugShare={handleDrugShare}
             isLoading={isDatabaseLoading || isPending}
             className={cn('spacing-component', isMobile && ['spacing-element', keyboard.isVisible && 'pb-2'])}
+            favorites={favorites}
           />
         </main>
       </PullToRefresh>

@@ -24,6 +24,7 @@ interface DrugReferenceGridProps {
   onDrugShare?: (drugId: string) => void
   isLoading?: boolean
   className?: string
+  favorites: string[]
 }
 
 interface EmptyStateProps {
@@ -154,6 +155,7 @@ export function DrugReferenceGrid({
   onDrugShare,
   isLoading = false,
   className,
+  favorites,
 }: Readonly<DrugReferenceGridProps>) {
   const { isMobile } = useDevice()
 
@@ -226,6 +228,7 @@ export function DrugReferenceGrid({
       >
         {sortedDrugs.map((drug) => {
           const calculationResult = calculationResults.get(drug.id) || null
+          const isFavorite = favorites.includes(drug.id)
 
           return (
             <motion.div
@@ -242,6 +245,7 @@ export function DrugReferenceGrid({
                 onDelete={onDrugDelete ? () => onDrugDelete(drug.id) : undefined}
                 onHistory={onDrugHistory ? () => onDrugHistory(drug.id) : undefined}
                 onShare={onDrugShare ? () => onDrugShare(drug.id) : undefined}
+                isFavorite={isFavorite}
                 enableSwipe={isMobile}
                 className={cn(
                   // Enhanced mobile touch feedback

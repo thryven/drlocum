@@ -5,6 +5,15 @@ import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import type { AgeInputUnit, QuickReferenceCalculation } from '@/lib/medication-reference'
 
+const defaultFavorites = [
+  'benadryl-quick',
+  'bromhexine-quick',
+  'cetirizine-quick',
+  'desloratadine-quick',
+  'ibuprofen-quick',
+  'paracetamol-quick',
+]
+
 interface CalculatorState {
   // Quick Reference State
   displayWeight: number | undefined
@@ -14,6 +23,7 @@ interface CalculatorState {
   selectedComplaintFilter: string | null
   drugCalculationResults: Map<string, QuickReferenceCalculation>
   isCompactView: boolean
+  favorites: string[]
 
   // Quick Reference Actions
   setDisplayWeight: (weight: number | undefined) => void
@@ -22,6 +32,7 @@ interface CalculatorState {
   setSelectedComplaintFilter: (complaintId: string | null) => void
   setDrugCalculationResults: (results: Map<string, QuickReferenceCalculation>) => void
   toggleCompactView: () => void
+  toggleFavorite: (drugId: string) => void
   resetQuickReferenceState: () => void
 }
 
@@ -71,6 +82,7 @@ export const useCalculatorStore = create<CalculatorState>()(
       selectedComplaintFilter: null,
       drugCalculationResults: new Map(),
       isCompactView: false,
+      favorites: defaultFavorites,
 
       // Quick Reference Actions
       setDisplayWeight: (weight) => set({ displayWeight: weight }),
@@ -83,7 +95,12 @@ export const useCalculatorStore = create<CalculatorState>()(
         }
       },
       toggleCompactView: () => set((state) => ({ isCompactView: !state.isCompactView })),
-
+      toggleFavorite: (drugId) =>
+        set((state) => ({
+          favorites: state.favorites.includes(drugId)
+            ? state.favorites.filter((id) => id !== drugId)
+            : [...state.favorites, drugId],
+        })),
       resetQuickReferenceState: () => {
         set({
           displayWeight: undefined,
@@ -93,6 +110,7 @@ export const useCalculatorStore = create<CalculatorState>()(
           selectedComplaintFilter: null,
           drugCalculationResults: new Map(),
           isCompactView: false,
+          favorites: defaultFavorites,
         })
       },
     }),
@@ -107,6 +125,7 @@ export const useCalculatorStore = create<CalculatorState>()(
         selectedComplaintFilter: state.selectedComplaintFilter,
         isWeightManuallyEntered: state.isWeightManuallyEntered,
         isCompactView: state.isCompactView,
+        favorites: state.favorites,
       }),
     },
   ),

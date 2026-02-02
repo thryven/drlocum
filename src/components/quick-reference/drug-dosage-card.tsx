@@ -29,6 +29,7 @@ interface DrugDosageCardProps {
   enableSwipe?: boolean | undefined
   enableLongPress?: boolean | undefined
   className?: string | undefined
+  isFavorite?: boolean
 }
 
 // Color mapping for medication types based on complaint tags
@@ -198,6 +199,7 @@ export function DrugDosageCard({
   enableSwipe = true,
   enableLongPress = true,
   className,
+  isFavorite,
 }: DrugDosageCardProps) {
   const { isMobile } = useDevice()
   const { isCompactView } = useCalculatorStore()
@@ -221,8 +223,8 @@ export function DrugDosageCard({
   const contextMenuItems = []
   if (onFavorite) {
     contextMenuItems.push({
-      icon: <Heart size={20} />,
-      label: 'Add to Favorites',
+      icon: <Heart size={20} className={cn(isFavorite && 'fill-current text-pink-500')} />,
+      label: isFavorite ? 'Remove Favorite' : 'Add to Favorites',
       onClick: onFavorite,
     })
   }
@@ -246,6 +248,24 @@ export function DrugDosageCard({
       label: 'Remove',
       onClick: onDelete,
       variant: 'destructive' as const,
+    })
+  }
+
+  const rightActions: SwipeAction[] = []
+  if (onFavorite) {
+    rightActions.push({
+      icon: <Heart size={20} />,
+      label: isFavorite ? 'Unfavorite' : 'Favorite',
+      onClick: onFavorite,
+      variant: 'favorite',
+    })
+  }
+  if (onDelete) {
+    rightActions.push({
+      icon: <Trash2 size={20} />,
+      label: 'Remove',
+      onClick: onDelete,
+      variant: 'delete',
     })
   }
 
@@ -274,7 +294,7 @@ export function DrugDosageCard({
         {...(enableLongPress && isMobile ? longPressHandlers : {})}
       >
         <div className='flex flex-col gap-1'>
-        {!(isCompactView && isMobile) && (
+          {!(isCompactView && isMobile) && (
             <p className={cn('text-sm font-medium truncate', colors.text)}>{drug.name}</p>
           )}
           {!isCompactView && (calculationResult.doseRateText || calculationResult.concentrationText) && (
@@ -288,24 +308,25 @@ export function DrugDosageCard({
           {isValidCalculation ? (
             isCompactView && isMobile ? (
               <Badge
-              className={cn(
-                'font-bold mt-2',
-                isMobile ? 'text-sm px-3 py-1' : 'text-base px-4 py-1.5',
-                colors.badge,
-              )}
-            >
-              {drugName}{dosageText}
-            </Badge>
+                className={cn(
+                  'font-bold mt-2',
+                  isMobile ? 'text-sm px-3 py-1' : 'text-base px-4 py-1.5',
+                  colors.badge,
+                )}
+              >
+                {drugName}
+                {dosageText}
+              </Badge>
             ) : (
-            <Badge
-              className={cn(
-                'font-bold mt-2',
-                isMobile ? 'text-sm px-3 py-1' : 'text-base px-4 py-1.5',
-                colors.badge,
-              )}
-            >
-              {dosageText}
-            </Badge>
+              <Badge
+                className={cn(
+                  'font-bold mt-2',
+                  isMobile ? 'text-sm px-3 py-1' : 'text-base px-4 py-1.5',
+                  colors.badge,
+                )}
+              >
+                {dosageText}
+              </Badge>
             )
           ) : (
             <div className='flex items-center gap-inline text-destructive mt-2'>
@@ -326,6 +347,14 @@ export function DrugDosageCard({
   )
 
   if (enableSwipe && isMobile) {
+    const leftActions: SwipeAction[] = []
+    if (onHistory) {
+      leftActions.push({ icon: <History size={20} />, label: 'History', onClick: onHistory, variant: 'history' })
+    }
+    if (onShare) {
+      leftActions.push({ icon: <Share2 size={20} />, label: 'Share', onClick: onShare, variant: 'share' })
+    }
+
     return (
       <SwipeableCard
         onFavorite={onFavorite}
