@@ -3,9 +3,8 @@
 
 import { motion } from 'framer-motion'
 import { Loader2, Search } from 'lucide-react'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useDevice } from '@/hooks/use-device'
-import { useScreenReader } from '@/hooks/use-screen-reader'
 import type {
   QuickReferenceCalculation,
   QuickReferenceComplaintCategory,
@@ -138,10 +137,9 @@ const gridItemVariants = {
 }
 
 /**
- * Render a responsive, accessible grid of medication dosage cards with mobile "load more" behavior.
+ * Render a responsive, accessible grid of medication dosage cards.
  *
- * Renders loading placeholders, empty states, or a sorted grid of DrugDosageCard items; on mobile the list is paginated
- * in increments of 8 with an accessible announcement when more items are loaded.
+ * Renders loading placeholders, empty states, or a sorted grid of DrugDosageCard items.
  *
  * @param calculationResults - Map from medication `id` to its dosage calculation result; used to populate each card (missing entries render a card with `null` result)
  * @returns A React element containing the medication results grid, loading placeholders, or an appropriate empty state
@@ -158,35 +156,8 @@ export function DrugReferenceGrid({
   className,
 }: Readonly<DrugReferenceGridProps>) {
   const { isMobile } = useDevice()
-  const [visibleItems, setVisibleItems] = useState(drugs.length)
-  const { announceStatus } = useScreenReader()
 
   const sortedDrugs = useMemo(() => [...drugs].sort((a, b) => a.name.localeCompare(b.name)), [drugs])
-
-  const displayedDrugs = useMemo(
-    () => (isMobile && sortedDrugs.length > visibleItems ? sortedDrugs.slice(0, visibleItems) : sortedDrugs),
-    [isMobile, visibleItems, sortedDrugs],
-  )
-
-  const loadMoreItems = useCallback(() => {
-    if (isMobile && visibleItems < sortedDrugs.length) {
-      const newVisibleItems = Math.min(visibleItems + 8, sortedDrugs.length)
-      setVisibleItems(newVisibleItems)
-
-      // Announce to screen readers
-      const remaining = sortedDrugs.length - newVisibleItems
-      if (remaining > 0) {
-        announceStatus(`Loaded 8 more medications. ${remaining} remaining.`)
-      } else {
-        announceStatus('All medication-summary loaded.')
-      }
-    }
-  }, [isMobile, visibleItems, sortedDrugs, announceStatus])
-
-  // Reset visible items when drugs change
-  useEffect(() => {
-    setVisibleItems(isMobile ? 8 : drugs.length)
-  }, [isMobile, drugs.length])
 
   // Show loading state
   if (isLoading) {
@@ -230,7 +201,7 @@ export function DrugReferenceGrid({
     )
   }
 
-  const gridAriaLabel = AriaLabels.searchResults(displayedDrugs.length)
+  const gridAriaLabel = AriaLabels.searchResults(sortedDrugs.length)
 
   return (
     <div className={cn('w-full', className)} id='medication-results'>
@@ -253,7 +224,7 @@ export function DrugReferenceGrid({
         aria-live='polite'
         aria-busy={isLoading}
       >
-        {displayedDrugs.map((drug) => {
+        {sortedDrugs.map((drug) => {
           const calculationResult = calculationResults.get(drug.id) || null
 
           return (
@@ -289,33 +260,11 @@ export function DrugReferenceGrid({
         })}
       </motion.section>
 
-      {/* Load More Button for Mobile */}
-      {isMobile && visibleItems < sortedDrugs.length && (
-        <div className='spacing-component text-center'>
-          <button
-            type='button'
-            onClick={loadMoreItems}
-            className={cn(
-              'px-6 py-3 bg-primary text-primary-foreground rounded-lg',
-              'font-medium text-sm min-h-[48px]',
-              'hover:bg-primary/90 active:scale-95',
-              'transition-all duration-200',
-              'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-            )}
-            aria-label={`Load ${Math.min(6, sortedDrugs.length - visibleItems)} more medications. ${
-              sortedDrugs.length - visibleItems
-            } remaining.`}
-          >
-            Load More ({sortedDrugs.length - visibleItems} remaining)
-          </button>
-        </div>
-      )}
-
       {/* Results Summary */}
       {drugs.length > 0 && (
         <div className='spacing-component text-center'>
           <p className={cn('text-muted-foreground', isMobile ? 'text-sm' : 'text-xs')}>
-            Showing {isMobile ? displayedDrugs.length : calculationResults.size} of {drugs.length} medications
+            Showing {drugs.length} medication{drugs.length === 1 ? '' : 's'}
             {calculationResults.size < drugs.length && (
               <span className='block spacing-inline'>Some medications may not have dosage calculations available</span>
             )}

@@ -393,10 +393,7 @@ function QuickDrugReferenceContent({
               isMobile && ['shadow-xs border-0 bg-card/50', keyboard.isVisible && 'shadow-none bg-transparent'],
             )}
           >
-            <CardHeader className='p-4 pb-2'>
-              <CardTitle className='text-lg'>Patient Details</CardTitle>
-            </CardHeader>
-            <CardContent className={cn('p-4 pt-0', isMobile && 'pt-2 px-2 pb-2')}>
+            <CardContent className={cn('padding-component', isMobile && 'pt-2 px-2 pb-2')}>
               <div className={cn('grid', isMobile ? 'grid-cols-1 gap-inline' : 'grid-cols-2 gap-component')}>
                 <AgeInputSection disabled={!isClient} />
                 <WeightInputSection disabled={!isClient} />
