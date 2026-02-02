@@ -37,9 +37,6 @@ export default function SettingsPage() {
               <Label htmlFor='compact-view-switch' className='text-base font-medium'>
                 Compact View
               </Label>
-              <p className='text-sm text-muted-foreground'>
-                Hide extra details on the quick reference cards for a cleaner look.
-              </p>
             </div>
             <Switch id='compact-view-switch' checked={isCompactView} onCheckedChange={toggleCompactView} />
           </div>

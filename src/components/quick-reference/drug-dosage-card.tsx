@@ -193,9 +193,6 @@ export function DrugDosageCard({
   calculationResult,
   categories,
   onFavorite,
-  onDelete,
-  onHistory,
-  onShare,
   enableSwipe = true,
   enableLongPress = true,
   className,
@@ -215,7 +212,7 @@ export function DrugDosageCard({
   const longPressHandlers = useLongPress({
     onLongPress: handleLongPress,
     duration: 500,
-    enabled: enableLongPress && isMobile && (!!onFavorite || !!onDelete || !!onHistory || !!onShare),
+    enabled: enableLongPress && isMobile && (!!onFavorite),
     onPressStart: () => setIsPressing(true),
     onPressEnd: () => setIsPressing(false),
   })
@@ -226,28 +223,6 @@ export function DrugDosageCard({
       icon: <Heart size={20} className={cn(isFavorite && 'fill-current text-pink-500')} />,
       label: isFavorite ? 'Unfavorite' : 'Favorite',
       onClick: onFavorite,
-    })
-  }
-  if (onHistory) {
-    contextMenuItems.push({
-      icon: <History size={20} />,
-      label: 'View History',
-      onClick: onHistory,
-    })
-  }
-  if (onShare) {
-    contextMenuItems.push({
-      icon: <Share2 size={20} />,
-      label: 'Share',
-      onClick: onShare,
-    })
-  }
-  if (onDelete) {
-    contextMenuItems.push({
-      icon: <Trash2 size={20} />,
-      label: 'Remove',
-      onClick: onDelete,
-      variant: 'destructive' as const,
     })
   }
 
@@ -332,9 +307,6 @@ export function DrugDosageCard({
     return (
       <SwipeableCard
         onFavorite={onFavorite}
-        onDelete={onDelete}
-        onHistory={onHistory}
-        onShare={onShare}
         enabled={enableSwipe}
         className={className}
       >
