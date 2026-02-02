@@ -4,16 +4,15 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ThemeToggle } from '@/components/theme-toggle'
 import { cn } from '@/lib/utils'
 import { baseNavItems } from './nav-items'
 
 /**
- * Renders a fixed bottom navigation bar with navigation links and a theme toggle.
+ * Renders a fixed bottom navigation bar with navigation links.
  *
  * Highlights the active navigation item based on the current pathname: the root item is active only on an exact match, while other items are active when the pathname begins with the item's `href`. Tapping an item triggers light haptic feedback when the environment supports vibration.
  *
- * @returns The bottom navigation bar element containing the navigation links and a theme toggle.
+ * @returns The bottom navigation bar element containing the navigation links.
  */
 export function BottomNavBar() {
   const pathname = usePathname()
@@ -67,15 +66,7 @@ export function BottomNavBar() {
         paddingBottom: 'env(safe-area-inset-bottom)',
       }}
     >
-      <div className='flex justify-around items-stretch h-20'>
-        {navItems}
-        <div className='flex flex-col flex-1 gap-1 justify-center items-center p-2 h-full text-muted-foreground'>
-          <div className='flex min-h-[48px] min-w-[48px] items-center justify-center'>
-            <ThemeToggle />
-          </div>
-          <span className='text-xs font-normal text-center'>Theme</span>
-        </div>
-      </div>
+      <div className='flex justify-around items-stretch h-20'>{navItems}</div>
     </nav>
   )
 }
