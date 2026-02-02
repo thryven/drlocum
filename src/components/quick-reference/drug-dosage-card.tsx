@@ -2,7 +2,7 @@
 'use client'
 
 import { AlertTriangle, Heart, History, Share2, Trash2 } from 'lucide-react'
-import type { KeyboardEvent } from 'react'
+import type { ReactNode } from 'react'
 import { useCallback, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { ContextMenuOverlay } from '@/components/ui/context-menu-overlay'
@@ -21,7 +21,6 @@ interface DrugDosageCardProps {
   drug: QuickReferenceMedication
   calculationResult: QuickReferenceCalculation | null
   categories: readonly QuickReferenceComplaintCategory[]
-  onClick?: (() => void) | undefined
   onFavorite?: (() => void) | undefined
   onDelete?: (() => void) | undefined
   onHistory?: (() => void) | undefined
@@ -173,12 +172,11 @@ function formatFrequency(frequencyText: string): string {
 /**
  * Display a medication card showing the drug name and either a formatted dosage with frequency or a loading skeleton.
  *
- * When `calculationResult` is null a loading skeleton is shown. When provided, the card shows the formatted dosage and frequency or an inline error indicator if the calculation is invalid. The card can expose click, swipe, and long-press actions via the supplied callbacks.
+ * When `calculationResult` is null a loading skeleton is shown. When provided, the card shows the formatted dosage and frequency or an inline error indicator if the calculation is invalid. The card can expose swipe, and long-press actions via the supplied callbacks.
  *
  * @param drug - Medication data used for the name and category-based styling
  * @param calculationResult - Calculation details to display; pass `null` to render the loading skeleton
  * @param categories - Available complaint categories used to determine the primary category for styling
- * @param onClick - Optional callback invoked when the card is clicked or activated via keyboard
  * @param onFavorite - Optional callback for the favorite action
  * @param onDelete - Optional callback for the delete action
  * @param onHistory - Optional callback for the history action
@@ -192,7 +190,6 @@ export function DrugDosageCard({
   drug,
   calculationResult,
   categories,
-  onClick,
   onFavorite,
   onDelete,
   onHistory,
@@ -207,29 +204,12 @@ export function DrugDosageCard({
   const primaryCategory = getPrimaryComplaintCategory(drug, categories)
   const colors = getMedicationTypeColors(primaryCategory)
 
-  const handleClick = useCallback(() => {
-    if (!isPressing) {
-      onClick?.()
-    }
-  }, [onClick, isPressing])
-
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault()
-        onClick?.()
-      }
-    },
-    [onClick],
-  )
-
   const handleLongPress = useCallback(() => {
     setIsContextMenuOpen(true)
   }, [])
 
   const longPressHandlers = useLongPress({
     onLongPress: handleLongPress,
-    onPress: handleClick,
     duration: 500,
     enabled: enableLongPress && isMobile && (!!onFavorite || !!onDelete || !!onHistory || !!onShare),
     onPressStart: () => setIsPressing(true),
@@ -267,8 +247,6 @@ export function DrugDosageCard({
     })
   }
 
-  const isClickable = !!onClick
-
   if (!calculationResult) {
     return (
       <div className={cn('p-3 animate-pulse', isMobile ? 'min-h-[60px]' : 'min-h-[68px]', className)}>
@@ -281,21 +259,15 @@ export function DrugDosageCard({
   const isValidCalculation = calculationResult.isCalculationValid
 
   const dosageText = `${formatDosage(calculationResult)} ${formatFrequency(calculationResult.frequencyText)}`
-  const cardAriaLabel = isClickable
-    ? `${AriaLabels.drugDosageCard(drug.name, dosageText)}. Press Enter or Space to view details.`
-    : AriaLabels.drugDosageCard(drug.name, dosageText)
+  const cardAriaLabel = AriaLabels.drugDosageCard(drug.name, dosageText)
 
   const cardContent = (
     <>
-      <button
-        type='button'
+      <div
         className={cn(
-          'padding-inline gap-inline transition-all duration-200 h-full w-full text-left flex flex-col justify-between',
-          'cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          'padding-inline gap-inline h-full w-full text-left flex flex-col justify-between rounded-lg',
           isPressing && 'scale-95',
         )}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
         aria-label={cardAriaLabel}
         {...(enableLongPress && isMobile ? longPressHandlers : {})}
       >
@@ -326,9 +298,8 @@ export function DrugDosageCard({
             </div>
           )}
         </div>
-      </button>
+      </div>
 
-      {/* Context Menu */}
       <ContextMenuOverlay
         isOpen={isContextMenuOpen}
         onClose={() => setIsContextMenuOpen(false)}
@@ -338,7 +309,6 @@ export function DrugDosageCard({
     </>
   )
 
-  // Wrap with SwipeableCard if swipe is enabled and on mobile
   if (enableSwipe && isMobile) {
     return (
       <SwipeableCard

@@ -1,0 +1,6 @@
+.trunk/
+.dcignore
+.deepsource.toml
+.env.local
+.vscode/
+.junie/

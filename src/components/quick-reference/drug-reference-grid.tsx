@@ -19,7 +19,6 @@ interface DrugReferenceGridProps {
   drugs: readonly QuickReferenceMedication[]
   categories: readonly QuickReferenceComplaintCategory[]
   calculationResults: Map<string, QuickReferenceCalculation>
-  onDrugSelect?: (drugId: string) => void
   onDrugFavorite?: (drugId: string) => void
   onDrugDelete?: (drugId: string) => void
   onDrugHistory?: (drugId: string) => void
@@ -151,14 +150,13 @@ export function DrugReferenceGrid({
   drugs,
   categories,
   calculationResults,
-  onDrugSelect,
   onDrugFavorite,
   onDrugDelete,
   onDrugHistory,
   onDrugShare,
   isLoading = false,
   className,
-}: DrugReferenceGridProps) {
+}: Readonly<DrugReferenceGridProps>) {
   const { isMobile } = useDevice()
   const [visibleItems, setVisibleItems] = useState(drugs.length)
   const { announceStatus } = useScreenReader()
@@ -269,7 +267,6 @@ export function DrugReferenceGrid({
                 drug={drug}
                 calculationResult={calculationResult}
                 categories={categories}
-                onClick={onDrugSelect ? () => onDrugSelect(drug.id) : undefined}
                 onFavorite={onDrugFavorite ? () => onDrugFavorite(drug.id) : undefined}
                 onDelete={onDrugDelete ? () => onDrugDelete(drug.id) : undefined}
                 onHistory={onDrugHistory ? () => onDrugHistory(drug.id) : undefined}

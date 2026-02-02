@@ -138,10 +138,9 @@ function QuickDrugReferenceContent({
   medications,
   categories,
 }: Readonly<QuickDrugReferencePageProps>) {
-  const router = useRouter()
   const { isMobile } = useDevice()
   const { keyboard, getViewportStyles } = useMobileKeyboard({ adjustViewport: isMobile })
-  const { announceNavigation, announceStatus } = useScreenReader()
+  const { announceStatus } = useScreenReader()
   const [isPending, startTransition] = useTransition()
   const swipeContainerRef = useRef<HTMLDivElement>(null)
 
@@ -238,20 +237,6 @@ function QuickDrugReferenceContent({
       })
     },
     [setSelectedComplaintFilter],
-  )
-
-  const handleDrugSelect = useCallback(
-    (drugId: string) => {
-      const drug = medications.find((d) => d.id === drugId)
-      if (!drug) return
-
-      const drugPageId = drug.mainDatabaseId || drug.id.replace(/-quick$/, '')
-      const url = `/drug/${drugPageId}`
-
-      announceNavigation('Drug detail page', `Opening details for ${drug.name}`)
-      router.push(url)
-    },
-    [medications, announceNavigation, router],
   )
 
   const handleDrugFavorite = useCallback(
@@ -437,7 +422,6 @@ function QuickDrugReferenceContent({
             drugs={filteredDrugs}
             categories={categories}
             calculationResults={drugCalculationResults}
-            onDrugSelect={handleDrugSelect}
             onDrugFavorite={handleDrugFavorite}
             onDrugDelete={handleDrugDelete}
             onDrugHistory={handleDrugHistory}
