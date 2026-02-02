@@ -259,6 +259,7 @@ export function DrugDosageCard({
   }
 
   const isValidCalculation = calculationResult.isCalculationValid
+  const drugName = `${drug.name} `
   const dosageText = `${formatDosage(calculationResult)} ${formatFrequency(calculationResult.frequencyText)}`
   const cardAriaLabel = AriaLabels.drugDosageCard(drug.name, dosageText)
 
@@ -273,7 +274,7 @@ export function DrugDosageCard({
         {...(enableLongPress && isMobile ? longPressHandlers : {})}
       >
         <div className='flex flex-col gap-1'>
-          {!(isCompactView && isMobile) && (
+        {!(isCompactView && isMobile) && (
             <p className={cn('text-sm font-medium truncate', colors.text)}>{drug.name}</p>
           )}
           {!isCompactView && (calculationResult.doseRateText || calculationResult.concentrationText) && (
@@ -285,6 +286,17 @@ export function DrugDosageCard({
             </div>
           )}
           {isValidCalculation ? (
+            isCompactView && isMobile ? (
+              <Badge
+              className={cn(
+                'font-bold mt-2',
+                isMobile ? 'text-sm px-3 py-1' : 'text-base px-4 py-1.5',
+                colors.badge,
+              )}
+            >
+              {drugName}{dosageText}
+            </Badge>
+            ) : (
             <Badge
               className={cn(
                 'font-bold mt-2',
@@ -294,6 +306,7 @@ export function DrugDosageCard({
             >
               {dosageText}
             </Badge>
+            )
           ) : (
             <div className='flex items-center gap-inline text-destructive mt-2'>
               <AlertTriangle size={12} />
