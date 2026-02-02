@@ -5,7 +5,6 @@
     "jumail.headwind",
     "coderabbit.coderabbit-vscode",
     "codacy-app.codacy",
-    "codium.codium",
-    "unifiedjs.vscode-mdx",
+    "codium.codium"
   ]
 }

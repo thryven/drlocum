@@ -12,8 +12,7 @@ import { version } from './package.json'
  * Core Next.js configuration.
  */
 const nextConfig: NextConfig = {
-  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
-  transpilePackages: ['next-mdx-remote-client'],
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   env: {
     NEXT_PUBLIC_APP_VERSION: version,
   },
