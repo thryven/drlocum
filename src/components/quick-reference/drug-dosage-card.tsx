@@ -2,7 +2,7 @@
 'use client'
 
 import { AlertTriangle, Heart } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { ContextMenuOverlay } from '@/components/ui/context-menu-overlay'
 import { SwipeableCard } from '@/components/ui/swipeable-card'
@@ -189,6 +189,9 @@ export function DrugDosageCard({
   calculationResult,
   categories,
   onFavorite,
+  onDelete,
+  onHistory,
+  onShare,
   enableSwipe = true,
   className,
   isFavorite,
@@ -196,9 +199,32 @@ export function DrugDosageCard({
   const { isMobile } = useDevice()
   const { isCompactView } = useCalculatorStore()
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false)
-  const [isPressing] = useState(false)
+  const [isPressing, setIsPressing] = useState(false)
   const primaryCategory = getPrimaryComplaintCategory(drug, categories)
   const colors = getMedicationTypeColors(primaryCategory)
+
+  // Long press logic
+  const longPressTimer = useRef<NodeJS.Timeout>()
+
+  const handlePressStart = useCallback(() => {
+    if (!onFavorite) return
+    setIsPressing(true)
+
+    longPressTimer.current = setTimeout(() => {
+      onFavorite()
+      if (typeof window !== 'undefined' && 'vibrate' in navigator) {
+        navigator.vibrate(50) // haptic feedback
+      }
+      setIsPressing(false) // Reset pressing state after action
+    }, 700) // 700ms for long press
+  }, [onFavorite])
+
+  const handlePressEnd = useCallback(() => {
+    setIsPressing(false)
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current)
+    }
+  }, [])
 
   const contextMenuItems = []
   if (onFavorite) {
@@ -224,56 +250,61 @@ export function DrugDosageCard({
   const cardAriaLabel = AriaLabels.drugDosageCard(drug.name, dosageText)
 
   const cardContent = (
-    <>
-      <div
-        className={cn(
-          'padding-inline gap-inline h-full w-full text-left flex flex-col justify-between rounded-lg',
-          isPressing && 'scale-95',
+    <div
+      className={cn(
+        'padding-inline gap-inline h-full w-full text-left flex flex-col justify-between rounded-lg transition-transform duration-100',
+        isPressing && 'scale-95',
+        'cursor-pointer', // Indicate interactivity
+      )}
+      aria-label={cardAriaLabel}
+      onMouseDown={handlePressStart}
+      onMouseUp={handlePressEnd}
+      onMouseLeave={handlePressEnd}
+      onTouchStart={handlePressStart}
+      onTouchEnd={handlePressEnd}
+      onTouchCancel={handlePressEnd}
+      onTouchMove={handlePressEnd} // Cancel on scroll
+    >
+      <div className='flex flex-col gap-1'>
+        {!(isCompactView && isMobile) && (
+          <p className={cn('text-sm font-medium truncate', colors.text)}>{drug.name}</p>
         )}
-        aria-label={cardAriaLabel}
-      >
-        <div className='flex flex-col gap-1'>
-          {!(isCompactView && isMobile) && (
-            <p className={cn('text-sm font-medium truncate', colors.text)}>{drug.name}</p>
-          )}
-          {!isCompactView && (calculationResult.doseRateText || calculationResult.concentrationText) && (
-            <div className='text-xs text-muted-foreground'>
-              {calculationResult.doseRateText && <span>{calculationResult.doseRateText}</span>}
-              {calculationResult.concentrationText && (
-                <span className='ml-1'>({calculationResult.concentrationText})</span>
+        {!isCompactView && (calculationResult.doseRateText || calculationResult.concentrationText) && (
+          <div className='text-xs text-muted-foreground'>
+            {calculationResult.doseRateText && <span>{calculationResult.doseRateText}</span>}
+            {calculationResult.concentrationText && (
+              <span className='ml-1'>({calculationResult.concentrationText})</span>
+            )}
+          </div>
+        )}
+        {isValidCalculation ? (
+          isCompactView && isMobile ? (
+            <Badge
+              className={cn(
+                'font-bold mt-2',
+                isMobile ? 'text-sm px-3 py-1' : 'text-base px-4 py-1.5',
+                colors.badge,
               )}
-            </div>
-          )}
-          {isValidCalculation ? (
-            isCompactView && isMobile ? (
-              <Badge
-                className={cn(
-                  'font-bold mt-2',
-                  isMobile ? 'text-sm px-3 py-1' : 'text-base px-4 py-1.5',
-                  colors.badge,
-                )}
-              >
-                {drugName}
-                {dosageText}
-              </Badge>
-            ) : (
-              <Badge
-                className={cn(
-                  'font-bold mt-2',
-                  isMobile ? 'text-sm px-3 py-1' : 'text-base px-4 py-1.5',
-                  colors.badge,
-                )}
-              >
-                {dosageText}
-              </Badge>
-            )
+            >
+              {drug.name} {dosageText}
+            </Badge>
           ) : (
-            <div className='flex items-center gap-inline text-destructive mt-2'>
-              <AlertTriangle size={12} />
-              <span className='text-xs font-medium'>Calculation Error</span>
-            </div>
-          )}
-        </div>
+            <Badge
+              className={cn(
+                'font-bold mt-2',
+                isMobile ? 'text-sm px-3 py-1' : 'text-base px-4 py-1.5',
+                colors.badge,
+              )}
+            >
+              {dosageText}
+            </Badge>
+          )
+        ) : (
+          <div className='flex items-center gap-inline text-destructive mt-2'>
+            <AlertTriangle size={12} />
+            <span className='text-xs font-medium'>Calculation Error</span>
+          </div>
+        )}
       </div>
 
       <ContextMenuOverlay
@@ -282,16 +313,12 @@ export function DrugDosageCard({
         items={contextMenuItems}
         title={drug.name}
       />
-    </>
+    </div>
   )
 
   if (enableSwipe && isMobile) {
     return (
-      <SwipeableCard
-        onFavorite={onFavorite}
-        enabled={enableSwipe}
-        className={className}
-      >
+      <SwipeableCard onFavorite={onFavorite} enabled={enableSwipe} className={className}>
         {cardContent}
       </SwipeableCard>
     )

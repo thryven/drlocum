@@ -13,6 +13,7 @@ import { useDevice } from '@/hooks/use-device'
 import { useMobileKeyboard } from '@/hooks/use-mobile-keyboard'
 import { useScreenReader } from '@/hooks/use-screen-reader'
 import { useSwipeGesture } from '@/hooks/use-swipe-gesture'
+import { useToast } from '@/hooks/use-toast'
 import type {
   QuickReferenceCalculation,
   QuickReferenceComplaintCategory,
@@ -140,6 +141,7 @@ function QuickDrugReferenceContent({
   const { isMobile } = useDevice()
   const { keyboard, getViewportStyles } = useMobileKeyboard({ adjustViewport: isMobile })
   const { announceStatus } = useScreenReader()
+  const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
   const swipeContainerRef = useRef<HTMLDivElement>(null)
 
@@ -255,8 +257,15 @@ function QuickDrugReferenceContent({
       const isCurrentlyFavorite = favorites.includes(drugId)
       toggleFavorite(drugId)
       announceStatus(`${drug.name} ${isCurrentlyFavorite ? 'removed from' : 'added to'} favorites`)
+      toast({
+        title: isCurrentlyFavorite ? 'Removed from Favorites' : 'Added to Favorites',
+        description: `${drug.name} has been ${
+          isCurrentlyFavorite ? 'removed from' : 'added to'
+        } your favorites.`,
+        duration: 3000,
+      })
     },
-    [medications, announceStatus, toggleFavorite, favorites],
+    [medications, announceStatus, toggleFavorite, favorites, toast],
   )
 
   const handleDrugDelete = useCallback(
