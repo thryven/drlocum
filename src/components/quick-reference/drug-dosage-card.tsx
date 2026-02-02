@@ -1,8 +1,7 @@
 // src/components/quick-reference/drug-dosage-card.tsx
 'use client'
 
-import { AlertTriangle, Heart, History, Share2, Trash2 } from 'lucide-react'
-import type { ReactNode } from 'react'
+import { AlertTriangle, Heart } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { ContextMenuOverlay } from '@/components/ui/context-menu-overlay'

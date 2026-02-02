@@ -1,7 +1,6 @@
 // src/app/settings/page.tsx
 'use client'
 
-import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { Card, CardContent } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -26,11 +25,10 @@ export default function SettingsPage() {
       </div>
 
       <Card>
-        <CardContent className='space-y-6'>
+        <CardContent className='space-y-6 p-4'>
           <div
             className={cn(
               'flex items-center justify-between rounded-lg border p-4',
-              isMobile && 'flex-col items-start gap-4',
             )}
           >
             <div className='space-y-0.5'>
@@ -44,7 +42,6 @@ export default function SettingsPage() {
           <div
             className={cn(
               'flex items-center justify-between rounded-lg border p-4',
-              isMobile && 'flex-col items-start gap-4',
             )}
           >
             <div className='space-y-0.5'>
@@ -53,9 +50,7 @@ export default function SettingsPage() {
               </Label>
             </div>
             <div className='flex items-center gap-2'>
-              <Sun className='h-5 w-5 text-muted-foreground' />
               <Switch id='dark-mode-switch' checked={theme === 'dark'} onCheckedChange={handleThemeChange} />
-              <Moon className='h-5 w-5 text-muted-foreground' />
             </div>
           </div>
         </CardContent>
