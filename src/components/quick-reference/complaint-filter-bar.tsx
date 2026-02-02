@@ -164,7 +164,7 @@ export function ComplaintFilterBar({
                   size='icon'
                   onClick={() => handleComplaintClick(complaint.id)}
                   className={cn(
-                    'flex-shrink-0 font-medium transition-all duration-200',
+                    'shrink-0 font-medium transition-all duration-200',
                     getComplaintColorClasses(complaint.color, isActive),
                     isActive && 'ring-2 ring-offset-2 ring-current/30 shadow-md',
                   )}
