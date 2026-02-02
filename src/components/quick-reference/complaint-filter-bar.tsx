@@ -141,50 +141,88 @@ export function ComplaintFilterBar({
     return null
   }
 
-  // Mobile and Tablet View: Use a searchable modal select
+  // Mobile and Tablet View
   if (isMobile) {
-    const filterOptions = allFilters.map((c) => {
-      const Icon = iconMap[c.icon]
-      return {
-        value: c.id,
-        label: c.displayName,
-        icon: Icon ? (
-          <Icon size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
-        ) : undefined,
-      }
-    })
-    // Mobile View
-    return (
-      <div className={cn('w-full space-y-2', className)}>
-        <div className='flex items-center justify-between'>
-          <h2 className='hidden md:text-sm md:font-medium md:text-muted-foreground md:flex md:items-center gap-2'>
-            <Filter size={16} />
-            Filter by category
-          </h2>
-          {selectedComplaint && selectedComplaint !== 'favorites' && (
-            <Button
-              variant='ghost'
-              size='sm'
-              className='h-auto p-1 text-xs'
-              onClick={() => handleComplaintClick(null)}
-              aria-label='Clear filter'
-            >
-              <X className='w-3 h-3 mr-1' />
-              Clear
-            </Button>
-          )}
+    if (isCompactView) {
+      return (
+        <div className={cn('w-full', className)}>
+          <div
+            className={cn(
+              'flex flex-nowrap gap-2 overflow-x-auto pb-2 -mx-3 px-3',
+              isPending && 'opacity-75 transition-opacity',
+            )}
+            role='tablist'
+            aria-label='Filter drugs by complaint category'
+          >
+            {allFilters.map((complaint) => {
+              const isActive = selectedComplaint === complaint.id
+              const Icon = iconMap[complaint.icon]
+              return (
+                <Button
+                  key={complaint.id}
+                  variant='outline'
+                  size='icon'
+                  onClick={() => handleComplaintClick(complaint.id)}
+                  className={cn(
+                    'flex-shrink-0 font-medium transition-all duration-200',
+                    getComplaintColorClasses(complaint.color, isActive),
+                    isActive && 'ring-2 ring-offset-2 ring-current/30 shadow-md',
+                  )}
+                  role='tab'
+                  aria-selected={isActive}
+                  disabled={isPending}
+                  aria-label={complaint.displayName}
+                >
+                  {Icon && <Icon className={cn('h-5 w-5', complaint.id === 'favorites' && 'fill-current')} />}
+                </Button>
+              )
+            })}
+          </div>
         </div>
-        <MobileSelect
-          options={filterOptions}
-          value={selectedComplaint}
-          onChange={(value) => handleComplaintClick(value)}
-          placeholder='Select a category...'
-          title='Filter by Category'
-          searchPlaceholder='Search categories...'
-          searchable={true}
-        />
-      </div>
-    )
+      )
+    } else {
+      const filterOptions = allFilters.map((c) => {
+        const Icon = iconMap[c.icon]
+        return {
+          value: c.id,
+          label: c.displayName,
+          icon: Icon ? (
+            <Icon size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
+          ) : undefined,
+        }
+      })
+      return (
+        <div className={cn('w-full space-y-2', className)}>
+          <div className='flex items-center justify-between'>
+            <h2 className='hidden md:text-sm md:font-medium md:text-muted-foreground md:flex md:items-center gap-2'>
+              <Filter size={16} />
+              Filter by category
+            </h2>
+            {selectedComplaint && selectedComplaint !== 'favorites' && (
+              <Button
+                variant='ghost'
+                size='sm'
+                className='h-auto p-1 text-xs'
+                onClick={() => handleComplaintClick(null)}
+                aria-label='Clear filter'
+              >
+                <X className='w-3 h-3 mr-1' />
+                Clear
+              </Button>
+            )}
+          </div>
+          <MobileSelect
+            options={filterOptions}
+            value={selectedComplaint}
+            onChange={(value) => handleComplaintClick(value)}
+            placeholder='Select a category...'
+            title='Filter by Category'
+            searchPlaceholder='Search categories...'
+            searchable={true}
+          />
+        </div>
+      )
+    }
   }
 
   // Desktop View: Horizontal button list
@@ -214,9 +252,13 @@ export function ComplaintFilterBar({
                 aria-selected={isActive}
                 disabled={isPending}
               >
-                {Icon && <Icon className={cn('w-4 h-4', !isCompactView && 'mr-2', complaint.id === 'favorites' && 'fill-current')} />}
+                {Icon && (
+                  <Icon
+                    className={cn('w-4 h-4', !isCompactView && 'mr-2', complaint.id === 'favorites' && 'fill-current')}
+                  />
+                )}
                 {!isCompactView && complaint.displayName}
-                {isCompactView && <span className="sr-only">{complaint.displayName}</span>}
+                {isCompactView && <span className='sr-only'>{complaint.displayName}</span>}
               </Button>
             )
 
