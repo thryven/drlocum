@@ -175,7 +175,13 @@ function QuickDrugReferenceContent({
   const calculateAllDoses = useCallback(() => {
     if (isDatabaseLoading) return
 
-    const filteredMeds = getFilteredMedications(selectedComplaintFilter || undefined, 'paediatric')
+    let medsToCalculate: QuickReferenceMedication[]
+    if (selectedComplaintFilter === 'favorites') {
+      medsToCalculate = medications.filter((med) => favorites.includes(med.id))
+    } else {
+      medsToCalculate = getFilteredMedications(selectedComplaintFilter || undefined, 'paediatric')
+    }
+
     const results = new Map<string, QuickReferenceCalculation>()
     const ageInMonths = displayAgeUnit === 'years' ? displayAge * 12 : displayAge
 
@@ -199,7 +205,7 @@ function QuickDrugReferenceContent({
       setDisplayWeight(weightToUse)
     }
 
-    for (const medication of filteredMeds) {
+    for (const medication of medsToCalculate) {
       const result = calculateDose(medication.id, weightToUse, ageInMonths)
       if (result) {
         results.set(medication.id, {
@@ -230,6 +236,8 @@ function QuickDrugReferenceContent({
     setDrugCalculationResults,
     setDisplayWeight,
     calculateDose,
+    medications,
+    favorites,
   ])
 
   const handleFilterChange = useCallback(
