@@ -7,7 +7,6 @@ import { Badge } from '@/components/ui/badge'
 import { ContextMenuOverlay } from '@/components/ui/context-menu-overlay'
 import { SwipeableCard } from '@/components/ui/swipeable-card'
 import { useDevice } from '@/hooks/use-device'
-import { useLongPress } from '@/hooks/use-long-press'
 import type {
   QuickReferenceCalculation,
   QuickReferenceComplaintCategory,
@@ -26,7 +25,6 @@ interface DrugDosageCardProps {
   onHistory?: (() => void) | undefined
   onShare?: (() => void) | undefined
   enableSwipe?: boolean | undefined
-  enableLongPress?: boolean | undefined
   className?: string | undefined
   isFavorite?: boolean
 }
@@ -183,7 +181,6 @@ function formatFrequency(frequencyText: string): string {
  * @param onHistory - Optional callback for the history action
  * @param onShare - Optional callback for the share action
  * @param enableSwipe - Whether to enable swipe gestures (defaults to true on mobile)
- * @param enableLongPress - Whether to enable long-press context menu (defaults to true on mobile)
  * @param className - Optional additional CSS class names applied to the root element
  * @returns The JSX element for the drug dosage card
  */
@@ -193,28 +190,15 @@ export function DrugDosageCard({
   categories,
   onFavorite,
   enableSwipe = true,
-  enableLongPress = true,
   className,
   isFavorite,
 }: DrugDosageCardProps) {
   const { isMobile } = useDevice()
   const { isCompactView } = useCalculatorStore()
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false)
-  const [isPressing, setIsPressing] = useState(false)
+  const [isPressing] = useState(false)
   const primaryCategory = getPrimaryComplaintCategory(drug, categories)
   const colors = getMedicationTypeColors(primaryCategory)
-
-  const handleLongPress = useCallback(() => {
-    setIsContextMenuOpen(true)
-  }, [])
-
-  const longPressHandlers = useLongPress({
-    onLongPress: handleLongPress,
-    duration: 500,
-    enabled: enableLongPress && isMobile && (!!onFavorite),
-    onPressStart: () => setIsPressing(true),
-    onPressEnd: () => setIsPressing(false),
-  })
 
   const contextMenuItems = []
   if (onFavorite) {
@@ -247,7 +231,6 @@ export function DrugDosageCard({
           isPressing && 'scale-95',
         )}
         aria-label={cardAriaLabel}
-        {...(enableLongPress && isMobile ? longPressHandlers : {})}
       >
         <div className='flex flex-col gap-1'>
           {!(isCompactView && isMobile) && (

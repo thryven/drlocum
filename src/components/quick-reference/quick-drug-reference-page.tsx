@@ -8,7 +8,6 @@ import { Component, useCallback, useEffect, useMemo, useRef, useState, useTransi
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { MobileViewport } from '@/components/ui/mobile-viewport'
-import { PullToRefresh } from '@/components/ui/pull-to-refresh'
 import { QuickReferenceSkipLinks } from '@/components/ui/skip-links'
 import { useDevice } from '@/hooks/use-device'
 import { useMobileKeyboard } from '@/hooks/use-mobile-keyboard'
@@ -287,21 +286,6 @@ function QuickDrugReferenceContent({
     [medications, announceStatus],
   )
 
-  const handleRefresh = useCallback(async () => {
-    announceStatus('Refreshing medication data')
-    // Recalculate all doses
-    await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate network delay
-    calculateAllDoses()
-    announceStatus('Medication data refreshed')
-  }, [announceStatus, calculateAllDoses])
-
-  const handleThresholdReached = useCallback(() => {
-    // Trigger haptic feedback if available
-    if ('vibrate' in navigator) {
-      navigator.vibrate(50) // Medium impact
-    }
-  }, [])
-
   // Swipe gesture handling
   const handleSwipe = useCallback(
     (direction: 'left' | 'right') => {
@@ -382,13 +366,7 @@ function QuickDrugReferenceContent({
       adjustForKeyboard={isMobile}
     >
       <QuickReferenceSkipLinks />
-      <PullToRefresh
-        onRefresh={handleRefresh}
-        enabled={isMobile && !keyboard.isVisible}
-        threshold={80}
-        onThresholdReached={handleThresholdReached}
-        className='min-h-screen'
-      >
+
         <main
           id='main-content'
           className={cn(
@@ -445,7 +423,6 @@ function QuickDrugReferenceContent({
             favorites={favorites}
           />
         </main>
-      </PullToRefresh>
     </MobileViewport>
   )
 }
