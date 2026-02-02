@@ -47,6 +47,14 @@
       "color": "yellow",
       "enabled": true,
       "sortOrder": 6
+    },
+    {
+      "id": "corticosteroids",
+      "name": "corticosteroids",
+      "displayName": "Corticosteroids",
+      "color": "purple",
+      "enabled": true,
+      "sortOrder": 7
     }
   ]
 }

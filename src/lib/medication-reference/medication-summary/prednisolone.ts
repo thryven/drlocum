@@ -28,7 +28,7 @@ const prednisolone: QuickReferenceMedication = {
     unit: 'mg/5ml',
     formulation: 'syrup',
   },
-  complaintCategories: ['respiratory', 'allergy'],
+  complaintCategories: ['corticosteroids', 'respiratory', 'allergy'],
   enabled: true,
 }
 
