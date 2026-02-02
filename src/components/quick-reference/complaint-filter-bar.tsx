@@ -1,25 +1,16 @@
 // src/components/quick-reference/complaint-filter-bar.tsx
 'use client'
 
-import {
-  Banana,
-  Filter,
-  ShieldAlert,
-  ShieldCheck,
-  Sparkles,
-  Star,
-  Thermometer,
-  Waves,
-  Wind,
-  X,
-} from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import { Banana, Filter, ShieldAlert, ShieldCheck, Sparkles, Star, Thermometer, Waves, Wind, X } from 'lucide-react'
 import { useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import MobileSelect from '@/components/ui/mobile-select'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useDevice } from '@/hooks/use-device'
 import { useScreenReader } from '@/hooks/use-screen-reader'
 import type { QuickReferenceComplaintCategory as ComplaintCategory } from '@/lib/medication-reference'
+import { useCalculatorStore } from '@/lib/stores/calculator-store'
 import { cn } from '@/lib/utils'
 
 const iconMap: Record<string, LucideIcon> = {
@@ -121,6 +112,7 @@ export function ComplaintFilterBar({
   const { isMobile } = useDevice()
   const { announceStatus } = useScreenReader()
   const [isPending, startTransition] = useTransition()
+  const { isCompactView } = useCalculatorStore()
 
   const favoriteCategory: ComplaintCategory = {
     id: 'favorites',
@@ -156,7 +148,9 @@ export function ComplaintFilterBar({
       return {
         value: c.id,
         label: c.displayName,
-        icon: Icon ? <Icon size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} /> : undefined,
+        icon: Icon ? (
+          <Icon size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
+        ) : undefined,
       }
     })
     // Mobile View
@@ -196,35 +190,55 @@ export function ComplaintFilterBar({
   // Desktop View: Horizontal button list
   return (
     <div className={cn('w-full', className)}>
-      <div
-        className={cn('flex flex-wrap gap-2', isPending && 'opacity-75 transition-opacity')}
-        role='tablist'
-        aria-label='Filter drugs by complaint category'
-      >
-        {allFilters.map((complaint) => {
-          const isActive = selectedComplaint === complaint.id
-          const Icon = iconMap[complaint.icon]
-          return (
-            <Button
-              key={complaint.id}
-              variant='outline'
-              size='sm'
-              onClick={() => handleComplaintClick(complaint.id)}
-              className={cn(
-                'font-medium transition-all duration-200',
-                getComplaintColorClasses(complaint.color, isActive),
-                isActive && 'ring-2 ring-offset-2 ring-current/30 shadow-md',
-              )}
-              role='tab'
-              aria-selected={isActive}
-              disabled={isPending}
-            >
-              {Icon && <Icon className={cn('w-4 h-4 -ml-1 mr-2', complaint.id === 'favorites' && 'fill-current')} />}
-              {complaint.displayName}
-            </Button>
-          )
-        })}
-      </div>
+      <TooltipProvider>
+        <div
+          className={cn('flex flex-wrap gap-2', isPending && 'opacity-75 transition-opacity')}
+          role='tablist'
+          aria-label='Filter drugs by complaint category'
+        >
+          {allFilters.map((complaint) => {
+            const isActive = selectedComplaint === complaint.id
+            const Icon = iconMap[complaint.icon]
+
+            const button = (
+              <Button
+                variant='outline'
+                size={isCompactView ? 'icon' : 'sm'}
+                onClick={() => handleComplaintClick(complaint.id)}
+                className={cn(
+                  'font-medium transition-all duration-200',
+                  getComplaintColorClasses(complaint.color, isActive),
+                  isActive && 'ring-2 ring-offset-2 ring-current/30 shadow-md',
+                )}
+                role='tab'
+                aria-selected={isActive}
+                disabled={isPending}
+              >
+                {Icon && <Icon className={cn('w-4 h-4', !isCompactView && 'mr-2', complaint.id === 'favorites' && 'fill-current')} />}
+                {!isCompactView && complaint.displayName}
+                {isCompactView && <span className="sr-only">{complaint.displayName}</span>}
+              </Button>
+            )
+
+            if (isCompactView) {
+              return (
+                <Tooltip key={complaint.id}>
+                  <TooltipTrigger asChild>{button}</TooltipTrigger>
+                  <TooltipContent>
+                    <p>{complaint.displayName}</p>
+                  </TooltipContent>
+                </Tooltip>
+              )
+            }
+
+            return (
+              <div key={complaint.id}>
+                {button}
+              </div>
+            )
+          })}
+        </div>
+      </TooltipProvider>
     </div>
   )
 }

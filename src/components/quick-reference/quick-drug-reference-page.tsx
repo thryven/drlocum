@@ -268,33 +268,6 @@ function QuickDrugReferenceContent({
     [medications, announceStatus, toggleFavorite, favorites, toast],
   )
 
-  const handleDrugDelete = useCallback(
-    (drugId: string) => {
-      const drug = medications.find((d) => d.id === drugId)
-      if (!drug) return
-      announceStatus(`${drug.name} removed`)
-    },
-    [medications, announceStatus],
-  )
-
-  const handleDrugHistory = useCallback(
-    (drugId: string) => {
-      const drug = medications.find((d) => d.id === drugId)
-      if (!drug) return
-      announceStatus(`Viewing history for ${drug.name}`)
-    },
-    [medications, announceStatus],
-  )
-
-  const handleDrugShare = useCallback(
-    (drugId: string) => {
-      const drug = medications.find((d) => d.id === drugId)
-      if (!drug) return
-      announceStatus(`Sharing ${drug.name}`)
-    },
-    [medications, announceStatus],
-  )
-
   // Swipe gesture handling
   const handleSwipe = useCallback(
     (direction: 'left' | 'right') => {
@@ -424,9 +397,6 @@ function QuickDrugReferenceContent({
             categories={categories}
             calculationResults={drugCalculationResults}
             onDrugFavorite={handleDrugFavorite}
-            onDrugDelete={handleDrugDelete}
-            onDrugHistory={handleDrugHistory}
-            onDrugShare={handleDrugShare}
             isLoading={isDatabaseLoading || isPending}
             className={cn('spacing-component', isMobile && ['spacing-element', keyboard.isVisible && 'pb-2'])}
             favorites={favorites}
