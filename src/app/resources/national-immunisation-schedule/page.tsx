@@ -1,9 +1,6 @@
 // src/app/resources/national-immunisation-schedule/page.tsx
-
-import { Card, CardContent } from '@/components/ui/card'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { additionalVaccines, ageMonths, ageYears, vaccines } from '@/lib/medical-data/immunisation-schedule'
-import { cn } from '@/lib/utils'
+import Image from 'next/image'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const metadata = {
   title: 'National Immunisation Schedule | Doses',
@@ -11,126 +8,66 @@ export const metadata = {
 }
 
 /**
- * Render the National Immunisation Schedule page with a responsive table of vaccines by age and a grid of descriptive cards.
+ * Render the National Immunisation Schedule page with images of the official schedules.
  *
- * @returns The page markup containing a responsive immunisation schedule table (month/year columns with scheduled dose indicators) and a grid of vaccine description cards.
+ * @returns The page markup containing the immunisation schedule images.
  */
 export default function NationalImmunisationSchedulePage() {
   return (
-    <div className='w-full max-w-6xl mx-auto pb-24'>
-      <div className='mb-8 text-center'>
+    <div className='w-full max-w-4xl mx-auto pb-24 space-y-8'>
+      <header className='text-center'>
         <h1 className='text-3xl font-bold tracking-tight'>National Immunisation Schedule</h1>
-      </div>
+        <p className='text-muted-foreground mt-2'>Ministry of Health Malaysia</p>
+      </header>
 
       <Card>
-        <CardContent className='p-2 md:p-4'>
-          <div className='overflow-x-auto'>
-            <Table className='w-full table-fixed border-collapse'>
-              <TableHeader>
-                <TableRow className='bg-primary/10'>
-                  <TableHead className='sticky left-0 z-10 bg-primary/10 w-[200px] border-r' rowSpan={2}>
-                    Vaccine
-                  </TableHead>
-                  <TableHead className='text-center border-r' colSpan={ageMonths.length}>
-                    Age (Month)
-                  </TableHead>
-                  <TableHead className='text-center' colSpan={ageYears.length}>
-                    Age (Year)
-                  </TableHead>
-                </TableRow>
-                <TableRow className='bg-primary/10'>
-                  {ageMonths.map((age) => (
-                    <TableHead
-                      key={`month-${age}`}
-                      className='text-center p-2 border-r w-12 whitespace-normal wrap-break-word'
-                    >
-                      {age}
-                    </TableHead>
-                  ))}
-                  {ageYears.map((age) => (
-                    <TableHead
-                      key={`year-${age}`}
-                      className='text-center p-2 border-r w-12 whitespace-normal wrap-break-word'
-                    >
-                      {age}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {vaccines.map((vaccine) => (
-                  <TableRow key={vaccine.name}>
-                    <TableCell className='sticky left-0 z-10 bg-background font-medium border-r'>
-                      {vaccine.name}
-                    </TableCell>
-                    {ageMonths.map((age) => {
-                      const dose = vaccine.doses.find((d) => d.age === `${age}m`)
-                      return (
-                        <TableCell
-                          key={`${vaccine.name}-month-${age}`}
-                          className={cn(
-                            'text-center p-2 border-r text-xs whitespace-normal wrap-break-word',
-                            dose && 'bg-green-100/50 dark:bg-green-900/50',
-                          )}
-                        >
-                          {dose ? (
-                            <>
-                              <span className='font-semibold'>{dose.label}</span>
-                              <span className='sr-only'>(Dose scheduled)</span>
-                            </>
-                          ) : null}
-                        </TableCell>
-                      )
-                    })}
-                    {ageYears.map((age) => {
-                      const dose = vaccine.doses.find((d) => d.age === `${age}y`)
-                      return (
-                        <TableCell
-                          key={`${vaccine.name}-year-${age}`}
-                          className={cn(
-                            'text-center p-2 border-r text-xs whitespace-normal wrap-break-word',
-                            dose && 'bg-green-100/50 dark:bg-green-900/50',
-                          )}
-                        >
-                          {dose ? (
-                            <>
-                              <span className='font-semibold'>{dose.label}</span>
-                              <span className='sr-only'>(Dose scheduled)</span>
-                            </>
-                          ) : null}
-                        </TableCell>
-                      )
-                    })}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+        <CardHeader>
+          <CardTitle>National Immunisation Schedule</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className='overflow-hidden rounded-lg border shadow-md'>
+            <Image
+              src='/photos/jadual_imunisasi.jpg'
+              alt='National Immunisation Schedule for Malaysia'
+              width={1200}
+              height={1600}
+              className='w-full h-auto'
+              priority
+            />
           </div>
         </CardContent>
       </Card>
 
-      <div className='mt-6' />
+      <Card>
+        <CardHeader>
+          <CardTitle>Catch-up Immunisation</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className='overflow-hidden rounded-lg border shadow-md'>
+            <Image
+              src='/photos/jadual-imunisasi-jenis-tahun.png'
+              alt='Catch-up immunisation schedule'
+              width={1200}
+              height={800}
+              className='w-full h-auto'
+            />
+          </div>
+        </CardContent>
+      </Card>
 
       <Card>
-        <CardContent className='p-2 md:p-4'>
-          <h2 className='text-lg font-semibold mb-2'>Additional Vaccination</h2>
-          <div className='overflow-x-auto'>
-            <Table className='w-full table-fixed border-collapse'>
-              <TableHeader>
-                <TableRow className='bg-primary/10'>
-                  <TableHead className='w-56'>Vaccine</TableHead>
-                  <TableHead>Schedule / Notes</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {additionalVaccines.map((v) => (
-                  <TableRow key={v.name}>
-                    <TableCell className='font-medium'>{v.name}</TableCell>
-                    <TableCell className='whitespace-normal'>{v.note}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+        <CardHeader>
+          <CardTitle>Other Recommended Vaccination</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className='overflow-hidden rounded-lg border shadow-md'>
+            <Image
+              src='/photos/jadual-imunisasi-hospital-swasta.png'
+              alt='Other recommended vaccinations available in private hospitals'
+              width={1200}
+              height={800}
+              className='w-full h-auto'
+            />
           </div>
         </CardContent>
       </Card>
