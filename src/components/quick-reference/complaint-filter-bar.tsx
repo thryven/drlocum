@@ -1,11 +1,8 @@
 // src/components/quick-reference/complaint-filter-bar.tsx
 'use client'
 
-import type { LucideIcon } from 'lucide-react'
-import { Filter, Star, Waves, X } from 'lucide-react'
-import type { ComponentType } from 'react'
+import { Filter, Star, X } from 'lucide-react'
 import { useTransition } from 'react'
-import { CategoryIcon } from '@/components/icons/category-icon'
 import { Button } from '@/components/ui/button'
 import MobileSelect from '@/components/ui/mobile-select'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
@@ -14,11 +11,6 @@ import { useScreenReader } from '@/hooks/use-screen-reader'
 import type { QuickReferenceComplaintCategory as ComplaintCategory } from '@/lib/medication-reference'
 import { useCalculatorStore } from '@/lib/stores/calculator-store'
 import { cn } from '@/lib/utils'
-
-const iconMap: Record<string, ComponentType<any>> = {
-  Star,
-  Waves,
-}
 
 // Color mapping for complaint categories using Tailwind classes
 const COMPLAINT_COLORS = {
@@ -152,12 +144,12 @@ export function ComplaintFilterBar({
           >
             {allFilters.map((complaint) => {
               const isActive = selectedComplaint === complaint.id
-              const IconComponent = iconMap[complaint.icon]
-              const iconElement = IconComponent ? (
-                <IconComponent className={cn('h-5 w-5', complaint.id === 'favorites' && 'fill-current')} />
-              ) : (
-                <CategoryIcon name={complaint.icon} className='h-5 w-5' />
-              )
+              let iconElement: React.ReactNode
+              if (complaint.icon === 'Star') {
+                iconElement = <Star className={cn('h-5 w-5', complaint.id === 'favorites' && 'fill-current')} />
+              } else {
+                iconElement = <img src={`/icons/${complaint.icon}`} alt='' className='h-5 w-5' aria-hidden='true' />
+              }
               return (
                 <Button
                   key={complaint.id}
@@ -183,12 +175,12 @@ export function ComplaintFilterBar({
       )
     } else {
       const filterOptions = allFilters.map((c) => {
-        const IconComponent = iconMap[c.icon]
-        const iconElement = IconComponent ? (
-          <IconComponent size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
-        ) : (
-          <CategoryIcon name={c.icon} className='h-5 w-5' />
-        )
+        let iconElement: React.ReactNode
+        if (c.icon === 'Star') {
+          iconElement = <Star size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
+        } else {
+          iconElement = <img src={`/icons/${c.icon}`} alt='' className='h-5 w-5' aria-hidden='true' />
+        }
         return {
           value: c.id,
           label: c.displayName,
@@ -240,14 +232,23 @@ export function ComplaintFilterBar({
         >
           {allFilters.map((complaint) => {
             const isActive = selectedComplaint === complaint.id
-            const IconComponent = iconMap[complaint.icon]
-            const iconElement = IconComponent ? (
-              <IconComponent
-                className={cn('w-4 h-4', !isCompactView && 'mr-2', complaint.id === 'favorites' && 'fill-current')}
-              />
-            ) : (
-              <CategoryIcon name={complaint.icon} className={cn('w-4 h-4', !isCompactView && 'mr-2')} />
-            )
+            let iconElement: React.ReactNode
+            if (complaint.icon === 'Star') {
+              iconElement = (
+                <Star
+                  className={cn('w-4 h-4', !isCompactView && 'mr-2', complaint.id === 'favorites' && 'fill-current')}
+                />
+              )
+            } else {
+              iconElement = (
+                <img
+                  src={`/icons/${complaint.icon}`}
+                  alt=''
+                  className={cn('w-4 h-4', !isCompactView && 'mr-2')}
+                  aria-hidden='true'
+                />
+              )
+            }
 
             const button = (
               <Button

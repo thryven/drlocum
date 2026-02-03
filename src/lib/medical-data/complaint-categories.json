@@ -5,7 +5,7 @@
       "name": "antimicrobials",
       "displayName": "Antimicrobials",
       "color": "red",
-      "icon": "immunology",
+      "icon": "immunology.svg",
       "enabled": true,
       "sortOrder": 1
     },
@@ -14,7 +14,7 @@
       "name": "pain-fever",
       "displayName": "Pain & Fever",
       "color": "orange",
-      "icon": "dew_point",
+      "icon": "dew_point.svg",
       "enabled": true,
       "sortOrder": 2
     },
@@ -23,7 +23,7 @@
       "name": "respiratory",
       "displayName": "Respiratory",
       "color": "green",
-      "icon": "pulmonology",
+      "icon": "pulmonology.svg",
       "enabled": true,
       "sortOrder": 3
     },
@@ -32,7 +32,7 @@
       "name": "gastrointestinal",
       "displayName": "Gastrointestinal",
       "color": "blue",
-      "icon": "gastroenterology",
+      "icon": "gastroenterology.svg",
       "enabled": true,
       "sortOrder": 4
     },
@@ -41,7 +41,7 @@
       "name": "allergy",
       "displayName": "Allergy",
       "color": "pink",
-      "icon": "allergy",
+      "icon": "allergy.svg",
       "enabled": true,
       "sortOrder": 5
     },
@@ -50,7 +50,7 @@
       "name": "antispasmodics",
       "displayName": "Antispasmodics",
       "color": "yellow",
-      "icon": "Waves",
+      "icon": "waves.svg",
       "enabled": true,
       "sortOrder": 6
     },
@@ -59,7 +59,7 @@
       "name": "corticosteroids",
       "displayName": "Corticosteroids",
       "color": "purple",
-      "icon": "humerus_alt",
+      "icon": "humerus_alt.svg",
       "enabled": true,
       "sortOrder": 7
     }
