@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Error handling and recovery functions for the Quick Reference Database validation process.
+ * This file provides a centralized error handler that can log validation issues, generate user-friendly
+ * messages, and attempt recovery using predefined strategies like falling back to default data.
+ */
+
 import type {
   DosingProfile,
   ErrorContext,
@@ -8,28 +14,33 @@ import type {
 } from '../types'
 
 /**
- * Error Handling and Recovery Functions
+ * Manages validation errors with logging and recovery capabilities.
+ * Implemented as a singleton to maintain a consistent error log across the application.
  */
-
 export class ValidationErrorHandler {
-  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: used by getInstance() as singleton
   private static instance: ValidationErrorHandler | undefined = undefined
   private errorLog: Array<{ context: ErrorContext; error: Error; message: string }> = []
 
-  static getInstance(): ValidationErrorHandler {
+  /**
+   * Retrieves the singleton instance of the error handler.
+   */
+  public static getInstance(): ValidationErrorHandler {
     ValidationErrorHandler.instance ??= new ValidationErrorHandler()
     return ValidationErrorHandler.instance
   }
 
   /**
-   * Handle validation errors with recovery
+   * Handles a validation error, logs it, and attempts recovery based on the provided options.
+   * @param error - The validation error or result object.
+   * @param context - The context in which the error occurred.
+   * @param options - Recovery and logging options.
+   * @returns An object indicating success, a user-friendly message, and any recovered data.
    */
-  handleValidationError(
+  public handleValidationError(
     error: Error | ValidationResult,
     context: ErrorContext,
     options?: ErrorRecoveryOptions,
   ): { success: boolean; message: string; recoveredData?: unknown } {
-    // Destructure with individual defaults so partial objects don't override defaults
     const {
       fallbackToDefaults = true,
       skipInvalidItems = true,
@@ -48,12 +59,10 @@ export class ValidationErrorHandler {
       userMessage = this.createUserFriendlyValidationMessage(error, context)
     }
 
-    // Log error if enabled
     if (logErrors) {
       this.logError(context, error instanceof Error ? error : new Error(errorMessage), errorMessage)
     }
 
-    // Attempt recovery using the resolved option values
     const recoveryResult = this.attemptRecovery(error, context, {
       fallbackToDefaults,
       skipInvalidItems,
@@ -69,66 +78,56 @@ export class ValidationErrorHandler {
   }
 
   /**
-   * Create user-friendly error messages
+   * Generates a user-friendly error message from a generic Error object.
    */
   private createUserFriendlyMessage(error: Error, context: ErrorContext): string {
     const operation = context.operation.toLowerCase().replaceAll('_', ' ')
 
     if (error.message.includes('JSON')) {
-      return 'There was a problem reading the medication data file. Please check the file format and try again.'
+      return 'There was a problem reading the medication data file. Please check the file format.'
     }
-
     if (error.message.includes('network') || error.message.includes('fetch')) {
-      return 'Unable to load medication data. Please check your connection and try again.'
+      return 'Unable to load medication data. Please check your connection.'
     }
-
     if (error.message.includes('permission') || error.message.includes('access')) {
-      return `Access denied while ${operation}. Please check your permissions.`
+      return `Access denied while ${operation}. Please check permissions.`
     }
 
     switch (context.operation) {
       case 'LOAD_MEDICATIONS':
-        return 'Failed to load medication-summary. Some medication-summary may not be available.'
+        return 'Failed to load medications. Some may not be available.'
       case 'LOAD_CATEGORIES':
-        return 'Failed to load complaint categories. Default categories will be used.'
+        return 'Failed to load categories. Default categories will be used.'
       case 'CALCULATE_DOSE':
-        return `Unable to calculate dose for ${context.medicationId || 'this medication'}. Please verify the medication data.`
+        return `Unable to calculate dose for ${context.medicationId || 'this medication'}. Please verify the data.`
       case 'VALIDATE_MEDICATION':
-        return `Medication data validation failed for ${context.medicationId || 'unknown medication'}. Please review the medication information.`
+        return `Validation failed for ${context.medicationId || 'a medication'}. Please review the medication data.`
       default:
-        return `An error occurred while ${operation}. Please try again.`
+        return `An error occurred during ${operation}. Please try again.`
     }
   }
 
   /**
-   * Create user-friendly validation messages
+   * Generates a user-friendly message from a ValidationResult object.
    */
   private createUserFriendlyValidationMessage(result: ValidationResult, context: ErrorContext): string {
-    if (result.errors.length === 0) {
-      return 'Validation completed successfully.'
-    }
+    if (result.errors.length === 0) return 'Validation successful.'
 
-    const medicationName = context.medicationId || 'medication'
+    const medicationName = context.medicationId || 'a medication'
     const errorCount = result.errors.length
 
     if (errorCount === 1) {
       const error = result.errors[0]
-      if (error?.includes('required')) {
-        return `Missing required information for ${medicationName}. Please complete all required fields.`
-      }
-      if (error?.includes('positive')) {
-        return `Invalid dose amount for ${medicationName}. Dose must be greater than zero.`
-      }
-      if (error?.includes('age')) {
-        return `Age restriction issue for ${medicationName}. Please check the age limits.`
-      }
+      if (error?.includes('required')) return `Missing required information for ${medicationName}.`
+      if (error?.includes('positive')) return `Invalid dose for ${medicationName}. Dose must be positive.`
+      if (error?.includes('age')) return `Age restriction issue for ${medicationName}. Check age limits.`
     }
 
-    return `${medicationName} has ${errorCount} validation ${errorCount === 1 ? 'error' : 'errors'}. Please review and correct the medication data.`
+    return `${medicationName} has ${errorCount} validation ${errorCount === 1 ? 'error' : 'errors'}. Please review.`
   }
 
   /**
-   * Attempt to recover from errors
+   * Attempts to recover from a validation error based on context and options.
    */
   private attemptRecovery(
     _error: Error | ValidationResult,
@@ -142,75 +141,52 @@ export class ValidationErrorHandler {
     switch (context.operation) {
       case 'LOAD_MEDICATIONS':
         if (options.fallbackToDefaults) {
-          return {
-            success: true,
-            data: this.getDefaultMedications(),
-          }
+          return { success: true, data: this.getDefaultMedications() }
         }
         break
-
       case 'LOAD_CATEGORIES':
         if (options.fallbackToDefaults) {
-          return {
-            success: true,
-            data: this.getDefaultCategories(),
-          }
+          return { success: true, data: this.getDefaultCategories() }
         }
         break
-
       case 'VALIDATE_MEDICATION':
         if (options.skipInvalidItems) {
-          return {
-            success: true,
-            data: null, // Skip this medication
-          }
+          return { success: true, data: null } // Skip the invalid item
         }
         break
-
       default:
         return { success: false }
     }
-
     return { success: false }
   }
 
   /**
-   * Log errors for debugging
+   * Logs an error to the internal error log for debugging.
    */
   private logError(context: ErrorContext, error: Error, message: string): void {
-    const logEntry = {
-      context: {
-        ...context,
-        timestamp: new Date(),
-      },
-      error,
-      message,
-    }
-
+    const logEntry = { context: { ...context, timestamp: new Date() }, error, message }
     this.errorLog.push(logEntry)
-
-    // Keep only last 100 errors to prevent memory issues
     if (this.errorLog.length > 100) {
       this.errorLog = this.errorLog.slice(-100)
     }
   }
 
   /**
-   * Get error log for debugging
+   * Returns a copy of the current error log.
    */
-  getErrorLog(): Array<{ context: ErrorContext; error: Error; message: string }> {
+  public getErrorLog(): Array<{ context: ErrorContext; error: Error; message: string }> {
     return [...this.errorLog]
   }
 
   /**
-   * Clear error log
+   * Clears the internal error log.
    */
-  clearErrorLog(): void {
+  public clearErrorLog(): void {
     this.errorLog = []
   }
 
   /**
-   * Get default medication-summary for fallback
+   * Provides a default medication object for fallback recovery.
    */
   private getDefaultMedications(): QuickReferenceMedication[] {
     const defaultDosingProfile: DosingProfile = {
@@ -221,18 +197,13 @@ export class ValidationErrorHandler {
       maxDose: 1000,
       minAge: 1,
     }
-
     return [
       {
         id: 'paracetamol-default',
         name: 'Paracetamol',
         aliases: [],
         dosingProfiles: [defaultDosingProfile],
-        concentration: {
-          amount: 120,
-          unit: 'mg/5ml',
-          formulation: 'syrup',
-        },
+        concentration: { amount: 120, unit: 'mg/5ml', formulation: 'syrup' },
         complaintCategories: ['pain-fever'],
         enabled: true,
         notes: ['Default fallback medication'],
@@ -241,7 +212,7 @@ export class ValidationErrorHandler {
   }
 
   /**
-   * Get default categories for fallback
+   * Provides default category objects for fallback recovery.
    */
   private getDefaultCategories(): QuickReferenceComplaintCategory[] {
     return [
@@ -250,6 +221,7 @@ export class ValidationErrorHandler {
         name: 'all',
         displayName: 'All Medications',
         color: 'gray',
+        icon: '/icons/category.svg',
         enabled: true,
         sortOrder: 0,
       },
@@ -258,6 +230,7 @@ export class ValidationErrorHandler {
         name: 'pain-fever',
         displayName: 'Pain & Fever',
         color: 'orange',
+        icon: '/icons/dew_point.svg',
         enabled: true,
         sortOrder: 1,
       },
