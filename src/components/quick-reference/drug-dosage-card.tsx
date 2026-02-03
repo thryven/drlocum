@@ -100,6 +100,7 @@ function getPrimaryComplaintCategory(
       name: 'general',
       displayName: 'General',
       color: 'gray',
+      icon: 'default.svg',
       enabled: true,
       sortOrder: 99,
     }
@@ -189,9 +190,6 @@ export function DrugDosageCard({
   calculationResult,
   categories,
   onFavorite,
-  onDelete,
-  onHistory,
-  onShare,
   enableSwipe = true,
   className,
   isFavorite,
@@ -204,7 +202,7 @@ export function DrugDosageCard({
   const colors = getMedicationTypeColors(primaryCategory)
 
   // Long press logic
-  const longPressTimer = useRef<NodeJS.Timeout>()
+  const longPressTimer = useRef<NodeJS.Timeout | null>(null)
 
   const handlePressStart = useCallback(() => {
     if (!onFavorite) return
@@ -245,7 +243,6 @@ export function DrugDosageCard({
   }
 
   const isValidCalculation = calculationResult.isCalculationValid
-  const drugName = `${drug.name} `
   const dosageText = `${formatDosage(calculationResult)} ${formatFrequency(calculationResult.frequencyText)}`
   const cardAriaLabel = AriaLabels.drugDosageCard(drug.name, dosageText)
 
