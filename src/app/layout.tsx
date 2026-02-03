@@ -53,8 +53,8 @@ export default function RootLayout({
     <html lang='en' className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning={true}>
       <head>
         {/* PWA-related meta tags are handled by the Metadata object */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel='preconnect' href='https://fonts.googleapis.com' />
+        <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='' />
       </head>
       <body className='flex flex-col min-h-screen antialiased bg-background'>
         <AppProviders>{children}</AppProviders>

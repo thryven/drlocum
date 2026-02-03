@@ -18,9 +18,7 @@ export default function NeonatalJaundicePage() {
     <div className='w-full max-w-4xl mx-auto pb-24 space-y-8'>
       <header className='text-center'>
         <h1 className='text-3xl font-bold tracking-tight'>Neonatal Jaundice Assessment</h1>
-        <p className='text-muted-foreground mt-2'>
-          Visual Assessment of Neonatal Jaundice and Management Guidelines.
-        </p>
+        <p className='text-muted-foreground mt-2'>Visual Assessment of Neonatal Jaundice and Management Guidelines.</p>
       </header>
 
       <Card>

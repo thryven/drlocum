@@ -21,13 +21,13 @@ export default function HaematologicalParametersPage() {
         </p>
       </div>
 
-      <div className="overflow-hidden rounded-lg border shadow-md">
+      <div className='overflow-hidden rounded-lg border shadow-md'>
         <Image
-          src="/photos/haematological_parameters.jpg"
-          alt="Table of haematological parameters for paediatrics"
+          src='/photos/haematological_parameters.jpg'
+          alt='Table of haematological parameters for paediatrics'
           width={1200}
           height={1600}
-          className="w-full h-auto"
+          className='w-full h-auto'
           priority
         />
       </div>

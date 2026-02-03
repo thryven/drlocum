@@ -259,9 +259,7 @@ function QuickDrugReferenceContent({
       announceStatus(`${drug.name} ${isCurrentlyFavorite ? 'removed from' : 'added to'} favorites`)
       toast({
         title: isCurrentlyFavorite ? 'Removed from Favorites' : 'Added to Favorites',
-        description: `${drug.name} has been ${
-          isCurrentlyFavorite ? 'removed from' : 'added to'
-        } your favorites.`,
+        description: `${drug.name} has been ${isCurrentlyFavorite ? 'removed from' : 'added to'} your favorites.`,
         duration: 3000,
       })
     },
@@ -349,59 +347,59 @@ function QuickDrugReferenceContent({
     >
       <QuickReferenceSkipLinks />
 
-        <main
-          id='main-content'
+      <main
+        id='main-content'
+        className={cn(
+          'container mx-auto px-4 py-6 gap-component',
+          isMobile && [
+            'px-3 py-4 gap-element',
+            keyboard.isVisible && 'pb-2',
+            'safe-area-inset-x safe-area-inset-bottom',
+          ],
+        )}
+        style={{ display: 'flex', flexDirection: 'column' }}
+        aria-label='Dose guide content'
+      >
+        <Card
           className={cn(
-            'container mx-auto px-4 py-6 gap-component',
-            isMobile && [
-              'px-3 py-4 gap-element',
-              keyboard.isVisible && 'pb-2',
-              'safe-area-inset-x safe-area-inset-bottom',
-            ],
+            isMobile && ['shadow-xs border-0 bg-card/50', keyboard.isVisible && 'shadow-none bg-transparent'],
           )}
-          style={{ display: 'flex', flexDirection: 'column' }}
-          aria-label='Dose guide content'
         >
-          <Card
-            className={cn(
-              isMobile && ['shadow-xs border-0 bg-card/50', keyboard.isVisible && 'shadow-none bg-transparent'],
-            )}
-          >
-            <CardContent className={cn('padding-component', isMobile && 'pt-2 px-2 pb-2')}>
-              <div className={cn('grid', isMobile ? 'grid-cols-1 gap-inline' : 'grid-cols-2 gap-component')}>
-                <AgeInputSection disabled={!isClient} />
-                <WeightInputSection disabled={!isClient} />
-              </div>
-            </CardContent>
-          </Card>
-          {availableComplaints.length > 1 && (
-            <section id='category-filters' aria-labelledby='filters-heading'>
-              <Card
-                className={cn(isMobile && ['shadow-xs border-0 bg-card/50', keyboard.isVisible && 'hidden sm:block'])}
-              >
-                <CardContent className={cn('padding-component', isMobile && 'padding-element')}>
-                  <h2 id='filters-heading' className='sr-only'>
-                    Category Filters
-                  </h2>
-                  <ComplaintFilterBar
-                    availableComplaints={availableComplaints}
-                    selectedComplaint={selectedComplaintFilter}
-                    onComplaintChange={handleFilterChange}
-                  />
-                </CardContent>
-              </Card>
-            </section>
-          )}
-          <DrugReferenceGrid
-            drugs={filteredDrugs}
-            categories={categories}
-            calculationResults={drugCalculationResults}
-            onDrugFavorite={handleDrugFavorite}
-            isLoading={isDatabaseLoading || isPending}
-            className={cn('spacing-component', isMobile && ['spacing-element', keyboard.isVisible && 'pb-2'])}
-            favorites={favorites}
-          />
-        </main>
+          <CardContent className={cn('padding-component', isMobile && 'pt-2 px-2 pb-2')}>
+            <div className={cn('grid', isMobile ? 'grid-cols-1 gap-inline' : 'grid-cols-2 gap-component')}>
+              <AgeInputSection disabled={!isClient} />
+              <WeightInputSection disabled={!isClient} />
+            </div>
+          </CardContent>
+        </Card>
+        {availableComplaints.length > 1 && (
+          <section id='category-filters' aria-labelledby='filters-heading'>
+            <Card
+              className={cn(isMobile && ['shadow-xs border-0 bg-card/50', keyboard.isVisible && 'hidden sm:block'])}
+            >
+              <CardContent className={cn('padding-component', isMobile && 'padding-element')}>
+                <h2 id='filters-heading' className='sr-only'>
+                  Category Filters
+                </h2>
+                <ComplaintFilterBar
+                  availableComplaints={availableComplaints}
+                  selectedComplaint={selectedComplaintFilter}
+                  onComplaintChange={handleFilterChange}
+                />
+              </CardContent>
+            </Card>
+          </section>
+        )}
+        <DrugReferenceGrid
+          drugs={filteredDrugs}
+          categories={categories}
+          calculationResults={drugCalculationResults}
+          onDrugFavorite={handleDrugFavorite}
+          isLoading={isDatabaseLoading || isPending}
+          className={cn('spacing-component', isMobile && ['spacing-element', keyboard.isVisible && 'pb-2'])}
+          favorites={favorites}
+        />
+      </main>
     </MobileViewport>
   )
 }

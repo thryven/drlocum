@@ -26,11 +26,7 @@ export default function SettingsPage() {
 
       <Card>
         <CardContent className='space-y-6 p-4'>
-          <div
-            className={cn(
-              'flex items-center justify-between rounded-lg border p-4',
-            )}
-          >
+          <div className={cn('flex items-center justify-between rounded-lg border p-4')}>
             <div className='space-y-0.5'>
               <Label htmlFor='compact-view-switch' className='text-base font-medium'>
                 Compact View
@@ -39,11 +35,7 @@ export default function SettingsPage() {
             <Switch id='compact-view-switch' checked={isCompactView} onCheckedChange={toggleCompactView} />
           </div>
 
-          <div
-            className={cn(
-              'flex items-center justify-between rounded-lg border p-4',
-            )}
-          >
+          <div className={cn('flex items-center justify-between rounded-lg border p-4')}>
             <div className='space-y-0.5'>
               <Label htmlFor='dark-mode-switch' className='text-base font-medium'>
                 Dark Mode
