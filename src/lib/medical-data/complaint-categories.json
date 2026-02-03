@@ -5,7 +5,7 @@
       "name": "antimicrobials",
       "displayName": "Antimicrobials",
       "color": "red",
-      "icon": "immunology.svg",
+      "icon": "coronavirus.svg",
       "enabled": true,
       "sortOrder": 1
     },
@@ -50,7 +50,7 @@
       "name": "antispasmodics",
       "displayName": "Antispasmodics",
       "color": "yellow",
-      "icon": "waves.svg",
+      "icon": "airwave.svg",
       "enabled": true,
       "sortOrder": 6
     },

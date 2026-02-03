@@ -179,7 +179,7 @@ export function ComplaintFilterBar({
         if (c.icon === 'Star') {
           iconElement = <Star size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
         } else {
-          iconElement = <img src={`/icons/${c.icon}`} alt='' className='h-5 w-5' aria-hidden='true' />
+          iconElement = <img src={`/icons/${c.icon}`} alt='' className='h-5 w-5 fill-current text-green-500' aria-hidden='true' />
         }
         return {
           value: c.id,
