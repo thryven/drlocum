@@ -23,6 +23,7 @@ import lactulose from './lactulose'
 import loratadine from './loratadine'
 import maxolon from './maxolon'
 import metronidazole from './metronidazole'
+import oseltamivir from './oseltamivir'
 import paedicof from './paedicof'
 import paracetamol from './paracetamol'
 import piriton from './piriton'
@@ -54,6 +55,7 @@ export const medications: QuickReferenceMedication[] = [
   loratadine,
   maxolon,
   metronidazole,
+  oseltamivir,
   paedicof,
   paracetamol,
   piriton,
