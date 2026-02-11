@@ -7,8 +7,8 @@ describe('calculateFraminghamScore', () => {
     const state: FraminghamState = {
       gender: 'male',
       age: '40',
-      totalCholesterol: '180',
-      hdlCholesterol: '55',
+      totalCholesterol: '4.7', // ~180 mg/dL
+      hdlCholesterol: '1.4', // ~55 mg/dL
       systolicBP: '125',
       isSmoker: 'no',
       isTreatedForBP: 'no',
@@ -23,8 +23,8 @@ describe('calculateFraminghamScore', () => {
     const state: FraminghamState = {
       gender: 'male',
       age: '62',
-      totalCholesterol: '250',
-      hdlCholesterol: '35',
+      totalCholesterol: '6.5', // ~250 mg/dL
+      hdlCholesterol: '0.9', // ~35 mg/dL
       systolicBP: '150',
       isSmoker: 'yes',
       isTreatedForBP: 'yes',
@@ -39,8 +39,8 @@ describe('calculateFraminghamScore', () => {
     const state: FraminghamState = {
       gender: 'female',
       age: '42',
-      totalCholesterol: '170',
-      hdlCholesterol: '65',
+      totalCholesterol: '4.4', // ~170 mg/dL
+      hdlCholesterol: '1.7', // ~65 mg/dL
       systolicBP: '115',
       isSmoker: 'no',
       isTreatedForBP: 'no',
@@ -55,8 +55,8 @@ describe('calculateFraminghamScore', () => {
     const state: FraminghamState = {
       gender: 'female',
       age: '65',
-      totalCholesterol: '260',
-      hdlCholesterol: '45',
+      totalCholesterol: '6.7', // ~260 mg/dL
+      hdlCholesterol: '1.2', // ~45 mg/dL
       systolicBP: '145',
       isSmoker: 'yes',
       isTreatedForBP: 'yes',
@@ -71,8 +71,8 @@ describe('calculateFraminghamScore', () => {
     const state: FraminghamState = {
       gender: 'male',
       age: 'abc',
-      totalCholesterol: '180',
-      hdlCholesterol: '55',
+      totalCholesterol: '4.7',
+      hdlCholesterol: '1.4',
       systolicBP: '125',
       isSmoker: 'no',
       isTreatedForBP: 'no',

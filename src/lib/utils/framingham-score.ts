@@ -14,8 +14,8 @@ export interface FraminghamState {
 export const initialState: FraminghamState = {
   gender: 'male',
   age: '55',
-  totalCholesterol: '220',
-  hdlCholesterol: '45',
+  totalCholesterol: '5.7',
+  hdlCholesterol: '1.2',
   systolicBP: '135',
   isSmoker: 'no',
   isTreatedForBP: 'no',
@@ -217,18 +217,22 @@ const getRiskPercent = (gender: Gender, points: number): string => {
 
 export function calculateFraminghamScore(state: FraminghamState) {
   const age = parseInt(state.age, 10)
-  const tc = parseInt(state.totalCholesterol, 10)
-  const hdl = parseInt(state.hdlCholesterol, 10)
+  const tcMmolL = parseFloat(state.totalCholesterol)
+  const hdlMmolL = parseFloat(state.hdlCholesterol)
   const sbp = parseInt(state.systolicBP, 10)
 
-  if (Number.isNaN(age) || Number.isNaN(tc) || Number.isNaN(hdl) || Number.isNaN(sbp)) {
+  if (Number.isNaN(age) || Number.isNaN(tcMmolL) || Number.isNaN(hdlMmolL) || Number.isNaN(sbp)) {
     return null
   }
 
+  // Convert mmol/L to mg/dL for calculations as the tables are based on mg/dL
+  const tcMgDl = tcMmolL * 38.67
+  const hdlMgDl = hdlMmolL * 38.67
+
   const agePts = getAgePoints(state.gender, age)
-  const tcPts = getTotalCholesterolPoints(state.gender, age, tc)
+  const tcPts = getTotalCholesterolPoints(state.gender, age, tcMgDl)
   const smokePts = getSmokingPoints(state.gender, age, state.isSmoker === 'yes')
-  const hdlPts = getHdlPoints(hdl)
+  const hdlPts = getHdlPoints(hdlMgDl)
   const sbpPts = getSystolicBpPoints(state.gender, sbp, state.isTreatedForBP === 'yes')
 
   const totalPoints = agePts + tcPts + smokePts + hdlPts + sbpPts

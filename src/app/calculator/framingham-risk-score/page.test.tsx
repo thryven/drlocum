@@ -47,8 +47,8 @@ describe('FraminghamRiskScorePage', () => {
         gender: 'female',
         age: '55',
         isSmoker: 'no',
-        totalCholesterol: '200',
-        hdlCholesterol: '50',
+        totalCholesterol: '5.2', // ~200 mg/dL
+        hdlCholesterol: '1.3', // ~50 mg/dL
         systolicBP: '120',
         isTreatedForBP: 'no',
       },

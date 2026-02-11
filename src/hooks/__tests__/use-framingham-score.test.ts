@@ -38,8 +38,8 @@ describe('useFraminghamScore', () => {
     act(() => {
       result.current.handleSelectChange('gender', 'male')
       result.current.handleInputChange('age', '40')
-      result.current.handleInputChange('totalCholesterol', '180')
-      result.current.handleInputChange('hdlCholesterol', '55')
+      result.current.handleInputChange('totalCholesterol', '4.7') // ~180 mg/dL
+      result.current.handleInputChange('hdlCholesterol', '1.4') // ~55 mg/dL
       result.current.handleInputChange('systolicBP', '125')
       result.current.handleSelectChange('isSmoker', 'no')
       result.current.handleSelectChange('isTreatedForBP', 'no')

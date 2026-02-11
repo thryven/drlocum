@@ -92,21 +92,23 @@ function PatientDataCard({
 
         <div className='grid grid-cols-2 gap-4'>
           <div className='space-y-2'>
-            <Label htmlFor='totalCholesterol'>Total Cholesterol (mg/dL)</Label>
+            <Label htmlFor='totalCholesterol'>Total Cholesterol (mmol/L)</Label>
             <Input
               id='totalCholesterol'
               type='number'
               value={state.totalCholesterol}
               onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('totalCholesterol', e.target.value)}
+              step='0.1'
             />
           </div>
           <div className='space-y-2'>
-            <Label htmlFor='hdlCholesterol'>HDL Cholesterol (mg/dL)</Label>
+            <Label htmlFor='hdlCholesterol'>HDL Cholesterol (mmol/L)</Label>
             <Input
               id='hdlCholesterol'
               type='number'
               value={state.hdlCholesterol}
               onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange('hdlCholesterol', e.target.value)}
+              step='0.1'
             />
           </div>
         </div>
