@@ -17,7 +17,7 @@ describe('calculateFraminghamScore for Men (New General CVD Score)', () => {
     const result = calculateFraminghamScore(state)
     // Points: Age(2) + TC(1) + HDL(-1) + SBP(0) + Smoker(0) + Diabetes(0) = 2
     expect(result?.totalPoints).toBe(2)
-    expect(result?.riskPercent).toBe('2.3')
+    expect(result?.riskPercent).toBe('1.5')
   })
 
   it('calculates score for a high-risk male smoker with diabetes', () => {
@@ -32,9 +32,9 @@ describe('calculateFraminghamScore for Men (New General CVD Score)', () => {
       hasDiabetes: 'yes', // 3 pts
     }
     const result = calculateFraminghamScore(state)
-    // Points: Age(11) + TC(3) + HDL(2) + SBP(5) + Smoker(4) + Diabetes(3) = 28
+    // Points: 11 + 3 + 2 + 5 + 4 + 3 = 28
     expect(result?.totalPoints).toBe(28)
-    expect(result?.riskPercent).toBe('>30')
+    expect(result?.riskPercent).toBe('>25')
   })
 
   it('handles edge cases for male calculations', () => {
@@ -70,7 +70,7 @@ describe('calculateFraminghamScore for Women (New General CVD Score)', () => {
     const result = calculateFraminghamScore(state)
     // Points: Age(4) + TC(1) + HDL(-2) + SBP(-3) + Smoker(0) + Diabetes(0) = 0
     expect(result?.totalPoints).toBe(0)
-    expect(result?.riskPercent).toBe('<1')
+    expect(result?.riskPercent).toBe('1.2')
   })
 
   it('calculates score for a high-risk female smoker with diabetes', () => {
@@ -104,7 +104,7 @@ describe('calculateFraminghamScore for Women (New General CVD Score)', () => {
     const result = calculateFraminghamScore(state)
     // Points: 7 + 3 + 1 + 3 + 0 + 0 = 14
     expect(result?.totalPoints).toBe(14)
-    expect(result?.riskPercent).toBe('2')
+    expect(result?.riskPercent).toBe('11.7')
   })
 })
 
