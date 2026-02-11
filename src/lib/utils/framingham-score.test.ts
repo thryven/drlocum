@@ -11,13 +11,13 @@ describe('calculateFraminghamScore for Men (New General CVD Score)', () => {
       hdlCholesterol: '1.4', // -1 pt
       systolicBP: '125', // 0 pts
       isSmoker: 'no', // 0 pts
-      isTreatedForBP: 'no', // SBP 120-129 not treated
+      isTreatedForBP: 'no',
       hasDiabetes: 'no', // 0 pts
     }
     const result = calculateFraminghamScore(state)
     // Points: Age(2) + TC(1) + HDL(-1) + SBP(0) + Smoker(0) + Diabetes(0) = 2
     expect(result?.totalPoints).toBe(2)
-    expect(result?.riskPercent).toBe('1')
+    expect(result?.riskPercent).toBe('2.3')
   })
 
   it('calculates score for a high-risk male smoker with diabetes', () => {
