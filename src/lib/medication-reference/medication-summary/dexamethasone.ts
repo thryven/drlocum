@@ -12,7 +12,7 @@ const dexamethasone: QuickReferenceMedication = {
   dosingProfiles: [
     {
       formula: 'weight',
-      amount: 0.03,
+      amount: 0.15,
       unit: 'mg/kg/dose',
       frequency: 'TDS',
     },
@@ -23,7 +23,7 @@ const dexamethasone: QuickReferenceMedication = {
     formulation: 'syrup',
   },
   complaintCategories: ['corticosteroids', 'respiratory', 'allergy'],
-  enabled: true,
+  enabled: false,
 }
 
 export default dexamethasone

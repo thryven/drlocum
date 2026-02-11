@@ -18,7 +18,7 @@ const augmentin_312: QuickReferenceMedication = {
     {
       formula: 'weight',
       amount: 25,
-      unit: 'mg/kg/day',
+      unit: 'mg/kg/dose',
       frequency: 'BD',
       maxDose: 875,
       maxDoseUnit: 'mg/dose',

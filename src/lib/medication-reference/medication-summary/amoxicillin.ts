@@ -18,8 +18,8 @@ const amoxicillin: QuickReferenceMedication = {
     {
       formula: 'weight',
       amount: 25,
-      unit: 'mg/kg/day',
-      frequency: 'BD',
+      unit: 'mg/kg/dose',
+      frequency: 'TDS',
       maxDose: 500,
       maxDoseUnit: 'mg/dose',
       minAge: 2,

@@ -18,7 +18,7 @@ const prednisolone: QuickReferenceMedication = {
   dosingProfiles: [
     {
       formula: 'weight',
-      amount: 0.5,
+      amount: 1,
       unit: 'mg/kg/day',
       frequency: 'TDS',
     },
