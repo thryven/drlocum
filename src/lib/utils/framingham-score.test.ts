@@ -17,6 +17,7 @@ describe('calculateFraminghamScore for Men (New General CVD Score)', () => {
     const result = calculateFraminghamScore(state)
     // Points: Age(2) + TC(1) + HDL(-1) + SBP(0) + Smoker(0) + Diabetes(0) = 2
     expect(result?.totalPoints).toBe(2)
+    expect(result?.riskPercent).toBe('1')
   })
 
   it('calculates score for a high-risk male smoker with diabetes', () => {
@@ -54,40 +55,56 @@ describe('calculateFraminghamScore for Men (New General CVD Score)', () => {
   })
 })
 
-describe('calculateFraminghamScore for Women (Original Logic + Diabetes)', () => {
+describe('calculateFraminghamScore for Women (New General CVD Score)', () => {
   it('calculates score for a low-risk female', () => {
     const state: FraminghamState = {
       gender: 'female',
-      age: '42',
-      totalCholesterol: '4.4', // ~170 mg/dL -> 3 pts
-      hdlCholesterol: '1.7', // ~65 mg/dL -> -1 pt
-      systolicBP: '115',
-      isSmoker: 'no',
+      age: '42', // 4 pts
+      totalCholesterol: '4.4', // 1 pt
+      hdlCholesterol: '1.7', // -2 pts
+      systolicBP: '115', // -3 pts (not treated)
+      isSmoker: 'no', // 0 pts
       isTreatedForBP: 'no',
       hasDiabetes: 'no', // 0 pts
     }
     const result = calculateFraminghamScore(state)
-    // Points: Age(0) + TC(3) + Smoke(0) + HDL(-1) + BP(0) + Diabetes(0) = 2
-    expect(result?.totalPoints).toBe(2)
+    // Points: Age(4) + TC(1) + HDL(-2) + SBP(-3) + Smoker(0) + Diabetes(0) = 0
+    expect(result?.totalPoints).toBe(0)
     expect(result?.riskPercent).toBe('<1')
   })
 
   it('calculates score for a high-risk female smoker with diabetes', () => {
     const state: FraminghamState = {
       gender: 'female',
-      age: '65',
-      totalCholesterol: '6.7', // ~260 mg/dL
-      hdlCholesterol: '1.2', // ~45 mg/dL
-      systolicBP: '145',
-      isSmoker: 'yes',
+      age: '65', // 10 pts
+      totalCholesterol: '6.7', // 4 pts
+      hdlCholesterol: '1.2', // 0 pts
+      systolicBP: '145', // 5 pts (treated)
+      isSmoker: 'yes', // 3 pts
       isTreatedForBP: 'yes',
-      hasDiabetes: 'yes', // +4 points
+      hasDiabetes: 'yes', // 4 pts
     }
     const result = calculateFraminghamScore(state)
-    // Original Points: Age(10) + TC(3) + Smoke(2) + HDL(1) + BP(5) = 21
-    // New Total: 21 + 4 (diabetes) = 25
-    expect(result?.totalPoints).toBe(25)
+    // Points: 10 + 4 + 0 + 5 + 3 + 4 = 26
+    expect(result?.totalPoints).toBe(26)
     expect(result?.riskPercent).toBe('>30')
+  })
+
+  it('calculates score for a mid-risk female', () => {
+    const state: FraminghamState = {
+      gender: 'female',
+      age: '52', // 7 pts
+      totalCholesterol: '5.5', // 3 pts
+      hdlCholesterol: '1.0', // 1 pt
+      systolicBP: '135', // 3 pts (treated)
+      isSmoker: 'no', // 0 pts
+      isTreatedForBP: 'yes',
+      hasDiabetes: 'no', // 0 pts
+    }
+    const result = calculateFraminghamScore(state)
+    // Points: 7 + 3 + 1 + 3 + 0 + 0 = 14
+    expect(result?.totalPoints).toBe(14)
+    expect(result?.riskPercent).toBe('2')
   })
 })
 
