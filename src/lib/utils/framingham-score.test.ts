@@ -17,7 +17,7 @@ describe('calculateFraminghamScore for Men (New General CVD Score)', () => {
     const result = calculateFraminghamScore(state)
     // Points: Age(2) + TC(1) + HDL(-1) + SBP(0) + Smoker(0) + Diabetes(0) = 2
     expect(result?.totalPoints).toBe(2)
-    expect(result?.riskPercent).toBe('1.5')
+    expect(result?.riskPercent).toBe('2.3')
   })
 
   it('calculates score for a high-risk male smoker with diabetes', () => {
@@ -34,7 +34,7 @@ describe('calculateFraminghamScore for Men (New General CVD Score)', () => {
     const result = calculateFraminghamScore(state)
     // Points: 11 + 3 + 2 + 5 + 4 + 3 = 28
     expect(result?.totalPoints).toBe(28)
-    expect(result?.riskPercent).toBe('>25')
+    expect(result?.riskPercent).toBe('>30')
   })
 
   it('handles edge cases for male calculations', () => {
