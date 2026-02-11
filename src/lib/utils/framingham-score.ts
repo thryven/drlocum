@@ -9,6 +9,7 @@ export interface FraminghamState {
   systolicBP: string
   isSmoker: 'yes' | 'no'
   isTreatedForBP: 'yes' | 'no'
+  hasDiabetes: 'yes' | 'no'
 }
 
 export const initialState: FraminghamState = {
@@ -19,22 +20,11 @@ export const initialState: FraminghamState = {
   systolicBP: '135',
   isSmoker: 'no',
   isTreatedForBP: 'no',
+  hasDiabetes: 'no',
 }
 
-const getAgePoints = (gender: Gender, age: number): number => {
-  if (gender === 'male') {
-    if (age <= 34) return -9
-    if (age <= 39) return -4
-    if (age <= 44) return 0
-    if (age <= 49) return 3
-    if (age <= 54) return 6
-    if (age <= 59) return 8
-    if (age <= 64) return 10
-    if (age <= 69) return 11
-    if (age <= 74) return 12
-    return 13
-  }
-  // Female
+// Original functions for Female - preserved as no new table was provided
+const getAgePointsFemale = (age: number): number => {
   if (age <= 34) return -7
   if (age <= 39) return -3
   if (age <= 44) return 0
@@ -47,43 +37,7 @@ const getAgePoints = (gender: Gender, age: number): number => {
   return 16
 }
 
-const getTotalCholesterolPoints = (gender: Gender, age: number, tc: number): number => {
-  if (gender === 'male') {
-    if (age <= 39) {
-      if (tc < 160) return 0
-      if (tc <= 199) return 4
-      if (tc <= 239) return 7
-      if (tc <= 279) return 9
-      return 11
-    }
-    if (age <= 49) {
-      if (tc < 160) return 0
-      if (tc <= 199) return 3
-      if (tc <= 239) return 5
-      if (tc <= 279) return 6
-      return 8
-    }
-    if (age <= 59) {
-      if (tc < 160) return 0
-      if (tc <= 199) return 2
-      if (tc <= 239) return 3
-      if (tc <= 279) return 4
-      return 5
-    }
-    if (age <= 69) {
-      if (tc < 160) return 0
-      if (tc <= 199) return 1
-      if (tc <= 239) return 1
-      if (tc <= 279) return 2
-      return 3
-    } // age >= 70
-    if (tc < 160) return 0
-    if (tc <= 199) return 0
-    if (tc <= 239) return 0
-    if (tc <= 279) return 1
-    return 1
-  }
-  // Female
+const getTotalCholesterolPointsFemale = (age: number, tc: number): number => {
   if (age <= 39) {
     if (tc < 160) return 0
     if (tc <= 199) return 4
@@ -119,16 +73,8 @@ const getTotalCholesterolPoints = (gender: Gender, age: number, tc: number): num
   return 2
 }
 
-const getSmokingPoints = (gender: Gender, age: number, isSmoker: boolean): number => {
+const getSmokingPointsFemale = (age: number, isSmoker: boolean): number => {
   if (!isSmoker) return 0
-  if (gender === 'male') {
-    if (age <= 39) return 8
-    if (age <= 49) return 5
-    if (age <= 59) return 3
-    if (age <= 69) return 1
-    return 1
-  }
-  // Female
   if (age <= 39) return 9
   if (age <= 49) return 7
   if (age <= 59) return 4
@@ -136,29 +82,14 @@ const getSmokingPoints = (gender: Gender, age: number, isSmoker: boolean): numbe
   return 1
 }
 
-const getHdlPoints = (hdl: number): number => {
+const getHdlPointsFemale = (hdl: number): number => {
   if (hdl >= 60) return -1
   if (hdl >= 50) return 0
   if (hdl >= 40) return 1
   return 2
 }
 
-const getSystolicBpPoints = (gender: Gender, sbp: number, isTreated: boolean): number => {
-  if (gender === 'male') {
-    if (isTreated) {
-      if (sbp < 120) return 0
-      if (sbp <= 129) return 1
-      if (sbp <= 139) return 2
-      if (sbp <= 159) return 2
-      return 3
-    }
-    if (sbp < 120) return 0
-    if (sbp <= 129) return 0
-    if (sbp <= 139) return 1
-    if (sbp <= 159) return 1
-    return 2
-  }
-  // Female
+const getSystolicBpPointsFemale = (sbp: number, isTreated: boolean): number => {
   if (isTreated) {
     if (sbp < 120) return 0
     if (sbp <= 129) return 3
@@ -225,17 +156,70 @@ export function calculateFraminghamScore(state: FraminghamState) {
     return null
   }
 
-  // Convert mmol/L to mg/dL for calculations as the tables are based on mg/dL
-  const tcMgDl = tcMmolL * 38.67
-  const hdlMgDl = hdlMmolL * 38.67
+  let totalPoints = 0
 
-  const agePts = getAgePoints(state.gender, age)
-  const tcPts = getTotalCholesterolPoints(state.gender, age, tcMgDl)
-  const smokePts = getSmokingPoints(state.gender, age, state.isSmoker === 'yes')
-  const hdlPts = getHdlPoints(hdlMgDl)
-  const sbpPts = getSystolicBpPoints(state.gender, sbp, state.isTreatedForBP === 'yes')
+  if (state.gender === 'male') {
+    // Age points
+    if (age >= 75) totalPoints += 15
+    else if (age >= 70) totalPoints += 14
+    else if (age >= 65) totalPoints += 12
+    else if (age >= 60) totalPoints += 11
+    else if (age >= 55) totalPoints += 10
+    else if (age >= 50) totalPoints += 8
+    else if (age >= 45) totalPoints += 6
+    else if (age >= 40) totalPoints += 5
+    else if (age >= 35) totalPoints += 2
+    else if (age >= 30) totalPoints += 0
 
-  const totalPoints = agePts + tcPts + smokePts + hdlPts + sbpPts
+    // HDL-C points
+    if (hdlMmolL < 0.9) totalPoints += 2
+    else if (hdlMmolL < 1.2) totalPoints += 1
+    else if (hdlMmolL < 1.3) totalPoints += 0
+    else if (hdlMmolL < 1.6) totalPoints -= 1
+    else totalPoints -= 2
+
+    // Total Cholesterol points
+    if (tcMmolL >= 7.4) totalPoints += 4
+    else if (tcMmolL >= 6.3) totalPoints += 3
+    else if (tcMmolL >= 5.2) totalPoints += 2
+    else if (tcMmolL >= 4.2) totalPoints += 1
+
+    // SBP points
+    if (state.isTreatedForBP === 'yes') {
+      if (sbp >= 160) totalPoints += 5
+      else if (sbp >= 140) totalPoints += 4
+      else if (sbp >= 130) totalPoints += 3
+      else if (sbp >= 120) totalPoints += 2
+    } else {
+      if (sbp >= 160) totalPoints += 3
+      else if (sbp >= 140) totalPoints += 2
+      else if (sbp >= 130) totalPoints += 1
+      else if (sbp < 120) totalPoints -= 2
+    }
+
+    // Smoker points
+    if (state.isSmoker === 'yes') totalPoints += 4
+
+    // Diabetes points
+    if (state.hasDiabetes === 'yes') totalPoints += 3
+  } else {
+    // Female calculation (old logic + diabetes)
+    // Convert mmol/L to mg/dL for calculations as the tables are based on mg/dL
+    const tcMgDl = tcMmolL * 38.67
+    const hdlMgDl = hdlMmolL * 38.67
+
+    const agePts = getAgePointsFemale(age)
+    const tcPts = getTotalCholesterolPointsFemale(age, tcMgDl)
+    const smokePts = getSmokingPointsFemale(age, state.isSmoker === 'yes')
+    const hdlPts = getHdlPointsFemale(hdlMgDl)
+    const sbpPts = getSystolicBpPointsFemale(sbp, state.isTreatedForBP === 'yes')
+
+    totalPoints = agePts + tcPts + smokePts + hdlPts + sbpPts
+
+    // Add points for diabetes (assuming 4 points for women as it's a common value)
+    if (state.hasDiabetes === 'yes') totalPoints += 4
+  }
+
   const riskPercent = getRiskPercent(state.gender, totalPoints)
 
   return { totalPoints, riskPercent }

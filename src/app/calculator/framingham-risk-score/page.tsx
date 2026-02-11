@@ -137,6 +137,21 @@ function PatientDataCard({
           </div>
         </div>
 
+        <div className='grid grid-cols-1 gap-4'>
+          <div className='space-y-2'>
+            <Label htmlFor='hasDiabetes'>Diabetes</Label>
+            <Select value={state.hasDiabetes} onValueChange={(value) => handleSelectChange('hasDiabetes', value)}>
+              <SelectTrigger id='hasDiabetes'>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='yes'>Yes</SelectItem>
+                <SelectItem value='no'>No</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
         <div className='flex flex-col sm:flex-row gap-2 pt-4'>
           <Button type='submit' className='w-full'>
             Calculate Risk
@@ -170,7 +185,7 @@ export default function FraminghamRiskScorePage() {
     <div className='w-full max-w-4xl mx-auto pb-24'>
       <div className='mb-8 hidden md:block'>
         <h1 className='text-3xl font-bold tracking-tight'>Framingham Risk Score</h1>
-        <p className='text-muted-foreground mt-2'>For 10-Year Risk of Hard Coronary Heart Disease.</p>
+        <p className='text-muted-foreground mt-2'>For 10-Year Risk of General Cardiovascular Disease.</p>
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -196,7 +211,7 @@ export default function FraminghamRiskScorePage() {
                     <p className='text-5xl font-bold text-primary'>{result.totalPoints}</p>
                   </div>
                   <div>
-                    <p className='text-sm text-muted-foreground'>10-Year CHD Risk</p>
+                    <p className='text-sm text-muted-foreground'>10-Year CVD Risk</p>
                     <p className={cn('text-6xl font-bold', getRiskColor(result.riskPercent))}>{result.riskPercent}%</p>
                   </div>
                 </>
