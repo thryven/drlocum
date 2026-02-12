@@ -18,6 +18,8 @@ describe('calculateFraminghamScore for Men (New General CVD Score)', () => {
     // Points: Age(2) + TC(1) + HDL(-1) + SBP(0) + Smoker(0) + Diabetes(0) = 2
     expect(result?.totalPoints).toBe(2)
     expect(result?.riskPercent).toBe('2.3')
+    expect(result?.riskCategory).toBe('Low')
+    expect(result?.targetLdl).toBe('<3.0')
   })
 
   it('calculates score for a high-risk male smoker with diabetes', () => {
@@ -32,9 +34,12 @@ describe('calculateFraminghamScore for Men (New General CVD Score)', () => {
       hasDiabetes: 'yes', // 3 pts
     }
     const result = calculateFraminghamScore(state)
-    // Points: 11 + 3 + 2 + 5 + 4 + 3 = 28
+    // Points: 11 + 3 + 2 + 5 + 4 + 3 = 28 -> risk > 30%
     expect(result?.totalPoints).toBe(28)
     expect(result?.riskPercent).toBe('>30')
+    expect(result?.riskCategory).toBe('High')
+    expect(result?.targetLdl).toBe('≤1.8')
+    expect(result?.targetLdlDesc).toContain('reduction')
   })
 
   it('handles edge cases for male calculations', () => {
@@ -52,6 +57,7 @@ describe('calculateFraminghamScore for Men (New General CVD Score)', () => {
     // Points: 0 + 0 - 2 - 2 + 0 + 0 = -4
     expect(result?.totalPoints).toBe(-4)
     expect(result?.riskPercent).toBe('<1')
+    expect(result?.riskCategory).toBe('Low')
   })
 })
 
@@ -71,6 +77,7 @@ describe('calculateFraminghamScore for Women (New General CVD Score)', () => {
     // Points: Age(4) + TC(1) + HDL(-2) + SBP(-3) + Smoker(0) + Diabetes(0) = 0
     expect(result?.totalPoints).toBe(0)
     expect(result?.riskPercent).toBe('1.2')
+    expect(result?.riskCategory).toBe('Low')
   })
 
   it('calculates score for a high-risk female smoker with diabetes', () => {
@@ -85,9 +92,11 @@ describe('calculateFraminghamScore for Women (New General CVD Score)', () => {
       hasDiabetes: 'yes', // 4 pts
     }
     const result = calculateFraminghamScore(state)
-    // Points: 10 + 4 + 0 + 5 + 3 + 4 = 26
+    // Points: 10 + 4 + 0 + 5 + 3 + 4 = 26 -> risk > 30%
     expect(result?.totalPoints).toBe(26)
     expect(result?.riskPercent).toBe('>30')
+    expect(result?.riskCategory).toBe('High')
+    expect(result?.targetLdl).toBe('≤1.8')
   })
 
   it('calculates score for a mid-risk female', () => {
@@ -105,6 +114,8 @@ describe('calculateFraminghamScore for Women (New General CVD Score)', () => {
     // Points: 7 + 3 + 1 + 3 + 0 + 0 = 14
     expect(result?.totalPoints).toBe(14)
     expect(result?.riskPercent).toBe('11.7')
+    expect(result?.riskCategory).toBe('Intermediate')
+    expect(result?.targetLdl).toBe('<2.6')
   })
 })
 

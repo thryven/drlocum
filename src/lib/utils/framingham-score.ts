@@ -45,15 +45,14 @@ const getRiskPercent = (gender: Gender, points: number): string => {
     if (points === 14) return '18.4'
     if (points === 15) return '21.6'
     if (points === 16) return '25.3'
-    if (points === 17) return '29.4'
-    if (points >= 18) return '>30'
+    if (points >= 17) return '29.4'
     return '>30' // Fallback for any unexpected high score
   }
   // Female
   if (points <= -2) return '<1.0'
   if (points === -1) return '1.0'
   if (points === 0) return '1.2'
-  if (points === 1) return '1.4'
+  if (points === 1) return '1.5'
   if (points === 2) return '1.7'
   if (points === 3) return '2.0'
   if (points === 4) return '2.4'
@@ -185,5 +184,37 @@ export function calculateFraminghamScore(state: FraminghamState) {
 
   const riskPercent = getRiskPercent(state.gender, totalPoints)
 
-  return { totalPoints, riskPercent }
+  let numericRisk: number
+  if (riskPercent.startsWith('>')) {
+    numericRisk = parseFloat(riskPercent.substring(1)) + 0.1
+  } else if (riskPercent.startsWith('<')) {
+    numericRisk = parseFloat(riskPercent.substring(1)) - 0.1
+  } else {
+    numericRisk = parseFloat(riskPercent)
+  }
+
+  let riskCategory: 'Low' | 'Intermediate' | 'High'
+  let targetLdl: string
+  let targetNonHdlC: string
+  let targetLdlDesc: string
+
+  if (numericRisk < 10) {
+    riskCategory = 'Low'
+    targetLdl = '<3.0'
+    targetNonHdlC = '<3.8'
+    targetLdlDesc = 'mmol/L'
+  } else if (numericRisk <= 20) {
+    riskCategory = 'Intermediate'
+    targetLdl = '<2.6'
+    targetNonHdlC = '<3.4'
+    targetLdlDesc = 'mmol/L'
+  } else {
+    // risk > 20
+    riskCategory = 'High'
+    targetLdl = '≤1.8'
+    targetNonHdlC = '≤2.6'
+    targetLdlDesc = 'mmol/L and a reduction of >50% from baseline'
+  }
+
+  return { totalPoints, riskPercent, riskCategory, targetLdl, targetNonHdlC, targetLdlDesc }
 }

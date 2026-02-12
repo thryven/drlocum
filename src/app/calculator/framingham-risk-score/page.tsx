@@ -214,6 +214,18 @@ export default function FraminghamRiskScorePage() {
                     <p className='text-sm text-muted-foreground'>10-Year CVD Risk</p>
                     <p className={cn('text-6xl font-bold', getRiskColor(result.riskPercent))}>{result.riskPercent}%</p>
                   </div>
+                  <div className='border-t pt-4 grid grid-cols-2 gap-4'>
+                    <div>
+                      <p className='text-sm text-muted-foreground'>Target LDL-C</p>
+                      <p className='text-3xl font-bold'>{result.targetLdl}</p>
+                      <p className='text-xs text-muted-foreground'>{result.targetLdlDesc}</p>
+                    </div>
+                    <div>
+                      <p className='text-sm text-muted-foreground'>Target Non-HDL-C</p>
+                      <p className='text-3xl font-bold'>{result.targetNonHdlC}</p>
+                      <p className='text-xs text-muted-foreground'>mmol/L</p>
+                    </div>
+                  </div>
                 </>
               ) : (
                 <div className='flex flex-col items-center justify-center h-full text-muted-foreground py-10'>
@@ -242,8 +254,14 @@ export default function FraminghamRiskScorePage() {
             <strong className='text-foreground'>High Risk:</strong> Greater than 20%
           </p>
           <p className='text-xs mt-4'>
+            <strong>Note:</strong> This tool assesses risk based on the FRS-General CVD Risk Score. Other factors not
+            included in this calculator, such as established CVD, diabetes with complications, or chronic kidney
+            disease (CKD), can place an individual into a higher risk category with more aggressive LDL-C targets.
+            Always use clinical judgment.
+          </p>
+          <p className='text-xs mt-4'>
             This tool is an estimate and should be used to support, not replace, clinical judgment. It is intended for
-            adults aged 20-79 without known heart disease or diabetes.
+            adults aged 20-79.
           </p>
         </CardContent>
       </Card>

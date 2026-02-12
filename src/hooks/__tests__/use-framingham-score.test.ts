@@ -43,6 +43,7 @@ describe('useFraminghamScore', () => {
       result.current.handleInputChange('systolicBP', '125')
       result.current.handleSelectChange('isSmoker', 'no')
       result.current.handleSelectChange('isTreatedForBP', 'no')
+      result.current.handleSelectChange('hasDiabetes', 'no')
     })
 
     act(() => {
@@ -52,7 +53,8 @@ describe('useFraminghamScore', () => {
 
     expect(result.current.showResult).toBe(true)
     expect(result.current.result?.totalPoints).toBe(3)
-    expect(result.current.result?.riskPercent).toBe('1')
+    expect(result.current.result?.riskPercent).toBe('2.8')
+    expect(result.current.result?.targetLdl).toBe('<3.0')
   })
 
   it('resets to initial state and hides result', () => {

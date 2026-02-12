@@ -52,7 +52,14 @@ describe('FraminghamRiskScorePage', () => {
         systolicBP: '120',
         isTreatedForBP: 'no',
       },
-      result: { totalPoints: 12, riskPercent: '15' },
+      result: {
+        totalPoints: 14,
+        riskPercent: '11.7',
+        riskCategory: 'Intermediate',
+        targetLdl: '<2.6',
+        targetNonHdlC: '<3.4',
+        targetLdlDesc: 'mmol/L',
+      },
       showResult: true,
       handleInputChange: vi.fn(),
       handleSelectChange: vi.fn(),
@@ -63,10 +70,12 @@ describe('FraminghamRiskScorePage', () => {
 
     render(<FraminghamRiskScorePage />)
 
-    expect(screen.getByText('12')).toBeInTheDocument()
-    const riskEl = screen.getByText('15%')
+    expect(screen.getByText('14')).toBeInTheDocument()
+    const riskEl = screen.getByText('11.7%')
     expect(riskEl).toBeInTheDocument()
     expect(riskEl).toHaveClass('text-orange-500')
+    expect(screen.getByText('<2.6')).toBeInTheDocument()
+    expect(screen.getByText('<3.4')).toBeInTheDocument()
   })
 
   it('calls handleReset when Reset button is clicked', () => {
