@@ -26,7 +26,7 @@ const cephalexin: QuickReferenceMedication = {
     },
   ],
   concentration: {
-    amount: 125,
+    amount: 250,
     unit: 'mg/5ml',
     formulation: 'suspension',
   },
