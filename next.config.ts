@@ -42,6 +42,11 @@ const nextConfig: NextConfig = {
       destination: '/',
       permanent: true,
     },
+    {
+      source: '/resources',
+      destination: '/calculators',
+      permanent: true,
+    },
   ],
 }
 export default nextConfig

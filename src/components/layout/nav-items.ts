@@ -1,6 +1,6 @@
 // src/components/layout/nav-items.ts
 import type { LucideIcon } from 'lucide-react'
-import { BookHeart, Calculator, Settings, Zap } from 'lucide-react'
+import { Calculator, Settings, Zap } from 'lucide-react'
 
 /**
  * Defines the structure for a navigation item.
@@ -14,7 +14,6 @@ interface NavItem {
 /** @lintignore */
 export const baseNavItems: NavItem[] = [
   { href: '/', label: 'Dose Guide', icon: Zap },
-  { href: '/calculators', label: 'Calculators', icon: Calculator },
-  { href: '/resources', label: 'Resources', icon: BookHeart },
+  { href: '/calculators', label: 'Tools', icon: Calculator },
   { href: '/settings', label: 'Settings', icon: Settings },
 ]
