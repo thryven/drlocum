@@ -170,21 +170,33 @@ export function calculatePediatricDose(
 
   // 6. Apply Maximum Dose Limits
   if (dosingProfile.maxDose) {
-    let maxDoseValue = dosingProfile.maxDose
-    if (dosingProfile.maxDoseUnit?.includes('/kg')) {
-      maxDoseValue *= weight
+    let maxDoseInMg = dosingProfile.maxDose
+
+    // Convert maxDose to mg if it's not already
+    if (dosingProfile.maxDoseUnit?.includes('mL')) {
+      maxDoseInMg *= mgPerMl
+    } else if (dosingProfile.maxDoseUnit?.includes('mcg')) {
+      maxDoseInMg /= 1000
     }
 
-    // If the max dose is a daily limit, compare total daily dose against it
-    const totalDailyDose = doseMg * dosesPerDay
-    if (totalDailyDose > maxDoseValue) {
-      warnings.push(`Dose capped at daily maximum of ${maxDoseValue.toFixed(2)}mg.`)
-      doseMg = maxDoseValue / dosesPerDay
+    // Apply per kg if needed
+    if (dosingProfile.maxDoseUnit?.includes('/kg')) {
+      maxDoseInMg *= weight
+    }
+
+    const isDailyMax = dosingProfile.maxDoseUnit?.endsWith('/day')
+
+    if (isDailyMax) {
+      const totalDailyDose = doseMg * dosesPerDay
+      if (totalDailyDose > maxDoseInMg) {
+        warnings.push(`Dose capped at daily maximum of ${maxDoseInMg.toFixed(2)}mg.`)
+        doseMg = maxDoseInMg / dosesPerDay
+      }
     } else {
-      // Otherwise, it's a per-dose limit
-      if (doseMg > maxDoseValue) {
-        warnings.push(`Dose capped at maximum of ${maxDoseValue.toFixed(2)}mg.`)
-        doseMg = maxDoseValue
+      // It's a per-dose limit
+      if (doseMg > maxDoseInMg) {
+        warnings.push(`Dose capped at maximum of ${maxDoseInMg.toFixed(2)}mg.`)
+        doseMg = maxDoseInMg
       }
     }
   }

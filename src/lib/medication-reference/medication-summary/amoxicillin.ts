@@ -17,7 +17,7 @@ const amoxicillin: QuickReferenceMedication = {
   dosingProfiles: [
     {
       formula: 'weight',
-      amount: 25,
+      amount: 15,
       unit: 'mg/kg/dose',
       frequency: 'TDS',
       maxDose: 500,
