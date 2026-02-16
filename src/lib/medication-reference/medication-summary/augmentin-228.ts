@@ -16,24 +16,13 @@ const augmentin_228: QuickReferenceMedication = {
   name: 'Augmentin (228mg)',
   dosingProfiles: [
     {
-      minAge: 24, // 2 years
-      maxAge: 83, // up to 6 years
-      formula: 'fixed',
-      amount: 10,
-      unit: 'mL/dose',
+      formula: 'weight',
+      amount: 25,
+      unit: 'mg/kg/day',
       frequency: 'BD',
-      maxDose: 10,
-      maxDoseUnit: 'mL/dose',
-    },
-    {
-      minAge: 84, // 7 years
-      maxAge: 155, // up to 12 years
-      formula: 'fixed',
-      amount: 10,
-      unit: 'mL/dose',
-      frequency: 'BD',
-      maxDose: 10,
-      maxDoseUnit: 'mL/dose',
+      maxDose: 500,
+      maxDoseUnit: 'mg/dose',
+      minAge: 2,
     },
   ],
   concentration: {

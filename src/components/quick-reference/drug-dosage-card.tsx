@@ -5,7 +5,6 @@ import { AlertTriangle, Heart } from 'lucide-react'
 import { useCallback, useRef, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { ContextMenuOverlay } from '@/components/ui/context-menu-overlay'
-import { SwipeableCard } from '@/components/ui/swipeable-card'
 import { useDevice } from '@/hooks/use-device'
 import type {
   QuickReferenceCalculation,
@@ -21,10 +20,6 @@ interface DrugDosageCardProps {
   calculationResult: QuickReferenceCalculation | null
   categories: readonly QuickReferenceComplaintCategory[]
   onFavorite?: (() => void) | undefined
-  onDelete?: (() => void) | undefined
-  onHistory?: (() => void) | undefined
-  onShare?: (() => void) | undefined
-  enableSwipe?: boolean | undefined
   className?: string | undefined
   isFavorite?: boolean
 }
@@ -178,10 +173,6 @@ function formatFrequency(frequencyText: string): string {
  * @param calculationResult - Calculation details to display; pass `null` to render the loading skeleton
  * @param categories - Available complaint categories used to determine the primary category for styling
  * @param onFavorite - Optional callback for the favorite action
- * @param onDelete - Optional callback for the delete action
- * @param onHistory - Optional callback for the history action
- * @param onShare - Optional callback for the share action
- * @param enableSwipe - Whether to enable swipe gestures (defaults to true on mobile)
  * @param className - Optional additional CSS class names applied to the root element
  * @returns The JSX element for the drug dosage card
  */
@@ -190,7 +181,6 @@ export function DrugDosageCard({
   calculationResult,
   categories,
   onFavorite,
-  enableSwipe = true,
   className,
   isFavorite,
 }: DrugDosageCardProps) {
@@ -302,14 +292,6 @@ export function DrugDosageCard({
       />
     </div>
   )
-
-  if (enableSwipe && isMobile) {
-    return (
-      <SwipeableCard onFavorite={onFavorite} enabled={enableSwipe} className={className}>
-        {cardContent}
-      </SwipeableCard>
-    )
-  }
 
   return <div className={className}>{cardContent}</div>
 }

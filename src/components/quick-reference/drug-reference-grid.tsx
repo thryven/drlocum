@@ -19,9 +19,6 @@ interface DrugReferenceGridProps {
   categories: readonly QuickReferenceComplaintCategory[]
   calculationResults: Map<string, QuickReferenceCalculation>
   onDrugFavorite?: (drugId: string) => void
-  onDrugDelete?: (drugId: string) => void
-  onDrugHistory?: (drugId: string) => void
-  onDrugShare?: (drugId: string) => void
   isLoading?: boolean
   className?: string
   favorites: string[]
@@ -150,9 +147,6 @@ export function DrugReferenceGrid({
   categories,
   calculationResults,
   onDrugFavorite,
-  onDrugDelete,
-  onDrugHistory,
-  onDrugShare,
   isLoading = false,
   className,
   favorites,
@@ -242,11 +236,7 @@ export function DrugReferenceGrid({
                 calculationResult={calculationResult}
                 categories={categories}
                 onFavorite={onDrugFavorite ? () => onDrugFavorite(drug.id) : undefined}
-                onDelete={onDrugDelete ? () => onDrugDelete(drug.id) : undefined}
-                onHistory={onDrugHistory ? () => onDrugHistory(drug.id) : undefined}
-                onShare={onDrugShare ? () => onDrugShare(drug.id) : undefined}
                 isFavorite={isFavorite}
-                enableSwipe={isMobile}
                 className={cn(
                   // Enhanced mobile touch feedback
                   'transition-all duration-200 ease-in-out',
