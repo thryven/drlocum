@@ -1,5 +1,4 @@
 // src/app/calculators/page.tsx
-import { Droplets, HeartPulse, ShieldHalf, Stethoscope, Weight } from 'lucide-react'
 import Link from 'next/link'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
@@ -11,54 +10,46 @@ export const metadata = {
 const calculators = [
   {
     href: '/calculator/pregnancy',
-    icon: '/icons/pregnant_women.svg',
     title: 'Pregnancy Due Date',
     description: 'Estimate due date based on Last Menstrual Period (LMP) and ultrasound.',
   },
   {
     href: '/calculator/neonate-weight-loss',
-    icon: Weight,
     title: 'Neonate Weight Loss',
     description: 'Calculate weight loss percentage for newborns.',
   },
   {
     href: '/calculator/stop-bang',
-    icon: Stethoscope,
     title: 'STOP-BANG Score',
     description: 'Assess risk for Obstructive Sleep Apnea (OSA).',
     disabled: false,
   },
   {
     href: '/calculator/ideal-body-weight',
-    icon: Weight,
     title: 'Ideal Body Weight',
     description: 'Calculate ideal body weight.',
     disabled: false,
   },
   {
     href: '/calculator/centor-score',
-    icon: Stethoscope,
     title: 'Centor Score',
     description: 'Determine the likelihood of streptococcal pharyngitis.',
     disabled: false,
   },
   {
     href: '/calculator/framingham-risk-score',
-    icon: HeartPulse,
     title: 'Framingham Risk Score',
     description: 'Calculate 10-year risk of coronary heart disease.',
     disabled: false,
   },
   {
     href: '/calculator/dass-score',
-    icon: Stethoscope,
     title: 'DASS-21',
     description: 'Measure the severity of symptoms of Depression, Anxiety, and Stress.',
     disabled: false,
   },
   {
     href: '/calculator/phq-9-score',
-    icon: Stethoscope,
     title: 'PHQ-9',
     description: 'A tool for monitoring the severity of depression.',
     disabled: false,
@@ -68,19 +59,16 @@ const calculators = [
 const resources = [
   {
     href: '/resources/national-immunisation-schedule',
-    icon: ShieldHalf,
     title: 'National Immunisation Schedule',
     description: "Malaysia's National Immunisation Programme (NIP) schedule.",
   },
   {
     href: '/resources/haematological-parameters',
-    icon: Droplets,
     title: 'Haematological Parameters',
     description: 'Reference values for haematological parameters in paediatrics.',
   },
   {
     href: '/resources/neonatal-jaundice',
-    icon: Stethoscope,
     title: 'Neonatal Jaundice Assessment',
     description: "Kramer's rule and TSB level guidelines for phototherapy.",
   },
@@ -115,13 +103,6 @@ export default function CalculatorsPage() {
               >
                 <CardHeader>
                   <div className='flex items-center gap-element'>
-                    {typeof calc.icon === 'string' ? (
-                      <img src={calc.icon} alt="" className="w-8 h-8 shrink-0" aria-hidden="true" />
-                    ) : (
-                      <calc.icon
-                        className={`w-8 h-8 shrink-0 ${calc.disabled ? 'text-muted-foreground/50' : 'text-primary'}`}
-                      />
-                    )}
                     <div className='flex-1'>
                       <CardTitle className='text-hierarchy-primary text-base'>{calc.title}</CardTitle>
                       <CardDescription className='text-hierarchy-tertiary spacing-inline'>
@@ -158,11 +139,6 @@ export default function CalculatorsPage() {
               <Card variant='default' interactive className='h-full'>
                 <CardHeader>
                   <div className='flex items-center gap-element'>
-                    {typeof resource.icon === 'string' ? (
-                      <img src={resource.icon} alt="" className="w-8 h-8 shrink-0" aria-hidden="true" />
-                    ) : (
-                      <resource.icon className='w-8 h-8 shrink-0 text-primary' />
-                    )}
                     <div className='flex-1'>
                       <CardTitle className='text-hierarchy-primary text-base'>{resource.title}</CardTitle>
                       <CardDescription className='text-hierarchy-tertiary spacing-inline'>
