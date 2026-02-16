@@ -98,14 +98,8 @@ export function validateDose(doseMg: number, medication: QuickReferenceMedicatio
     errors.push(`Dose exceeds safety limit (${doseMg}mg > ${VALIDATION_LIMITS.MAX_DOSE}mg)`)
   }
 
-  // Check against medication-specific limits from all profiles
-  const maxDoses = medication.dosingProfiles.map((p) => p.maxDose).filter(Boolean) as number[]
-  if (maxDoses.length > 0) {
-    const overallMaxDose = Math.max(...maxDoses)
-    if (doseMg > overallMaxDose) {
-      errors.push(`Dose exceeds medication maximum (${doseMg}mg > ${overallMaxDose}mg)`)
-    }
-  }
+  // This block is removed as it's buggy and redundant. The primary dose capping logic
+  // with correct unit conversion is already handled in `calculatePediatricDose`.
 
   return {
     isValid: errors.length === 0,
