@@ -14,6 +14,6 @@ interface NavItem {
 /** @lintignore */
 export const baseNavItems: NavItem[] = [
   { href: '/', label: 'Dose Guide', icon: Zap },
-  { href: '/calculators', label: 'Tools', icon: Calculator },
+  { href: '/resource', label: 'Tools', icon: Calculator },
   { href: '/settings', label: 'Settings', icon: Settings },
 ]

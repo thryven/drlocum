@@ -17,45 +17,45 @@ const COMPLAINT_COLORS = {
   gray: {
     active: 'bg-slate-100 text-slate-900 border-slate-300 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-600',
     inactive:
-      'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-800',
+      'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:text-slate-500 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-800',
   },
   red: {
     active: 'bg-red-100 text-red-900 border-red-300 dark:bg-red-900 dark:text-red-100 dark:border-red-600',
     inactive:
-      'bg-red-50 text-red-700 border-red-200 hover:bg-red-100 dark:bg-red-950 dark:text-red-300 dark:border-red-800 dark:hover:bg-red-900',
+      'bg-red-50 text-red-700 border-red-200 hover:bg-red-100 hover:text-red-500 dark:bg-red-950 dark:text-red-300 dark:border-red-800 dark:hover:bg-red-900',
   },
   blue: {
     active: 'bg-blue-100 text-blue-900 border-blue-300 dark:bg-blue-900 dark:text-blue-100 dark:border-blue-600',
     inactive:
-      'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800 dark:hover:bg-blue-900',
+      'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 hover:text-blue-500 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800 dark:hover:bg-blue-900',
   },
   orange: {
     active:
       'bg-orange-100 text-orange-900 border-orange-300 dark:bg-orange-900 dark:text-orange-100 dark:border-orange-600',
     inactive:
-      'bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100 dark:bg-orange-950 dark:text-orange-300 dark:border-orange-800 dark:hover:bg-orange-900',
+      'bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100 hover:text-orange-500 dark:bg-orange-950 dark:text-orange-300 dark:border-orange-800 dark:hover:bg-orange-900',
   },
   green: {
     active: 'bg-green-100 text-green-900 border-green-300 dark:bg-green-900 dark:text-green-100 dark:border-green-600',
     inactive:
-      'bg-green-50 text-green-700 border-green-200 hover:bg-green-100 dark:bg-green-950 dark:text-green-300 dark:border-green-800 dark:hover:bg-green-900',
+      'bg-green-50 text-green-700 border-green-200 hover:bg-green-100 hover:text-green-500 dark:bg-green-950 dark:text-green-300 dark:border-green-800 dark:hover:bg-green-900',
   },
   purple: {
     active:
       'bg-purple-100 text-purple-900 border-purple-300 dark:bg-purple-900 dark:text-purple-100 dark:border-purple-600',
     inactive:
-      'bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100 dark:bg-purple-950 dark:text-purple-300 dark:border-purple-800 dark:hover:bg-purple-900',
+      'bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100 hover:text-purple-500 dark:bg-purple-950 dark:text-purple-300 dark:border-purple-800 dark:hover:bg-purple-900',
   },
   pink: {
     active: 'bg-pink-100 text-pink-900 border-pink-300 dark:bg-pink-900 dark:text-pink-100 dark:border-pink-600',
     inactive:
-      'bg-pink-50 text-pink-700 border-pink-200 hover:bg-pink-100 dark:bg-pink-950 dark:text-pink-300 dark:border-pink-800 dark:hover:bg-pink-900',
+      'bg-pink-50 text-pink-700 border-pink-200 hover:bg-pink-100 hover:text-pink-500 dark:bg-pink-950 dark:text-pink-300 dark:border-pink-800 dark:hover:bg-pink-900',
   },
   yellow: {
     active:
       'bg-yellow-100 text-yellow-900 border-yellow-300 dark:bg-yellow-900 dark:text-yellow-100 dark:border-yellow-600',
     inactive:
-      'bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100 dark:bg-yellow-950 dark:text-yellow-300 dark:border-yellow-800 dark:hover:bg-yellow-900',
+      'bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100 hover:text-yellow-500 dark:bg-yellow-950 dark:text-yellow-300 dark:border-yellow-800 dark:hover:bg-yellow-900',
   },
 } as const
 

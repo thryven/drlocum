@@ -9,47 +9,47 @@ export const metadata = {
 
 const calculators = [
   {
-    href: '/calculator/pregnancy',
+    href: '/resource/pregnancy',
     title: 'Pregnancy Due Date',
     description: 'Estimate due date based on Last Menstrual Period (LMP) and ultrasound.',
   },
   {
-    href: '/calculator/neonate-weight-loss',
+    href: '/resource/neonate-weight-loss',
     title: 'Neonate Weight Loss',
     description: 'Calculate weight loss percentage for newborns.',
   },
   {
-    href: '/calculator/stop-bang',
+    href: '/resource/stop-bang',
     title: 'STOP-BANG Score',
     description: 'Assess risk for Obstructive Sleep Apnea (OSA).',
     disabled: false,
   },
   {
-    href: '/calculator/ideal-body-weight',
+    href: '/resource/ideal-body-weight',
     title: 'Ideal Body Weight',
     description: 'Calculate ideal body weight.',
     disabled: false,
   },
   {
-    href: '/calculator/centor-score',
+    href: '/resource/centor-score',
     title: 'Centor Score',
     description: 'Determine the likelihood of streptococcal pharyngitis.',
     disabled: false,
   },
   {
-    href: '/calculator/framingham-risk-score',
+    href: '/resource/framingham-risk-score',
     title: 'Framingham Risk Score',
     description: 'Calculate 10-year risk of coronary heart disease.',
     disabled: false,
   },
   {
-    href: '/calculator/dass-score',
+    href: '/resource/dass-score',
     title: 'DASS-21',
     description: 'Measure the severity of symptoms of Depression, Anxiety, and Stress.',
     disabled: false,
   },
   {
-    href: '/calculator/phq-9-score',
+    href: '/resource/phq-9-score',
     title: 'PHQ-9',
     description: 'A tool for monitoring the severity of depression.',
     disabled: false,
@@ -58,17 +58,17 @@ const calculators = [
 
 const resources = [
   {
-    href: '/resources/national-immunisation-schedule',
+    href: '/resource/national-immunisation-schedule',
     title: 'National Immunisation Schedule',
     description: "Malaysia's National Immunisation Programme (NIP) schedule.",
   },
   {
-    href: '/resources/haematological-parameters',
+    href: '/resource/haematological-parameters',
     title: 'Haematological Parameters',
     description: 'Reference values for haematological parameters in paediatrics.',
   },
   {
-    href: '/resources/neonatal-jaundice',
+    href: '/resource/neonatal-jaundice',
     title: 'Neonatal Jaundice Assessment',
     description: "Kramer's rule and TSB level guidelines for phototherapy.",
   },
