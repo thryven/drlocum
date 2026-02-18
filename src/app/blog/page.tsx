@@ -1,20 +1,39 @@
 import fs from "fs";
 import path from "path";
+import BlogGrid from "./BlogGrid";
 import BlogModal from "./BlogModal";
 
 export default function BlogPage() {
-  // Server-side: read all HTML files in /public/blog
   const blogDir = path.join(process.cwd(), "public", "blog");
   const htmlFiles = fs.readdirSync(blogDir).filter((file) => file.endsWith(".html"));
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Blog Posts</h1>
+    <div
+      style={{
+        padding: "4rem 2rem",
+        fontFamily: "system-ui, sans-serif",
+        maxWidth: "1200px",
+        margin: "0 auto",
+      }}
+    >
+      <h1
+        style={{
+          fontSize: "2.5rem",
+          fontWeight: "bold",
+          marginBottom: "2rem",
+          textAlign: "center",
+        }}
+      >
+        Blog Posts
+      </h1>
+
       {htmlFiles.length === 0 ? (
-        <p>No blog posts found.</p>
+        <p style={{ textAlign: "center", color: "#555" }}>No blog posts found.</p>
       ) : (
-        <BlogModal files={htmlFiles} />
+        <BlogGrid files={htmlFiles} />
       )}
+
+      <BlogModal files={htmlFiles} />
     </div>
   );
 }

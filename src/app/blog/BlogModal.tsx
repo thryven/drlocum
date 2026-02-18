@@ -9,17 +9,25 @@ interface BlogModalProps {
 export default function BlogModal({ files }: BlogModalProps) {
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [visible, setVisible] = useState(false);
-  const modalRef = useRef<HTMLDivElement>(null);
   const startY = useRef<number | null>(null);
 
-  // Open modal: fade-in
+  // Listen for CustomEvent to open modal from card clicks
   useEffect(() => {
-    if (selectedFile) {
+    const handleOpen = (e: CustomEvent) => {
+      setSelectedFile(e.detail);
       setVisible(true);
-    }
-  }, [selectedFile]);
+    };
+    window.addEventListener("openBlogModal", handleOpen as EventListener);
+    return () => window.removeEventListener("openBlogModal", handleOpen as EventListener);
+  }, []);
 
-  // Handle ESC key to close modal
+  // Fade-out animation & close logic
+  const closeModal = () => {
+    setVisible(false);
+    setTimeout(() => setSelectedFile(null), 300); // remove after fade-out
+  };
+
+  // ESC key closes modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeModal();
@@ -28,12 +36,7 @@ export default function BlogModal({ files }: BlogModalProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const closeModal = () => {
-    setVisible(false); // start fade-out
-    setTimeout(() => setSelectedFile(null), 300); // remove modal after animation
-  };
-
-  // Swipe-to-close (mobile)
+  // Swipe-to-close on mobile
   const handleTouchStart = (e: React.TouchEvent) => {
     startY.current = e.touches[0].clientY;
   };
@@ -45,35 +48,9 @@ export default function BlogModal({ files }: BlogModalProps) {
   };
 
   return (
-    <div>
-      {/* Blog List */}
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {files.map((file) => {
-          const slug = file.replace(".html", "");
-          return (
-            <li key={slug} style={{ marginBottom: "1rem" }}>
-              <button
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "#0070f3",
-                  fontSize: "1.2rem",
-                  cursor: "pointer",
-                  textDecoration: "underline",
-                }}
-                onClick={() => setSelectedFile(file)}
-              >
-                {slug}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-
-      {/* Full Page Modal */}
+    <>
       {selectedFile && (
         <div
-          ref={modalRef}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           style={{
@@ -129,6 +106,6 @@ export default function BlogModal({ files }: BlogModalProps) {
           />
         </div>
       )}
-    </div>
+    </>
   );
 }
