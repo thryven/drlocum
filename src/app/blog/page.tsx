@@ -3,9 +3,21 @@ import path from "path";
 import BlogGrid from "./BlogGrid";
 import BlogModal from "./BlogModal";
 
+interface BlogPost {
+  file: string;
+  title: string;
+}
+
 export default function BlogPage() {
   const blogDir = path.join(process.cwd(), "public", "blog");
   const htmlFiles = fs.readdirSync(blogDir).filter((file) => file.endsWith(".html"));
+
+  // Read <title> from HTML files
+  const posts: BlogPost[] = htmlFiles.map((file) => {
+    const content = fs.readFileSync(path.join(blogDir, file), "utf-8");
+    const match = content.match(/<title>(.*?)<\/title>/i);
+    return { file, title: match ? match[1] : file.replace(".html", "") };
+  });
 
   return (
     <div
@@ -27,10 +39,10 @@ export default function BlogPage() {
         Blog Posts
       </h1>
 
-      {htmlFiles.length === 0 ? (
+      {posts.length === 0 ? (
         <p style={{ textAlign: "center", color: "#555" }}>No blog posts found.</p>
       ) : (
-        <BlogGrid files={htmlFiles} />
+        <BlogGrid posts={posts} />
       )}
 
       <BlogModal files={htmlFiles} />

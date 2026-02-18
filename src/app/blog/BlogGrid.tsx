@@ -1,10 +1,23 @@
 "use client";
 
-interface BlogGridProps {
-  files: string[];
+import { useState, useEffect } from "react";
+
+interface BlogPost {
+  file: string;
+  title: string;
 }
 
-export default function BlogGrid({ files }: BlogGridProps) {
+interface BlogGridProps {
+  posts: BlogPost[];
+}
+
+export default function BlogGrid({ posts }: BlogGridProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true); // trigger fade-in after mount
+  }, []);
+
   return (
     <div
       style={{
@@ -13,25 +26,30 @@ export default function BlogGrid({ files }: BlogGridProps) {
         gap: "2rem",
       }}
     >
-      {files.map((file) => {
-        const slug = file.replace(".html", "");
+      {posts.map((post, index) => {
         return (
           <div
-            key={slug}
+            key={post.file}
             style={{
               padding: "1.5rem",
               borderRadius: "12px",
               background: "#fff",
               boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
               cursor: "pointer",
-              transition: "transform 0.2s ease, box-shadow 0.2s ease",
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
+              opacity: mounted ? 1 : 0,
+              transform: mounted
+                ? "translateY(0)"
+                : "translateY(20px)", // slide-up effect
+              transition: `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${
+                index * 0.1
+              }s`,
             }}
             onClick={() =>
               window.dispatchEvent(
-                new CustomEvent("openBlogModal", { detail: file })
+                new CustomEvent("openBlogModal", { detail: post.file })
               )
             }
             onMouseEnter={(e) => {
@@ -52,7 +70,7 @@ export default function BlogGrid({ files }: BlogGridProps) {
                 marginBottom: "1rem",
               }}
             >
-              {slug}
+              {post.title}
             </h2>
             <p style={{ color: "#666", fontSize: "0.95rem" }}>
               Click to preview the blog post in full-screen.
