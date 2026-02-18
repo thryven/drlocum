@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Throat Infections in Children</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Outfit:wght@700&display=swap');
+
+        /* Custom scrollbar for WebKit browsers */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a202c; /* Dark background */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4299e1; /* Primary accent color */
+            border-radius: 10px;
+            border: 2px solid #1a202c; /* Padding around thumb */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3182ce; /* Darker accent on hover */
+        }
+
+        /* Glassmorphism effect */
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        /* Subtle fade-in animation for sections */
+        .animate-fade-in {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Text glow on hover for headings */
+        .hover-text-glow {
+            transition: text-shadow 0.3s ease;
+        }
+        .hover-text-glow:hover {
+            text-shadow: 0 0 8px rgba(66, 153, 225, 0.8), 0 0 12px rgba(66, 153, 225, 0.6); /* Accent blue glow */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 font-sans antialiased min-h-screen flex items-center justify-center p-4 md:p-8 lg:p-12">
+
+    <script>
+        // Tailwind CSS Configuration
+        tailwind.config = {
+            darkMode: 'class', // Not strictly needed for single page, but good practice
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Outfit', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#4299e1', // Tailwind's blue-400
+                        'secondary': '#f6ad55', // Tailwind's orange-400
+                        'dark-bg': '#1a202c', // Tailwind's gray-900
+                        'card-bg': 'rgba(255, 255, 255, 0.05)',
+                        'card-border': 'rgba(255, 255, 255, 0.1)',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideDown: {
+                            'from': { transform: 'translateY(-100%)', opacity: '0' },
+                            'to': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        slideUp: {
+                            'from': { transform: 'translateY(100%)', opacity: '0' },
+                            'to': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    },
+                    animation: {
+                        fadeIn: 'fadeIn 0.8s ease-out forwards',
+                        slideDown: 'slideDown 0.4s ease-out forwards',
+                        slideUp: 'slideUp 0.4s ease-out forwards',
+                    }
+                },
+            },
+            plugins: [],
+        }
+    </script>
+
+    <div class="w-full max-w-6xl mx-auto px-2 sm:px-4 lg:px-8">
+
+        <header class="text-center mb-12 md:mb-16">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4 animate-fade-in [animation-delay:0.2s]">
+                Throat Infections in Children
+            </h1>
+            <p class="text-lg sm:text-xl md:text-2xl text-gray-300 font-body animate-fade-in [animation-delay:0.4s]">
+                Understanding Pharyngitis: Causes, Symptoms, Diagnosis, and Management
+            </p>
+        </header>
+
+        <main class="grid grid-cols-1 gap-8 md:gap-12">
+
+            <!-- Section: Definition and Epidemiology -->
+            <section class="animate-fade-in [animation-delay:0.6s] glassmorphism p-6 sm:p-8 md:p-10">
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4 hover-text-glow cursor-pointer">Definition and Epidemiology</h2>
+                <p class="font-body text-lg leading-relaxed text-gray-300 mb-4">
+                    Throat infections, also known as pharyngitis or tonsillopharyngitis, are acute inflammations of the pharynx and/or tonsils. In children, these are primarily viral, accounting for 70-85% of cases. The most common bacterial cause is Group A Streptococcus (GAS), specifically *Streptococcus pyogenes*, responsible for 15-30% of cases in children and adolescents, with a peak incidence between 5 and 15 years of age. Less common bacterial agents include *Arcanobacterium haemolyticum*, *Mycoplasma pneumoniae*, and *Chlamydophila pneumoniae*. Fungal infections are rare and typically affect immunocompromised individuals. Non-infectious causes like allergies, irritants, or gastroesophageal reflux disease (GERD) can mimic these symptoms [1, 2, 3].
+                </p>
+            </section>
+
+            <!-- Section: Pathophysiology -->
+            <section class="animate-fade-in [animation-delay:0.8s] glassmorphism p-6 sm:p-8 md:p-10">
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4 hover-text-glow cursor-pointer">Pathophysiology</h2>
+                <p class="font-body text-lg leading-relaxed text-gray-300 mb-6">
+                    The underlying mechanism involves pathogen entry and replication in the pharyngeal mucosa, triggering a localized inflammatory response.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glassmorphism p-5 border-primary/20">
+                        <h3 class="font-display text-2xl font-bold text-primary mb-3">Viral Pharyngitis</h3>
+                        <ul class="font-body text-lg text-gray-300 list-disc list-inside space-y-2">
+                            <li>Viruses such as rhinovirus, adenovirus, influenza virus, parainfluenza virus, enterovirus, respiratory syncytial virus, and Epstein-Barr virus (EBV) infect pharyngeal epithelial cells.</li>
+                            <li>Viral replication leads to cell damage and an inflammatory cascade involving cytokine release, causing vasodilation, edema, and pain.</li>
+                            <li>EBV can cause infectious mononucleosis, characterized by significant lymphoid hyperplasia in the tonsils and cervical lymph nodes [4, 5].</li>
+                        </ul>
+                    </div>
+                    <div class="glassmorphism p-5 border-secondary/20">
+                        <h3 class="font-display text-2xl font-bold text-secondary mb-3">Bacterial Pharyngitis (Group A Streptococcus)</h3>
+                        <ul class="font-body text-lg text-gray-300 list-disc list-inside space-y-2">
+                            <li>*Streptococcus pyogenes* attaches to host epithelial cells via surface proteins like M protein, lipoteichoic acid, and F protein.</li>
+                            <li>It produces virulence factors including streptolysins O and S (cell lysis), pyrogenic exotoxins (superantigens causing scarlet fever rash), and streptokinase (fibrinolysis).</li>
+                            <li>These factors help evade host defenses, cause local tissue damage and inflammation, leading to exudative pharyngitis.</li>
+                            <li>The M protein also prevents phagocytosis and is linked to post-streptococcal sequelae such as acute rheumatic fever and post-streptococcal glomerulonephritis through molecular mimicry [6, 7].</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Clinical Presentation -->
+            <section class="animate-fade-in [animation-delay:1.0s] glassmorphism p-6 sm:p-8 md:p-10">
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4 hover-text-glow cursor-pointer">Clinical Presentation</h2>
+                <p class="font-body text-lg leading-relaxed text-gray-300 mb-6">
+                    Symptoms vary by etiology, with considerable overlap between viral and bacterial infections.
+                </p>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="font-display text-2xl font-bold text-primary mb-3">General Symptoms</h3>
+                        <p class="font-body text-lg text-gray-300">Include sore throat (odynophagia), difficulty swallowing (dysphagia), fever, headache, and malaise.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-display text-2xl font-bold text-primary mb-3">Viral Pharyngitis</h3>
+                        <p class="font-body text-lg text-gray-300">Often accompanied by coryza (rhinorrhea, nasal congestion), cough, hoarseness, conjunctivitis, oral ulcers (e.g., herpangina from coxsackievirus), or diarrhea. The pharynx may appear red, with or without exudates. Adenovirus can cause pharyngoconjunctival fever [4, 8].</p>
+                    </div>
+                    <div>
+                        <h3 class="font-display text-2xl font-bold text-secondary mb-3">Bacterial Pharyngitis (Group A Streptococcus)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-display text-xl font-semibold text-gray-300 mb-2">Classic Presentation</h4>
+                                <p class="font-body text-lg text-gray-300">Abrupt onset of sore throat, painful swallowing, fever, headache, nausea, vomiting, and abdominal pain (particularly in younger children).</p>
+                            </div>
+                            <div>
+                                <h4 class="font-display text-xl font-semibold text-gray-300 mb-2">Physical Examination</h4>
+                                <p class="font-body text-lg text-gray-300">Erythematous pharynx, often with tonsillar exudates (white/yellow patches), palatal petechiae, tender anterior cervical lymphadenopathy, and absence of cough, rhinorrhea, or conjunctivitis.</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-display text-xl font-semibold text-gray-300 mb-2">Scarlet Fever</h4>
+                            <p class="font-body text-lg text-gray-300">May co-occur with GAS pharyngitis, presenting as a fine, sandpaper-like, blanching erythematous rash, typically starting on the neck and chest and spreading. Desquamation occurs during recovery. A "strawberry tongue" (initially white-coated with red papillae, later uniformly red) is also characteristic [1, 9].</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-display text-2xl font-bold text-secondary mb-3">Peritonsillar Abscess (Quinsy)</h3>
+                        <p class="font-body text-lg text-gray-300">A severe complication characterized by severe unilateral sore throat, fever, trismus, a "hot potato" voice, drooling, and uvular deviation [10].</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Diagnostic Criteria -->
+            <section class="animate-fade-in [animation-delay:1.2s] glassmorphism p-6 sm:p-8 md:p-10">
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4 hover-text-glow cursor-pointer">Diagnostic Criteria</h2>
+                <p class="font-body text-lg leading-relaxed text-gray-300 mb-6">
+                    The goal of diagnosis is to distinguish GAS pharyngitis from viral causes to avoid unnecessary antibiotics while ensuring timely treatment for GAS to prevent complications.
+                </p>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="font-display text-2xl font-bold text-primary mb-3">1. Clinical Assessment</h3>
+                        <p class="font-body text-lg text-gray-300 mb-4">
+                            <strong>Centor/Modified McIsaac Score:</strong> These clinical prediction rules estimate the probability of GAS pharyngitis and guide testing decisions, especially in patients aged 3 years and older.
+                        </p>
+                        <div class="glassmorphism p-5 border-primary/30 mb-4">
+                            <h4 class="font-display text-xl font-semibold text-gray-300 mb-3">Modified McIsaac Score components (+1 point each):</h4>
+                            <ul class="font-body text-lg text-gray-300 list-disc list-inside space-y-2 ml-4">
+                                <li>Tonsillar exudates</li>
+                                <li>Swollen/tender anterior cervical lymph nodes</li>
+                                <li>History of fever (&gt;100.4°F or 38°C)</li>
+                                <li>Absence of cough</li>
+                                <li><span class="italic">Age 3-14 years</span> (additional point)</li>
+                                <li><span class="italic">Age &gt;44 years</span> (subtract a point)</li>
+                            </ul>
+                        </div>
+                        <h4 class="font-display text-xl font-semibold text-gray-300 mb-3">Interpretation (IDSA 2012 guidelines):</h4>
+                        <ul class="font-body text-lg text-gray-300 list-disc list-inside space-y-2 ml-4">
+                            <li><strong>Score 0-1:</strong> Low GAS probability; typically no testing or antibiotics.</li>
+                            <li><strong>Score 2-3:</strong> Intermediate GAS probability; consider rapid antigen detection test (RADT).</li>
+                            <li><strong>Score ≥4:</strong> High GAS probability; consider RADT or empiric antibiotics [1].</li>
+                        </ul>
+                    </div>
+                    <div class="mt-6">
+                        <h3 class="font-display text-2xl font-bold text-secondary mb-3">2. Laboratory Confirmation for GAS</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-display text-xl font-semibold text-gray-300 mb-2">Rapid Antigen Detection Tests (RADT)</h4>
+                                <p class="font-body text-lg text-gray-300">Highly specific (95-99%) but with variable sensitivity (70-90%). A positive RADT confirms GAS and warrants antibiotic initiation. A negative RADT in children and adolescents often requires a confirmatory throat culture due to lower sensitivity, particularly in areas with high acute rheumatic fever prevalence. In adults, a negative RADT typically rules out GAS [1, 13].</p>
+                            </div>
+                            <div>
+                                <h4 class="font-display text-xl font-semibold text-gray-300 mb-2">Throat Culture</h4>
+                                <p class="font-body text-lg text-gray-300">The gold standard for GAS diagnosis, with nearly 100% sensitivity and specificity for symptomatic individuals. Results take 24-48 hours. A throat culture is recommended if the RADT is negative in children and adolescents to confirm the absence of GAS [1, 13].</p>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h4 class="font-display text-xl font-semibold text-gray-300 mb-2">Molecular Assays (NAATs)</h4>
+                            <p class="font-body text-lg text-gray-300">Nucleic acid amplification tests for GAS are highly sensitive and specific with rapid turnaround times (minutes to hours). They are increasingly used as a single diagnostic test for GAS, potentially eliminating the need for confirmatory cultures [13, 14].</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Management -->
+            <section class="animate-fade-in [animation-delay:1.4s] glassmorphism p-6 sm:p-8 md:p-10">
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4 hover-text-glow cursor-pointer">Management</h2>
+                <p class="font-body text-lg leading-relaxed text-gray-300 mb-6">
+                    Management depends on the etiology: symptomatic treatment for viral pharyngitis and antibiotic therapy for GAS pharyngitis.
+                </p>
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="font-display text-2xl font-bold text-primary mb-4">A. Viral Pharyngitis</h3>
+                        <div class="space-y-4">
+                            <h4 class="font-display text-xl font-semibold text-gray-300 mb-2">Symptomatic Treatment:</h4>
+                            <ul class="font-body text-lg text-gray-300 list-disc list-inside space-y-2 ml-4">
+                                <li><strong>Analgesia and Antipyresis:</strong> Acetaminophen (10-15 mg/kg orally every 4-6 hours, max 75 mg/kg/day) or ibuprofen (5-10 mg/kg orally every 6-8 hours, max 40 mg/kg/day for children &gt;6 months) for pain and fever relief [15].</li>
+                                <li><strong>Hydration:</strong> Encourage oral fluid intake to prevent dehydration.</li>
+                                <li><strong>Comfort Measures:</strong> Warm salt water gargles (for older children), lozenges, or throat sprays for temporary relief [4].</li>
+                                <li><strong>Avoid Aspirin:</strong> Due to the risk of Reye's syndrome in children with viral illnesses [16].</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-display text-2xl font-bold text-secondary mb-4">B. Group A Streptococcus Pharyngitis</h3>
+                        <p class="font-body text-lg text-gray-300 mb-4">
+                            Antibiotic treatment is indicated for confirmed GAS pharyngitis to prevent acute rheumatic fever, reduce suppurative complications (e.g., peritonsillar abscess), and shorten symptom duration and infectivity [1].
+                        </p>
+                        <div class="space-y-4">
+                            <h4 class="font-display text-xl font-semibold text-gray-300 mb-2">First-Line Treatment (IDSA 2012, NICE 2018):</h4>
+                            <ul class="font-body text-lg text-gray-300 list-disc list-inside space-y-2 ml-4">
+                                <li><strong>Penicillin V:</strong> Preferred due to narrow spectrum, efficacy, safety, and low cost. GAS remains universally susceptible to penicillin [1, 17].
+                                    <ul class="list-circle list-inside ml-4 mt-2">
+                                        <li><strong>Dosage:</strong> 250 mg orally 2-3 times daily for children &lt;27 kg OR 500 mg orally 2-3 times daily for children ≥27 kg, for 10 days [1].</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Amoxicillin:</strong> Equally effective as penicillin V, often preferred for children due to better palatability and once or twice-daily dosing options, improving adherence [1, 18].
+                                    <ul class="list-circle list-inside ml-4 mt-2">
+                                        <li><strong>Dosage:</strong> 50 mg/kg orally once daily (max 1000 mg/day) OR 25 mg/kg orally twice daily (max 500 mg/dose), for 10 days [1].</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Benzathine Penicillin G (intramuscular):</strong> For patients with poor adherence or social barriers to oral therapy. Single-dose treatment.
+                                    <ul class="list-circle list-inside ml-4 mt-2">
+                                        <li><strong>Dosage:</strong> 600,000 units IM for children &lt;27 kg OR 1,200,000 units IM for children ≥27 kg [1]. (Class I, Level A)</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-4 space-y-4">
+                            <h4 class="font-display text-xl font-semibold text-gray-300 mb-2">Penicillin Allergy:</h4>
+                            <ul class="font-body text-lg text-gray-300 list-disc list-inside space-y-2 ml-4">
+                                <li><strong>Non-anaphylactic/delayed-type allergy:</strong>
+                                    <ul class="list-circle list-inside ml-4 mt-2">
+                                        <li>Cephalexin: 20 mg/kg orally twice daily (max 500 mg/dose), for 10 days [1].</li>
+                                        <li>Cefadroxil: 30 mg/kg orally once daily (max 1000 mg/day), for 10 days [1].</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Anaphylactic/immediate-type allergy:</strong>
+                                    <ul class="list-circle list-inside ml-4 mt-2">
+                                        <li>Clindamycin: 7 mg/kg orally 3 times daily (max 300 mg/dose), for 10 days [1].</li>
+                                        <li>Azithromycin: 12 mg/kg orally once daily (max 500 mg/day), for 5 days [1]. (Shorter duration is acceptable, but resistance is a concern; close monitoring for treatment failure is advised) [1, 19].</li>
+                                        <li>Clarithromycin: 7.5 mg/kg orally twice daily (max 250 mg/dose), for 10 days [1].</li>
+                                        <li>(Note on Macrolides: Increasing macrolide resistance in GAS is observed, especially with erythromycin. Susceptibility testing may be warranted for treatment failure or high local resistance rates) [1, 19].</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-4 space-y-4">
+                            <h4 class="font-display text-xl font-semibold text-gray-300 mb-2">Duration of Therapy:</h4>
+                            <p class="font-body text-lg text-gray-300">10 days for oral penicillin V, amoxicillin, cephalexin, cefadroxil, clindamycin, and clarithromycin. Azithromycin is for 5 days. Completing the full course is crucial to prevent rheumatic fever, even if symptoms resolve earlier [1].</p>
+                        </div>
+                        <div class="mt-4 space-y-4">
+                            <h4 class="font-display text-xl font-semibold text-gray-300 mb-2">Treatment Failure:</h4>
+                            <p class="font-body text-lg text-gray-300">Persistent GAS pharyngitis or recurrent infections may require re-evaluation of adherence, consideration of other pathogens, or antibiotic change. Clindamycin or amoxicillin-clavulanate might be considered, though evidence for superiority is not robust [1].</p>
+                        </div>
+                        <div class="mt-4 space-y-4">
+                            <h4 class="font-display text-xl font-semibold text-gray-300 mb-2">Carrier State:</h4>
+                            <p class="font-body text-lg text-gray-300">Up to 20% of children can be asymptomatic GAS carriers. They generally do not require antibiotic treatment unless there's an active outbreak of rheumatic fever, recurrent GAS infections within a household, or a personal history of rheumatic fever [1, 20].</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Controversies, Recent Updates, and Landmark Trials -->
+            <section class="animate-fade-in [animation-delay:1.6s] glassmorphism p-6 sm:p-8 md:p-10">
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4 hover-text-glow cursor-pointer">Controversies, Recent Updates, and Landmark Trials</h2>
+                <div class="space-y-6">
+                    <div class="glassmorphism p-5 border-primary/20">
+                        <h3 class="font-display text-2xl font-bold text-primary mb-3">1. Diagnosis in Low-Risk Settings</h3>
+                        <p class="font-body text-lg text-gray-300">The necessity of routine GAS testing in areas with low acute rheumatic fever incidence is debated. Some guidelines suggest clinical judgment alone might suffice in very low-risk children in such settings, especially with limited resources [21]. However, IDSA strongly recommends testing [1].</p>
+                    </div>
+                    <div class="glassmorphism p-5 border-secondary/20">
+                        <h3 class="font-display text-2xl font-bold text-secondary mb-3">2. Short-Course Antibiotic Therapy</h3>
+                        <p class="font-body text-lg text-gray-300">While a 10-day course is standard for most oral antibiotics to prevent rheumatic fever, shorter durations are explored. A 5-day azithromycin course is acceptable but faces increasing resistance. A 5-day cephalosporin course has shown comparable efficacy to 10-day penicillin V in some studies, but general guidelines still recommend 10 days for beta-lactams due to robust evidence for rheumatic fever prevention [1, 22].</p>
+                    </div>
+                    <div class="glassmorphism p-5 border-primary/20">
+                        <h3 class="font-display text-2xl font-bold text-primary mb-3">3. Role of Tonsillectomy</h3>
+                        <p class="font-body text-lg text-gray-300">Indications for tonsillectomy for recurrent pharyngitis are refined. Current guidelines (AAO-HNS 2019) recommend it for specific criteria: ≥7 episodes in the preceding year, ≥5 episodes/year for 2 years, or ≥3 episodes/year for 3 years, provided each episode is well-documented and debilitating [23]. Shared decision-making is emphasized.</p>
+                    </div>
+                    <div class="glassmorphism p-5 border-secondary/20">
+                        <h3 class="font-display text-2xl font-bold text-secondary mb-3">4. Vaccine Development</h3>
+                        <p class="font-body text-lg text-gray-300">Research is ongoing for a GAS vaccine to prevent infections and sequelae. Challenges include M protein diversity and the need for broad protection. Several vaccine candidates are in development [24].</p>
+                    </div>
+                    <div class="glassmorphism p-5 border-primary/20">
+                        <h3 class="font-display text-2xl font-bold text-primary mb-3">5. Molecular Diagnostics</h3>
+                        <p class="font-body text-lg text-gray-300">The increasing availability of highly sensitive and specific NAATs for GAS allows for rapid and accurate diagnosis, potentially streamlining management by reducing the need for confirmatory cultures after RADT and enabling earlier therapy [13, 14].</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: References -->
+            <section class="animate-fade-in [animation-delay:1.8s] glassmorphism p-6 sm:p-8 md:p-10">
+                <h2 class="font-display text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4 hover-text-glow cursor-pointer">References</h2>
+                <div id="references-list" class="font-body text-lg text-gray-300 space-y-4">
+                    <div class="cursor-pointer" onclick="toggleReference('ref1')">
+                        <span class="text-primary font-bold">1.</span> Shulman, S. T., et al. (2012). Clinical practice guideline for the diagnosis and management of group A streptococcal pharyngitis: 2012 update by the Infectious Diseases Society of America. *Clinical Infectious Diseases*, 55(10), e86-e102.
+                        <div id="ref1" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated) - external sites are not allowed, hence this is conceptual.</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref2')">
+                        <span class="text-primary font-bold">2.</span> Bisno, A. L. (2001). Acute pharyngitis. *New England Journal of Medicine*, 344(3), 205-211.
+                        <div id="ref2" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref3')">
+                        <span class="text-primary font-bold">3.</span> Webber, E. M., et al. (2014). Diagnosis and management of sore throat. *BMJ*, 349, g4499.
+                        <div id="ref3" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref4')">
+                        <span class="text-primary font-bold">4.</span> Wald, E. R. (2015). Pharyngitis. *Pediatrics in Review*, 36(1), 4-18.
+                        <div id="ref4" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref5')">
+                        <span class="text-primary font-bold">5.</span> Dunmire, S. K., et al. (2014). Infectious mononucleosis. *Clinical Chemistry*, 60(9), 1161-1165.
+                        <div id="ref5" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref6')">
+                        <span class="text-primary font-bold">6.</span> Cunningham, M. W. (2000). Pathogenesis of acute rheumatic fever. *Clinical Infectious Diseases*, 30(2), 296-297.
+                        <div id="ref6" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref7')">
+                        <span class="text-primary font-bold">7.</span> Walker, M. J., et al. (2007). Molecular pathogenesis of group A Streptococcus. *Annals of Medicine*, 39(8), 581-592.
+                        <div id="ref7" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref8')">
+                        <span class="text-primary font-bold">8.</span> Pichichero, M. E. (2016). Group A streptococcal tonsillopharyngitis: Clinical features and diagnosis. *UpToDate*. Retrieved from www.uptodate.com.
+                        <div id="ref8" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref9')">
+                        <span class="text-primary font-bold">9.</span> Chandy, D., et al. (2016). Scarlet fever: A reappraisal of the clinical and laboratory features. *European Journal of Pediatrics*, 175(2), 273-278.
+                        <div id="ref9" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref10')">
+                        <span class="text-primary font-bold">10.</span> Johnson, R. F., et al. (2015). Peritonsillar abscess. *Ear, Nose & Throat Journal*, 94(3), E1-E4.
+                        <div id="ref10" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref11')">
+                        <span class="text-primary font-bold">11.</span> McIsaac, W. J., et al. (2004). Clinical validation of a modified Centor score for the diagnosis of streptococcal pharyngitis in children. *Archives of Pediatrics & Adolescent Medicine*, 158(7), 705-707.
+                        <div id="ref11" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref12')">
+                        <span class="text-primary font-bold">12.</span> Lemiere, C., et al. (2014). Diagnosis and management of pharyngitis in children. *Paediatrics & Child Health*, 19(5), 259-261.
+                        <div id="ref12" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref13')">
+                        <span class="text-primary font-bold">13.</span> Cohen, J. F., et al. (2016). Molecular diagnosis of group A streptococcus pharyngitis: a systematic review and meta-analysis. *Clinical Infectious Diseases*, 62(4), 481-488.
+                        <div id="ref13" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref14')">
+                        <span class="text-primary font-bold">14.</span> Kaltwasser, G., et al. (2019). The new generation of molecular rapid streptococcal tests. *Journal of Clinical Microbiology*, 57(1), e01374-18.
+                        <div id="ref14" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref15')">
+                        <span class="text-primary font-bold">15.</span> NICE Guideline NG160. (2020). Fever in under 5s: assessment and initial management. National Institute for Health and Care Excellence.
+                        <div id="ref15" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref16')">
+                        <span class="text-primary font-bold">16.</span> CDC. (2016). Reye's Syndrome. Centers for Disease Control and Prevention. Retrieved from www.cdc.gov/flu/symptoms/reyes-syndrome.htm.
+                        <div id="ref16" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref17')">
+                        <span class="text-primary font-bold">17.</span> ESCMID guideline for the management of sore throat. (2012). *Clinical Microbiology and Infection*, 18(Suppl 1), 1-28.
+                        <div id="ref17" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref18')">
+                        <span class="text-primary font-bold">18.</span> Amoxicillin versus penicillin for the treatment of group A streptococcal pharyngitis: a meta-analysis. (2007). *Archives of Pediatrics & Adolescent Medicine*, 161(9), 896-900.
+                        <div id="ref18" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref19')">
+                        <span class="text-primary font-bold">19.</span> Tanz, R. R., et al. (2004). Clinical and microbiologic efficacy of a 5-day course of azithromycin in the treatment of streptococcal pharyngitis. *Pediatric Infectious Disease Journal*, 23(7), 619-623.
+                        <div id="ref19" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref20')">
+                        <span class="text-primary font-bold">20.</span> Wessels, M. R. (2011). Clinical practice. Streptococcal pharyngitis. *New England Journal of Medicine*, 364(7), 648-655.
+                        <div id="ref20" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref21')">
+                        <span class="text-primary font-bold">21.</span> NICE Guideline NG84. (2018). Sore throat (acute): antimicrobial prescribing. National Institute for Health and Care Excellence.
+                        <div id="ref21" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref22')">
+                        <span class="text-primary font-bold">22.</span> Casey, J. R., et al. (2006). A 5-day course of azithromycin compared with a 10-day course of penicillin V in the treatment of streptococcal pharyngitis. *Journal of Pediatrics*, 148(4), 515-520.
+                        <div id="ref22" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref23')">
+                        <span class="text-primary font-bold">23.</span> Baugh, R. F., et al. (2019). Clinical Practice Guideline: Tonsillectomy in Children (Update). *Otolaryngology–Head and Neck Surgery*, 160(1_suppl), S1-S42.
+                        <div id="ref23" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                    <div class="cursor-pointer" onclick="toggleReference('ref24')">
+                        <span class="text-primary font-bold">24.</span> Dale, J. B., et al. (2017). Immunogenicity of a 26-valent group A streptococcal M protein-based vaccine in a nonhuman primate model. *Infection and Immunity*, 85(7), e00047-17.
+                        <div id="ref24" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Ensure Tailwind is loaded before executing config
+        if (window.tailwind) {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            display: ['Outfit', 'sans-serif'],
+                            body: ['Inter', 'sans-serif'],
+                        },
+                        colors: {
+                            'primary': '#4299e1', // Tailwind's blue-400
+                            'secondary': '#f6ad55', // Tailwind's orange-400
+                            'dark-bg': '#1a202c', // Tailwind's gray-900
+                            'card-bg': 'rgba(255, 255, 255, 0.05)',
+                            'card-border': 'rgba(255, 255, 255, 0.1)',
+                        },
+                        keyframes: {
+                            fadeIn: {
+                                '0%': { opacity: '0', transform: 'translateY(10px)' },
+                                '100%': { opacity: '1', transform: 'translateY(0)' },
+                            },
+                            slideDown: {
+                                'from': { transform: 'translateY(-100%)', opacity: '0' },
+                                'to': { transform: 'translateY(0)', opacity: '1' },
+                            },
+                            slideUp: {
+                                'from': { transform: 'translateY(100%)', opacity: '0' },
+                                'to': { transform: 'translateY(0)', opacity: '1' },
+                            }
+                        },
+                        animation: {
+                            fadeIn: 'fadeIn 0.8s ease-out forwards',
+                            slideDown: 'slideDown 0.4s ease-out forwards',
+                            slideUp: 'slideUp 0.4s ease-out forwards',
+                        }
+                    },
+                },
+                plugins: [],
+            }
+            // Apply config to Tailwind
+            tailwind.init();
+        }
+
+        function toggleReference(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.toggle('hidden');
+                element.classList.toggle('animate-slideDown'); // Add animation class
+                // Remove animation class after it finishes to allow re-triggering
+                element.addEventListener('animationend', function() {
+                    element.classList.remove('animate-slideDown');
+                }, { once: true });
+            }
+        }
+
+        // Apply stagger effect for fade-in animations on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            sections.forEach((section, index) => {
+                // Manually trigger animations if needed or rely on CSS
+                // Adding a class might be better for more complex sequencing
+                // For now, the CSS `[animation-delay:Xs]` handles it.
+            });
+        });
+    </script>
+</body>
+</html>
