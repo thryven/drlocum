@@ -5,7 +5,7 @@ import { NotionToMarkdown } from 'notion-to-md';
 
 // Initializing a client
 const notion = new Client({
-  auth: process.env.NOTION_API_KEY,
+  auth: process.env.NOTION_API_KEY || '',
 });
 
 const n2m = new NotionToMarkdown({ notionClient: notion });
