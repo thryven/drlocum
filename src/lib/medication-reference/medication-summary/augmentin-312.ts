@@ -13,12 +13,12 @@ import type { QuickReferenceMedication } from '../types'
  */
 const augmentin_312: QuickReferenceMedication = {
   id: 'augmentin-312-quick',
-  name: 'Augmentin (312mg)',
+  name: 'Augmentin(312mg)',
   dosingProfiles: [
     {
       formula: 'weight',
-      amount: 25,
-      unit: 'mg/kg/day',
+      amount: 20,
+      unit: 'mg/kg/dose',
       frequency: 'BD',
       maxDose: 500,
       maxDoseUnit: 'mg/dose',

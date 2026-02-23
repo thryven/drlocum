@@ -17,9 +17,9 @@ import type { QuickReferenceMedication } from '../types'
  * Sources: MIMS, BNFc
  * Frank Shann: 15 mg/kg 4-6H.
  */
-const paracetamol: QuickReferenceMedication = {
-  id: 'paracetamol-quick',
-  name: 'Paracetamol',
+const paracetamol_250: QuickReferenceMedication = {
+  id: 'paracetamol-250-quick',
+  name: 'Paracetamol(250mg)',
   dosingProfiles: [
     {
       formula: 'weight',
@@ -40,4 +40,4 @@ const paracetamol: QuickReferenceMedication = {
   enabled: true,
 }
 
-export default paracetamol
+export default paracetamol_250

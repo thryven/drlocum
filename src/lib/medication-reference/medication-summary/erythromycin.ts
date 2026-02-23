@@ -17,15 +17,14 @@ const erythromycin: QuickReferenceMedication = {
   dosingProfiles: [
     {
       formula: 'weight',
-      amount: 12.5,
+      amount: 20,
       unit: 'mg/kg/dose',
-      frequency: 'QID',
-      maxDose: 500,
+      frequency: 'BD',
       minAge: 2,
     },
   ],
   concentration: {
-    amount: 125,
+    amount: 400,
     unit: 'mg/5ml',
     formulation: 'suspension',
   },

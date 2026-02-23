@@ -18,7 +18,7 @@ const bromhexine: QuickReferenceMedication = {
     {
       formula: 'weight',
       amount: 0.3,
-      unit: 'mg/kg/dose',
+      unit: 'mg/kg/day',
       frequency: 'TDS',
       maxDose: 8,
       minAge: 24,
