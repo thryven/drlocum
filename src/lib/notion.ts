@@ -23,11 +23,11 @@ export interface Article {
 
 function pageToArticle(page: PageObjectResponse): Article {
   const props = page.properties;
-  const title = props.Name?.type === 'title' ? props.Name.title[0]?.plain_text : '';
-  const slug = props.Slug?.type === 'rich_text' ? props.Slug.rich_text[0]?.plain_text : '';
-  const summary = props.Summary?.type === 'rich_text' ? props.Summary.rich_text[0]?.plain_text : '';
-  const category = props.Category?.type === 'select' ? props.Category.select?.name : 'Uncategorized';
-  const publishedDate = props.PublishedDate?.type === 'date' ? props.PublishedDate.date?.start : new Date().toISOString();
+  const title = (props.Name?.type === 'title' && props.Name.title[0]?.plain_text) || '';
+  const slug = (props.Slug?.type === 'rich_text' && props.Slug.rich_text[0]?.plain_text) || '';
+  const summary = (props.Summary?.type === 'rich_text' && props.Summary.rich_text[0]?.plain_text) || '';
+  const category = (props.Category?.type === 'select' && props.Category.select?.name) || 'Uncategorized';
+  const publishedDate = (props.PublishedDate?.type === 'date' && props.PublishedDate.date?.start) || new Date().toISOString();
 
   return { id: page.id, title, slug, summary, category, publishedDate };
 }
