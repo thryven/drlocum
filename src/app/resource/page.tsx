@@ -58,6 +58,11 @@ const calculators = [
 
 const resources = [
   {
+    href: '/kb',
+    title: 'Knowledge Base',
+    description: 'A collection of medical articles and clinical guides.',
+  },
+  {
     href: '/resource/national-immunisation-schedule',
     title: 'National Immunisation Schedule',
     description: "Malaysia's National Immunisation Programme (NIP) schedule.",
