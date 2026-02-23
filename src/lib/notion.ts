@@ -91,7 +91,7 @@ export async function getArticle(slug: string): Promise<{ article: Article, cont
 
     return {
         article,
-        content: mdString.parent,
+        content: mdString.parent ?? '',
     };
   } catch (error) {
     console.error(`Failed to fetch article for slug "${slug}" from Notion:`, error);
