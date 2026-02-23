@@ -82,6 +82,9 @@ export async function getArticle(slug: string): Promise<{ article: Article, cont
       return null;
     }
     const page = response.results[0];
+    if (!page) {
+      return null;
+    }
     if (!('properties' in page)) return null;
 
     const article = pageToArticle(page);
