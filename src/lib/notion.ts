@@ -1,6 +1,6 @@
 // src/lib/notion.ts
 import { Client } from '@notionhq/client';
-import type { BlockObjectResponse, PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import type { BlockObjectResponse, PageObjectResponse, RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints';
 
 // Initializing a client
 const notion = new Client({
@@ -18,17 +18,42 @@ export interface Article {
   publishedDate: string;
 }
 
+// ---- Helper Functions from example/notion ----
+
+function extractPlainText(richText: RichTextItemResponse[]): string {
+  return richText.map((t) => t.plain_text).join('');
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getPropertyValue(page: PageObjectResponse, name: string): any {
+    const props = page.properties;
+    // Case-insensitive property lookup
+    const key = Object.keys(props).find(
+      (k) => k.toLowerCase() === name.toLowerCase()
+    );
+    if (!key) return undefined;
+    return props[key];
+}
+
+// ---- Refactored pageToArticle ----
+
 function pageToArticle(page: PageObjectResponse): Article {
-  const props = page.properties;
-  const title = (props.Name?.type === 'title' && props.Name.title[0]?.plain_text) || '';
-  const slug = (props.Slug?.type === 'rich_text' && props.Slug.rich_text[0]?.plain_text) || '';
-  const summary = (props.Summary?.type === 'rich_text' && props.Summary.rich_text[0]?.plain_text) || '';
-  const category = (props.Category?.type === 'select' && props.Category.select?.name) || 'Uncategorized';
-  const publishedDate = (props.PublishedDate?.type === 'date' && props.PublishedDate.date?.start) || new Date().toISOString();
+  const titleProp = getPropertyValue(page, 'Name');
+  const slugProp = getPropertyValue(page, 'Slug');
+  const summaryProp = getPropertyValue(page, 'Summary');
+  const categoryProp = getPropertyValue(page, 'Category');
+  const publishedDateProp = getPropertyValue(page, 'PublishedDate');
+
+  const title = (titleProp?.type === 'title' && extractPlainText(titleProp.title)) || '';
+  const slug = (slugProp?.type === 'rich_text' && extractPlainText(slugProp.rich_text)) || '';
+  const summary = (summaryProp?.type === 'rich_text' && extractPlainText(summaryProp.rich_text)) || '';
+  const category = (categoryProp?.type === 'select' && categoryProp.select?.name) || 'Uncategorized';
+  const publishedDate = (publishedDateProp?.type === 'date' && publishedDateProp.date?.start) || new Date().toISOString();
 
   return { id: page.id, title, slug, summary, category, publishedDate };
 }
 
+// ---- Unchanged getPublishedArticles ----
 
 export async function getPublishedArticles(): Promise<Article[]> {
   if (!databaseId || !process.env.NOTION_API_KEY) {
@@ -60,36 +85,39 @@ export async function getPublishedArticles(): Promise<Article[]> {
   }
 }
 
+// ---- Refactored getArticle ----
+
 export async function getArticle(slug: string): Promise<{ article: Article; blocks: BlockObjectResponse[] } | null> {
-  if (!slug || !databaseId || !process.env.NOTION_API_KEY) {
+  if (!slug) {
     return null;
   }
   try {
-    const response = await notion.databases.query({
-      database_id: databaseId,
-      filter: {
-        property: 'Slug',
-        rich_text: {
-          equals: slug,
-        },
-      },
-    });
+    const articles = await getPublishedArticles();
+    const article = articles.find((a) => a.slug === slug);
 
-    const page = response.results[0];
-    if (!page) {
+    if (!article) {
       return null;
     }
 
-    if (!('properties' in page) || page.object !== 'page') {
-      return null;
-    }
+    const blocks: BlockObjectResponse[] = [];
+    let cursor: string | undefined = undefined;
 
-    const article = pageToArticle(page);
+    do {
+        const response = await notion.blocks.children.list({
+            block_id: article.id,
+            start_cursor: cursor,
+            page_size: 100, // Notion's max page size
+        });
 
-    const blocksResponse = await notion.blocks.children.list({
-      block_id: page.id,
-    });
-    const blocks = blocksResponse.results as BlockObjectResponse[];
+        blocks.push(
+            ...response.results.filter(
+                (b): b is BlockObjectResponse => 'type' in b
+            )
+        );
+
+        cursor = response.has_more ? (response.next_cursor ?? undefined) : undefined;
+    } while (cursor);
+
 
     return {
       article,
