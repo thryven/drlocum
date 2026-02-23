@@ -3,9 +3,8 @@ import { getArticle } from '@/lib/notion';
 import { notFound } from 'next/navigation';
 import { format } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { Card } from '@/components/ui/card';
+import { NotionRenderer } from '@/components/ui/notion-renderer';
 
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
@@ -28,7 +27,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
     notFound();
   }
 
-  const { article, content } = data;
+  const { article, blocks } = data;
 
   return (
     <div className='w-full max-w-4xl mx-auto pb-24'>
@@ -41,9 +40,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
               <Badge variant="outline">{article.category}</Badge>
             </div>
           </header>
-          <div className="prose dark:prose-invert max-w-full">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
-          </div>
+          <NotionRenderer blocks={blocks} />
         </article>
       </Card>
     </div>

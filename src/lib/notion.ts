@@ -1,14 +1,11 @@
 // src/lib/notion.ts
 import { Client } from '@notionhq/client';
-import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
-import { NotionToMarkdown } from 'notion-to-md';
+import type { BlockObjectResponse, PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
 // Initializing a client
 const notion = new Client({
   auth: process.env.NOTION_API_KEY || '',
 });
-
-const n2m = new NotionToMarkdown({ notionClient: notion });
 
 const databaseId = process.env.NOTION_DATABASE_ID!;
 
@@ -63,7 +60,7 @@ export async function getPublishedArticles(): Promise<Article[]> {
   }
 }
 
-export async function getArticle(slug: string): Promise<{ article: Article, content: string } | null> {
+export async function getArticle(slug: string): Promise<{ article: Article; blocks: BlockObjectResponse[] } | null> {
   if (!slug || !databaseId || !process.env.NOTION_API_KEY) {
     return null;
   }
@@ -78,25 +75,25 @@ export async function getArticle(slug: string): Promise<{ article: Article, cont
       },
     });
 
-    if (response.results.length === 0) {
-      return null;
-    }
     const page = response.results[0];
     if (!page) {
       return null;
     }
+
     if (!('properties' in page) || page.object !== 'page') {
       return null;
     }
 
     const article = pageToArticle(page);
 
-    const mdblocks = await n2m.pageToMarkdown(page.id);
-    const mdString = n2m.toMarkdownString(mdblocks);
+    const blocksResponse = await notion.blocks.children.list({
+      block_id: page.id,
+    });
+    const blocks = blocksResponse.results as BlockObjectResponse[];
 
     return {
       article,
-      content: mdString.parent ?? '',
+      blocks,
     };
   } catch (error) {
     console.error(`Failed to fetch article for slug "${slug}" from Notion:`, error);
