@@ -50,11 +50,15 @@ function pageToArticle(page: PageObjectResponse): Article {
   const summaryProp = getPropertyValue(page, 'Summary');
   const categoryProp = getPropertyValue(page, 'Category');
   const publishedDateProp = getPropertyValue(page, 'PublishedDate');
+  const slugProp = getPropertyValue(page, 'Slug');
 
   const title = (titleProp?.type === 'title' && extractPlainText(titleProp.title)) || '';
   
-  // Always generate the slug from the title for consistency
-  const slug = slugify(title) || page.id;
+  // Use the 'Slug' property if available, otherwise fall back to the 'Name'
+  const slugSource = (slugProp?.type === 'rich_text' && extractPlainText(slugProp.rich_text)) || title;
+
+  // ALWAYS slugify the source to ensure it's a valid and consistent URL segment
+  const slug = slugify(slugSource) || page.id;
 
   const summary = (summaryProp?.type === 'rich_text' && extractPlainText(summaryProp.rich_text)) || '';
   const category = (categoryProp?.type === 'select' && categoryProp.select?.name) || 'Uncategorized';

@@ -15,7 +15,6 @@
       "API-get-self",
       "API-post-search",
       "API-get-block-children",
-      "API-patch-block-children",
       "API-retrieve-a-block",
       "API-retrieve-a-page",
       "API-retrieve-a-page-property",
