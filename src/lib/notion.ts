@@ -64,7 +64,7 @@ export async function getPublishedArticles(): Promise<Article[]> {
 }
 
 export async function getArticle(slug: string): Promise<{ article: Article, content: string } | null> {
-  if (!databaseId || !process.env.NOTION_API_KEY) {
+  if (!slug || !databaseId || !process.env.NOTION_API_KEY) {
     return null;
   }
   try {
