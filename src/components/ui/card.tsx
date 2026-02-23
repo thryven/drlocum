@@ -14,10 +14,6 @@ type CardVariant = 'default' | 'elevated' | 'outlined' | 'flat' | 'gradient'
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   /**
-   * Makes the card interactive with hover and active states
-   */
-  interactive?: boolean
-  /**
    * Visual variant of the card
    * - default: Standard card with border and subtle shadow
    * - elevated: Higher shadow, no border
@@ -32,49 +28,35 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
  * The main container for a card.
  * Supports multiple variants: default, elevated, outlined, flat, and gradient.
  */
-const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ className, interactive = false, variant = 'default', ...props }, ref) => {
-    const variantStyles = {
-      default: [
-        'border bg-card shadow-sm',
-        'before:absolute before:inset-0 before:bg-gradient-card before:opacity-100 before:pointer-events-none',
-      ],
-      elevated: ['border-0 bg-card shadow-md', 'before:hidden'],
-      outlined: ['border-2 bg-card shadow-none', 'before:hidden'],
-      flat: ['border-0 bg-muted shadow-none', 'before:hidden'],
-      gradient: [
-        'border border-border/30 glass-card shadow-md',
-        'before:absolute before:inset-0 before:bg-gradient-card before:opacity-50 before:pointer-events-none',
-      ],
-    }
+const Card = forwardRef<HTMLDivElement, CardProps>(({ className, variant = 'default', ...props }, ref) => {
+  const variantStyles = {
+    default: [
+      'border bg-card shadow-sm',
+      'before:absolute before:inset-0 before:bg-gradient-card before:opacity-100 before:pointer-events-none',
+    ],
+    elevated: ['border-0 bg-card shadow-md', 'before:hidden'],
+    outlined: ['border-2 bg-card shadow-none', 'before:hidden'],
+    flat: ['border-0 bg-muted shadow-none', 'before:hidden'],
+    gradient: [
+      'border border-border/30 glass-card shadow-md',
+      'before:absolute before:inset-0 before:bg-gradient-card before:opacity-50 before:pointer-events-none',
+    ],
+  }
 
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          'rounded-card text-card-foreground',
-          'relative overflow-hidden',
-          'transition-[transform,opacity,box-shadow] duration-200 ease-out',
-          variantStyles[variant],
-          interactive && [
-            'cursor-pointer',
-            'will-animate-transform',
-            'hover:-translate-y-1 hover:border-primary-200',
-            variant === 'default' && 'hover:shadow-lg',
-            variant === 'elevated' && 'hover:shadow-lg',
-            variant === 'outlined' && 'hover:shadow-sm',
-            variant === 'flat' && 'hover:bg-muted/80',
-            variant === 'gradient' && 'hover:shadow-lg',
-            'active:scale-[0.98]',
-            'focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-          ],
-          className,
-        )}
-        {...props}
-      />
-    )
-  },
-)
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        'rounded-card text-card-foreground',
+        'relative overflow-hidden',
+        'transition-all duration-200 ease-out',
+        variantStyles[variant],
+        className,
+      )}
+      {...props}
+    />
+  )
+})
 Card.displayName = 'Card'
 
 /**

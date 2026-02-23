@@ -29,11 +29,11 @@ export default async function KnowledgeBasePage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {articles.map((article: Article) => (
-            <Link href={`/kb/${article.slug}`} key={article.id} className="focus-visible-ring rounded-lg">
-              <Card interactive className="h-full">
+            <Link href={`/kb/${article.slug}`} key={article.id} className="focus-visible-ring rounded-lg group">
+              <Card className="h-full transition-colors group-hover:border-primary">
                 <CardHeader>
-                  <div className="flex justify-between items-start mb-2">
-                    <CardTitle className="text-lg font-semibold">{article.title}</CardTitle>
+                  <div className="flex items-start justify-between mb-2">
+                    <CardTitle className="text-lg font-semibold transition-colors group-hover:text-primary">{article.title}</CardTitle>
                     <Badge variant="secondary">{article.category}</Badge>
                   </div>
                   <CardDescription>{article.summary}</CardDescription>
