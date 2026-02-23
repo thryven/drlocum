@@ -18,10 +18,20 @@ export interface Article {
   publishedDate: string;
 }
 
-// ---- Helper Functions from example/notion ----
+// ---- Helper Functions ----
 
 function extractPlainText(richText: RichTextItemResponse[]): string {
   return richText.map((t) => t.plain_text).join('');
+}
+
+function slugify(text: string): string {
+  if (!text) return '';
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "") // remove non-word characters
+    .replace(/\s+/g, "-") // replace spaces with hyphens
+    .replace(/-+/g, "-") // remove consecutive hyphens
+    .trim();
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,25 +45,20 @@ function getPropertyValue(page: PageObjectResponse, name: string): any {
     return props[key];
 }
 
-// ---- Refactored pageToArticle ----
-
 function pageToArticle(page: PageObjectResponse): Article {
   const titleProp = getPropertyValue(page, 'Name');
-  const slugProp = getPropertyValue(page, 'Slug');
   const summaryProp = getPropertyValue(page, 'Summary');
   const categoryProp = getPropertyValue(page, 'Category');
   const publishedDateProp = getPropertyValue(page, 'PublishedDate');
 
   const title = (titleProp?.type === 'title' && extractPlainText(titleProp.title)) || '';
-  const slug = (slugProp?.type === 'rich_text' && extractPlainText(slugProp.rich_text)) || '';
+  const slug = slugify(title) || page.id; // Generate slug from title
   const summary = (summaryProp?.type === 'rich_text' && extractPlainText(summaryProp.rich_text)) || '';
   const category = (categoryProp?.type === 'select' && categoryProp.select?.name) || 'Uncategorized';
   const publishedDate = (publishedDateProp?.type === 'date' && publishedDateProp.date?.start) || new Date().toISOString();
 
   return { id: page.id, title, slug, summary, category, publishedDate };
 }
-
-// ---- Unchanged getPublishedArticles ----
 
 export async function getPublishedArticles(): Promise<Article[]> {
   if (!databaseId || !process.env.NOTION_API_KEY) {
@@ -84,8 +89,6 @@ export async function getPublishedArticles(): Promise<Article[]> {
     return [];
   }
 }
-
-// ---- Refactored getArticle ----
 
 export async function getArticle(slug: string): Promise<{ article: Article; blocks: BlockObjectResponse[] } | null> {
   if (!slug) {
