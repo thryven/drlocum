@@ -55,7 +55,7 @@ export async function getPublishedArticles(): Promise<Article[]> {
       ],
     });
     return response.results
-      .filter((page): page is PageObjectResponse => 'properties' in page)
+      .filter((page): page is PageObjectResponse => 'properties' in page && page.object === 'page')
       .map(pageToArticle);
   } catch (error) {
     console.error("Failed to fetch articles from Notion:", error);
@@ -85,7 +85,9 @@ export async function getArticle(slug: string): Promise<{ article: Article, cont
     if (!page) {
       return null;
     }
-    if (!('properties' in page)) return null;
+    if (!('properties' in page) || page.object !== 'page') {
+      return null;
+    }
 
     const article = pageToArticle(page);
 
@@ -93,8 +95,8 @@ export async function getArticle(slug: string): Promise<{ article: Article, cont
     const mdString = n2m.toMarkdownString(mdblocks);
 
     return {
-        article,
-        content: mdString.parent ?? '',
+      article,
+      content: mdString.parent ?? '',
     };
   } catch (error) {
     console.error(`Failed to fetch article for slug "${slug}" from Notion:`, error);
