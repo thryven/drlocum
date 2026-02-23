@@ -1,40 +1,4 @@
 {
   "mcpServers": {
-    "shadcn": {
-      "command": "npx",
-      "args": [
-        "shadcn@latest",
-        "mcp"
-      ],
-      "disabled": true
-    },
-    "deepwiki": {
-      "url": "https://mcp.deepwiki.com/sse",
-      "type": "http",
-      "disabled": true
-    },
-    "aws-knowledge-mcp-server": {
-      "url": "https://knowledge-mcp.global.api.aws",
-      "type": "http",
-      "disabled": true
-    },
-    "next-devtools": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "next-devtools-mcp@latest"
-      ],
-      "disabled": true
-    }
-  },
-  "enabledTools": {
-    "shadcn": [],
-    "deepwiki": [
-      "read_wiki_structure",
-      "read_wiki_contents",
-      "ask_question"
-    ],
-    "aws-knowledge-mcp-server": [],
-    "next-devtools": []
   }
 }
