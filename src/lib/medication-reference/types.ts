@@ -64,7 +64,7 @@ export interface QuickReferenceComplaintCategory {
   name: string
   displayName: string
   color: string
-  icon: string
+  icon?: string
   enabled: boolean
   sortOrder: number
 }

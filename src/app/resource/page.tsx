@@ -58,6 +58,11 @@ const calculators = [
 
 const resources = [
   {
+    href: '/kb',
+    title: 'Knowledge Base',
+    description: 'A collection of medical articles and clinical guides.',
+  },
+  {
     href: '/resource/national-immunisation-schedule',
     title: 'National Immunisation Schedule',
     description: "Malaysia's National Immunisation Programme (NIP) schedule.",
@@ -98,8 +103,7 @@ export default function CalculatorsPage() {
             const content = (
               <Card
                 variant={calc.disabled ? 'flat' : 'default'}
-                interactive={!calc.disabled}
-                className={`h-full ${calc.disabled ? 'opacity-60' : ''}`}
+                className={`h-full ${calc.disabled ? 'opacity-60' : 'transition-colors group-hover:border-primary'}`}
               >
                 <CardHeader>
                   <div className='flex items-center gap-element'>
@@ -123,7 +127,7 @@ export default function CalculatorsPage() {
             }
 
             return (
-              <Link href={calc.href} key={calc.href} className='focus-visible-ring rounded-lg'>
+              <Link href={calc.href} key={calc.href} className='focus-visible-ring rounded-lg group'>
                 {content}
               </Link>
             )
@@ -136,7 +140,7 @@ export default function CalculatorsPage() {
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-element'>
           {resources.map((resource) => {
             const content = (
-              <Card variant='default' interactive className='h-full'>
+              <Card variant='default' className='h-full transition-colors group-hover:border-primary'>
                 <CardHeader>
                   <div className='flex items-center gap-element'>
                     <div className='flex-1'>
@@ -151,7 +155,7 @@ export default function CalculatorsPage() {
             )
 
             return (
-              <Link href={resource.href} key={resource.href} className='focus-visible-ring rounded-lg'>
+              <Link href={resource.href} key={resource.href} className='focus-visible-ring rounded-lg group'>
                 {content}
               </Link>
             )

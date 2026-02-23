@@ -5,7 +5,7 @@ import { Filter, Star, X } from 'lucide-react'
 import { useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import MobileSelect from '@/components/ui/mobile-select'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { useDevice } from '@/hooks/use-device'
 import { useScreenReader } from '@/hooks/use-screen-reader'
 import type { QuickReferenceComplaintCategory as ComplaintCategory } from '@/lib/medication-reference'
@@ -131,57 +131,11 @@ export function ComplaintFilterBar({
 
   // Mobile and Tablet View
   if (isMobile) {
-    if (isCompactView) {
-      return (
-        <div className={cn('w-full', className)}>
-          <div
-            className={cn(
-              'flex flex-nowrap gap-2 overflow-x-auto pb-2 -mx-3 px-3',
-              isPending && 'opacity-75 transition-opacity',
-            )}
-            role='tablist'
-            aria-label='Filter drugs by complaint category'
-          >
-            {allFilters.map((complaint) => {
-              const isActive = selectedComplaint === complaint.id
-              let iconElement: React.ReactNode
-              if (complaint.icon === 'Star') {
-                iconElement = <Star className={cn('h-5 w-5', complaint.id === 'favorites' && 'fill-current')} />
-              } else {
-                iconElement = <img src={`/icons/${complaint.icon}`} alt='' className='h-5 w-5' aria-hidden='true' />
-              }
-              return (
-                <Button
-                  key={complaint.id}
-                  variant='outline'
-                  size='icon'
-                  onClick={() => handleComplaintClick(complaint.id)}
-                  className={cn(
-                    'shrink-0 font-medium transition-all duration-200',
-                    getComplaintColorClasses(complaint.color, isActive),
-                    isActive && 'ring-2 ring-offset-2 ring-current/30 shadow-md',
-                  )}
-                  role='tab'
-                  aria-selected={isActive}
-                  disabled={isPending}
-                  aria-label={complaint.displayName}
-                >
-                  {iconElement}
-                </Button>
-              )
-            })}
-          </div>
-        </div>
-      )
-    } else {
+     {
       const filterOptions = allFilters.map((c) => {
         let iconElement: React.ReactNode
         if (c.icon === 'Star') {
           iconElement = <Star size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
-        } else {
-          iconElement = (
-            <img src={`/icons/${c.icon}`} alt='' className='h-5 w-5 fill-current text-green-500' aria-hidden='true' />
-          )
         }
         return {
           value: c.id,
@@ -241,21 +195,12 @@ export function ComplaintFilterBar({
                   className={cn('w-4 h-4', !isCompactView && 'mr-2', complaint.id === 'favorites' && 'fill-current')}
                 />
               )
-            } else {
-              iconElement = (
-                <img
-                  src={`/icons/${complaint.icon}`}
-                  alt=''
-                  className={cn('w-4 h-4', !isCompactView && 'mr-2')}
-                  aria-hidden='true'
-                />
-              )
             }
 
             const button = (
               <Button
                 variant='outline'
-                size={isCompactView ? 'icon' : 'sm'}
+                size={'sm'}
                 onClick={() => handleComplaintClick(complaint.id)}
                 className={cn(
                   'font-medium transition-all duration-200',
@@ -267,21 +212,9 @@ export function ComplaintFilterBar({
                 disabled={isPending}
               >
                 {iconElement}
-                {!isCompactView && complaint.displayName}
-                {isCompactView && <span className='sr-only'>{complaint.displayName}</span>}
+                {complaint.displayName}
               </Button>
             )
-
-            if (isCompactView) {
-              return (
-                <Tooltip key={complaint.id}>
-                  <TooltipTrigger asChild>{button}</TooltipTrigger>
-                  <TooltipContent>
-                    <p>{complaint.displayName}</p>
-                  </TooltipContent>
-                </Tooltip>
-              )
-            }
 
             return <div key={complaint.id}>{button}</div>
           })}

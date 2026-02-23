@@ -25,9 +25,11 @@ import maxolon from './maxolon'
 import metronidazole from './metronidazole'
 import oseltamivir from './oseltamivir'
 import paedicof from './paedicof'
-import paracetamol from './paracetamol'
+import paracetamol_120 from './paracetamol-120'
+import paracetamol_250 from './paracetamol-250'
 import piriton from './piriton'
-import prednisolone from './prednisolone'
+import prednisolone_3 from './prednisolone-3'
+import prednisolone_25 from './prednisolone-25'
 import promethazine from './promethazine'
 import salbutamol from './salbutamol'
 
@@ -57,9 +59,11 @@ export const medications: QuickReferenceMedication[] = [
   metronidazole,
   oseltamivir,
   paedicof,
-  paracetamol,
+  paracetamol_120,
+  paracetamol_250,
   piriton,
-  prednisolone,
+  prednisolone_3,
+  prednisolone_25,
   promethazine,
   salbutamol,
 ]

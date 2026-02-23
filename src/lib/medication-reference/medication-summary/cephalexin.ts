@@ -17,12 +17,10 @@ const cephalexin: QuickReferenceMedication = {
   dosingProfiles: [
     {
       formula: 'weight',
-      amount: 12.5,
+      amount: 25,
       unit: 'mg/kg/dose',
-      frequency: 'QID',
-      maxDose: 500,
-      maxDoseUnit: 'mg/dose',
-      minAge: 1, // Suitable from 1 month onwards
+      frequency: 'BD',
+      minAge: 1,
     },
   ],
   concentration: {

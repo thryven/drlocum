@@ -2,8 +2,8 @@
  * Data loading utilities for the Quick Reference Database
  */
 
-// Import JSON data
-import categoriesData from '../medical-data/complaint-categories.json'
+// Import data
+import { complaintCategories } from '../medical-data/complaint-categories'
 import { medications } from './medication-summary'
 import type { QuickReferenceComplaintCategory, QuickReferenceMedication } from './types'
 
@@ -22,18 +22,18 @@ class DataLoadingError extends Error {
 }
 
 /**
- * Load medication-summary from JSON file with error handling
+ * Load medication-summary from data files with error handling
  */
 export function loadMedications(): QuickReferenceMedication[] {
   try {
-    if (!(medications && Array.isArray(medications))) {
-      throw new Error('Invalid medication-summary data structure')
+    // Basic validation
+    if (!Array.isArray(medications)) {
+      throw new Error('Medications data is not an array.')
     }
-
-    return medications as QuickReferenceMedication[]
+    return medications
   } catch (error) {
     throw new DataLoadingError(
-      'Failed to load medication-summary data',
+      'Failed to load medications data',
       'medication-summary.ts',
       error instanceof Error ? error : new Error(String(error)),
     )
@@ -41,19 +41,19 @@ export function loadMedications(): QuickReferenceMedication[] {
 }
 
 /**
- * Load complaint categories from JSON file with error handling
+ * Load complaint categories from data files with error handling
  */
 export function loadComplaintCategories(): QuickReferenceComplaintCategory[] {
   try {
-    if (!(categoriesData && Array.isArray(categoriesData.categories))) {
-      throw new Error('Invalid categories data structure')
+    // Basic validation
+    if (!Array.isArray(complaintCategories)) {
+      throw new Error('Complaint categories data is not an array.')
     }
-
-    return categoriesData.categories as QuickReferenceComplaintCategory[]
+    return complaintCategories
   } catch (error) {
     throw new DataLoadingError(
       'Failed to load complaint categories data',
-      'complaint-categories.json',
+      'complaint-categories.ts',
       error instanceof Error ? error : new Error(String(error)),
     )
   }

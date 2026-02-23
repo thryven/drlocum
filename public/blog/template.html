@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Throat Infections in Children</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Outfit:wght@700&display=swap" rel="stylesheet">
+
+<style>
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #1f2937; border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #2563eb; }
+
+.hero-background::before {
+content:'';
+position:absolute;
+inset:0;
+background:linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.1) 50%, rgba(236,72,153,0.1) 100%);
+filter:blur(120px);
+z-index:0;
+opacity:0.7;
+}
+
+.card-hover-effect {
+transition: transform .3s ease, box-shadow .3s ease;
+}
+.card-hover-effect:hover {
+transform: translateY(-8px);
+box-shadow: 0 20px 40px rgba(0,0,0,.2), 0 10px 20px rgba(0,0,0,.1);
+}
+
+.gradient-text {
+background: linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.section-divider {
+height:2px;
+background:linear-gradient(to right, rgba(59,130,246,.5), rgba(139,92,246,.5), rgba(236,72,153,.5));
+}
+</style>
+
+<script>
+tailwind.config = {
+darkMode:'class',
+theme:{
+extend:{
+colors:{
+'dark-bg':'#0f172a',
+'dark-card-bg':'#1e293b',
+'dark-text':'#e2e8f0',
+'dark-secondary-text':'#94a3b8'
+},
+fontFamily:{
+sans:['Inter','sans-serif'],
+display:['Outfit','sans-serif']
+}
+}
+}
+}
+</script>
+</head>
+
+<body class="font-sans antialiased bg-dark-bg text-dark-text p-6 md:p-12">
+
+<div class="relative min-h-screen w-full flex flex-col items-center">
+<div class="hero-background absolute inset-0 -z-10"></div>
+
+<header class="relative z-10 w-full max-w-6xl mx-auto text-center mb-16 px-4">
+<h1 class="text-4xl md:text-6xl font-display font-bold mb-4 gradient-text">
+Throat Infections in Children
+</h1>
+<p class="text-lg md:text-xl text-dark-secondary-text">
+Understanding Pharyngitis: Causes, Symptoms, Diagnosis, and Management
+</p>
+</header>
+
+<main class="relative z-10 w-full max-w-6xl mx-auto space-y-16">
+
+<!-- Definition -->
+<section class="bg-dark-card-bg rounded-2xl p-8 md:p-12 shadow-xl card-hover-effect">
+<h2 class="font-display text-3xl md:text-4xl font-bold mb-6 text-blue-400">
+Definition and Epidemiology
+</h2>
+<p class="text-dark-secondary-text leading-relaxed">
+Throat infections, also known as pharyngitis or tonsillopharyngitis, are acute inflammations of the pharynx and/or tonsils. In children, these are primarily viral, accounting for 70-85% of cases. The most common bacterial cause is Group A Streptococcus (GAS), specifically Streptococcus pyogenes, responsible for 15-30% of cases in children and adolescents, with a peak incidence between 5 and 15 years of age. Less common bacterial agents include Arcanobacterium haemolyticum, Mycoplasma pneumoniae, and Chlamydophila pneumoniae. Fungal infections are rare and typically affect immunocompromised individuals. Non-infectious causes like allergies, irritants, or gastroesophageal reflux disease (GERD) can mimic these symptoms [1, 2, 3].
+</p>
+</section>
+
+<!-- Pathophysiology -->
+<section class="bg-dark-card-bg rounded-2xl p-8 md:p-12 shadow-xl card-hover-effect">
+<h2 class="font-display text-3xl md:text-4xl font-bold mb-6 text-blue-400">
+Pathophysiology
+</h2>
+
+<p class="text-dark-secondary-text mb-6">
+The underlying mechanism involves pathogen entry and replication in the pharyngeal mucosa, triggering a localized inflammatory response.
+</p>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+<div>
+<h3 class="text-xl font-bold mb-3 text-purple-400">Viral Pharyngitis</h3>
+<ul class="list-disc list-inside space-y-2 text-dark-secondary-text">
+<li>Viruses such as rhinovirus, adenovirus, influenza virus, parainfluenza virus, enterovirus, respiratory syncytial virus, and Epstein-Barr virus (EBV) infect pharyngeal epithelial cells.</li>
+<li>Viral replication leads to cell damage and an inflammatory cascade involving cytokine release, causing vasodilation, edema, and pain.</li>
+<li>EBV can cause infectious mononucleosis, characterized by significant lymphoid hyperplasia in the tonsils and cervical lymph nodes [4, 5].</li>
+</ul>
+</div>
+
+<div>
+<h3 class="text-xl font-bold mb-3 text-pink-400">Bacterial Pharyngitis (Group A Streptococcus)</h3>
+<ul class="list-disc list-inside space-y-2 text-dark-secondary-text">
+<li>Streptococcus pyogenes attaches to host epithelial cells via surface proteins like M protein, lipoteichoic acid, and F protein.</li>
+<li>It produces virulence factors including streptolysins O and S, pyrogenic exotoxins, and streptokinase.</li>
+<li>These factors help evade host defenses and cause tissue damage leading to exudative pharyngitis.</li>
+<li>The M protein is linked to post-streptococcal sequelae such as acute rheumatic fever and post-streptococcal glomerulonephritis [6, 7].</li>
+</ul>
+</div>
+
+</div>
+</section>
+
+<!-- Clinical Presentation -->
+<section class="bg-dark-card-bg rounded-2xl p-8 md:p-12 shadow-xl card-hover-effect">
+<h2 class="font-display text-3xl md:text-4xl font-bold mb-6 text-blue-400">
+Clinical Presentation
+</h2>
+
+<p class="text-dark-secondary-text mb-6">
+Symptoms vary by etiology, with considerable overlap between viral and bacterial infections.
+</p>
+
+<h3 class="text-xl font-bold mb-3 text-purple-400">General Symptoms</h3>
+<p class="text-dark-secondary-text mb-6">
+Include sore throat (odynophagia), difficulty swallowing (dysphagia), fever, headache, and malaise.
+</p>
+
+<h3 class="text-xl font-bold mb-3 text-purple-400">Viral Pharyngitis</h3>
+<p class="text-dark-secondary-text mb-6">
+Often accompanied by coryza, cough, hoarseness, conjunctivitis, oral ulcers, or diarrhea. Adenovirus can cause pharyngoconjunctival fever [4, 8].
+</p>
+
+<h3 class="text-xl font-bold mb-3 text-pink-400">Bacterial Pharyngitis (Group A Streptococcus)</h3>
+<p class="text-dark-secondary-text mb-6">
+Abrupt onset of sore throat, painful swallowing, fever, headache, nausea, vomiting, abdominal pain, tonsillar exudates, palatal petechiae, tender anterior cervical lymphadenopathy, and absence of cough.
+</p>
+
+<h3 class="text-xl font-bold mb-3 text-pink-400">Scarlet Fever</h3>
+<p class="text-dark-secondary-text mb-6">
+Fine sandpaper-like rash, strawberry tongue, and desquamation during recovery [1, 9].
+</p>
+
+<h3 class="text-xl font-bold mb-3 text-pink-400">Peritonsillar Abscess (Quinsy)</h3>
+<p class="text-dark-secondary-text">
+Severe unilateral sore throat, trismus, muffled voice, drooling, and uvular deviation [10].
+</p>
+
+</section>
+
+<!-- Diagnostic Criteria -->
+<section class="bg-dark-card-bg rounded-2xl p-8 md:p-12 shadow-xl card-hover-effect">
+<h2 class="font-display text-3xl md:text-4xl font-bold mb-6 text-blue-400">
+Diagnostic Criteria
+</h2>
+
+<p class="text-dark-secondary-text mb-6">
+Goal is to distinguish GAS from viral causes to avoid unnecessary antibiotics.
+</p>
+
+<ul class="list-disc list-inside space-y-2 text-dark-secondary-text">
+<li>Modified McIsaac Score</li>
+<li>RADT testing</li>
+<li>Throat culture (gold standard)</li>
+<li>Molecular NAAT assays</li>
+</ul>
+
+</section>
+
+<!-- Management -->
+<section class="bg-dark-card-bg rounded-2xl p-8 md:p-12 shadow-xl card-hover-effect">
+<h2 class="font-display text-3xl md:text-4xl font-bold mb-6 text-blue-400">
+Management
+</h2>
+
+<p class="text-dark-secondary-text mb-6">
+Symptomatic treatment for viral causes. Antibiotics for confirmed GAS.
+</p>
+
+<h3 class="text-xl font-bold mb-3 text-purple-400">Viral Pharyngitis</h3>
+<ul class="list-disc list-inside space-y-2 text-dark-secondary-text mb-6">
+<li>Acetaminophen or ibuprofen</li>
+<li>Hydration</li>
+<li>Salt water gargles</li>
+<li>Avoid aspirin</li>
+</ul>
+
+<h3 class="text-xl font-bold mb-3 text-pink-400">GAS Pharyngitis</h3>
+<ul class="list-disc list-inside space-y-2 text-dark-secondary-text">
+<li>Penicillin V</li>
+<li>Amoxicillin</li>
+<li>Benzathine penicillin G</li>
+<li>Cephalexin / Clindamycin / Macrolides for allergy</li>
+<li>Complete full 10-day course</li>
+</ul>
+
+</section>
+
+<!-- Controversies -->
+<section class="bg-dark-card-bg rounded-2xl p-8 md:p-12 shadow-xl card-hover-effect">
+<h2 class="font-display text-3xl md:text-4xl font-bold mb-6 text-blue-400">
+Controversies, Recent Updates, and Landmark Trials
+</h2>
+
+<ul class="list-disc list-inside space-y-2 text-dark-secondary-text">
+<li>Testing in low-risk settings debated</li>
+<li>Short-course antibiotics under study</li>
+<li>Tonsillectomy criteria refined</li>
+<li>GAS vaccine development ongoing</li>
+<li>Expansion of molecular diagnostics</li>
+</ul>
+
+</section>
+
+<!-- References -->
+<section class="bg-dark-card-bg rounded-2xl p-8 md:p-12 shadow-xl card-hover-effect">
+<h2 class="font-display text-3xl md:text-4xl font-bold mb-6 text-blue-400">
+References
+</h2>
+
+<div id="references-list" class="font-body text-lg text-gray-300 space-y-4">
+  <div class="cursor-pointer" onclick="toggleReference('ref1')">
+      <span class="text-primary font-bold">1.</span> Shulman, S. T., et al. (2012). Clinical practice guideline for the diagnosis and management of group A streptococcal pharyngitis: 2012 update by the Infectious Diseases Society of America. *Clinical Infectious Diseases*, 55(10), e86-e102.
+      <div id="ref1" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated) - external sites are not allowed, hence this is conceptual.</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref2')">
+      <span class="text-primary font-bold">2.</span> Bisno, A. L. (2001). Acute pharyngitis. *New England Journal of Medicine*, 344(3), 205-211.
+      <div id="ref2" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref3')">
+      <span class="text-primary font-bold">3.</span> Webber, E. M., et al. (2014). Diagnosis and management of sore throat. *BMJ*, 349, g4499.
+      <div id="ref3" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref4')">
+      <span class="text-primary font-bold">4.</span> Wald, E. R. (2015). Pharyngitis. *Pediatrics in Review*, 36(1), 4-18.
+      <div id="ref4" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref5')">
+      <span class="text-primary font-bold">5.</span> Dunmire, S. K., et al. (2014). Infectious mononucleosis. *Clinical Chemistry*, 60(9), 1161-1165.
+      <div id="ref5" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref6')">
+      <span class="text-primary font-bold">6.</span> Cunningham, M. W. (2000). Pathogenesis of acute rheumatic fever. *Clinical Infectious Diseases*, 30(2), 296-297.
+      <div id="ref6" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref7')">
+      <span class="text-primary font-bold">7.</span> Walker, M. J., et al. (2007). Molecular pathogenesis of group A Streptococcus. *Annals of Medicine*, 39(8), 581-592.
+      <div id="ref7" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref8')">
+      <span class="text-primary font-bold">8.</span> Pichichero, M. E. (2016). Group A streptococcal tonsillopharyngitis: Clinical features and diagnosis. *UpToDate*. Retrieved from www.uptodate.com.
+      <div id="ref8" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref9')">
+      <span class="text-primary font-bold">9.</span> Chandy, D., et al. (2016). Scarlet fever: A reappraisal of the clinical and laboratory features. *European Journal of Pediatrics*, 175(2), 273-278.
+      <div id="ref9" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref10')">
+      <span class="text-primary font-bold">10.</span> Johnson, R. F., et al. (2015). Peritonsillar abscess. *Ear, Nose & Throat Journal*, 94(3), E1-E4.
+      <div id="ref10" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref11')">
+      <span class="text-primary font-bold">11.</span> McIsaac, W. J., et al. (2004). Clinical validation of a modified Centor score for the diagnosis of streptococcal pharyngitis in children. *Archives of Pediatrics & Adolescent Medicine*, 158(7), 705-707.
+      <div id="ref11" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref12')">
+      <span class="text-primary font-bold">12.</span> Lemiere, C., et al. (2014). Diagnosis and management of pharyngitis in children. *Paediatrics & Child Health*, 19(5), 259-261.
+      <div id="ref12" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref13')">
+      <span class="text-primary font-bold">13.</span> Cohen, J. F., et al. (2016). Molecular diagnosis of group A streptococcus pharyngitis: a systematic review and meta-analysis. *Clinical Infectious Diseases*, 62(4), 481-488.
+      <div id="ref13" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref14')">
+      <span class="text-primary font-bold">14.</span> Kaltwasser, G., et al. (2019). The new generation of molecular rapid streptococcal tests. *Journal of Clinical Microbiology*, 57(1), e01374-18.
+      <div id="ref14" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref15')">
+      <span class="text-primary font-bold">15.</span> NICE Guideline NG160. (2020). Fever in under 5s: assessment and initial management. National Institute for Health and Care Excellence.
+      <div id="ref15" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref16')">
+      <span class="text-primary font-bold">16.</span> CDC. (2016). Reye's Syndrome. Centers for Disease Control and Prevention. Retrieved from www.cdc.gov/flu/symptoms/reyes-syndrome.htm.
+      <div id="ref16" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref17')">
+      <span class="text-primary font-bold">17.</span> ESCMID guideline for the management of sore throat. (2012). *Clinical Microbiology and Infection*, 18(Suppl 1), 1-28.
+      <div id="ref17" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref18')">
+      <span class="text-primary font-bold">18.</span> Amoxicillin versus penicillin for the treatment of group A streptococcal pharyngitis: a meta-analysis. (2007). *Archives of Pediatrics & Adolescent Medicine*, 161(9), 896-900.
+      <div id="ref18" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref19')">
+      <span class="text-primary font-bold">19.</span> Tanz, R. R., et al. (2004). Clinical and microbiologic efficacy of a 5-day course of azithromycin in the treatment of streptococcal pharyngitis. *Pediatric Infectious Disease Journal*, 23(7), 619-623.
+      <div id="ref19" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref20')">
+      <span class="text-primary font-bold">20.</span> Wessels, M. R. (2011). Clinical practice. Streptococcal pharyngitis. *New England Journal of Medicine*, 364(7), 648-655.
+      <div id="ref20" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref21')">
+      <span class="text-primary font-bold">21.</span> NICE Guideline NG84. (2018). Sore throat (acute): antimicrobial prescribing. National Institute for Health and Care Excellence.
+      <div id="ref21" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref22')">
+      <span class="text-primary font-bold">22.</span> Casey, J. R., et al. (2006). A 5-day course of azithromycin compared with a 10-day course of penicillin V in the treatment of streptococcal pharyngitis. *Journal of Pediatrics*, 148(4), 515-520.
+      <div id="ref22" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref23')">
+      <span class="text-primary font-bold">23.</span> Baugh, R. F., et al. (2019). Clinical Practice Guideline: Tonsillectomy in Children (Update). *Otolaryngology–Head and Neck Surgery*, 160(1_suppl), S1-S42.
+      <div id="ref23" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+  <div class="cursor-pointer" onclick="toggleReference('ref24')">
+      <span class="text-primary font-bold">24.</span> Dale, J. B., et al. (2017). Immunogenicity of a 26-valent group A streptococcal M protein-based vaccine in a nonhuman primate model. *Infection and Immunity*, 85(7), e00047-17.
+      <div id="ref24" class="hidden bg-gray-800 p-3 mt-2 rounded-md text-sm text-gray-400">Link to publication (simulated)</div>
+  </div>
+</div>
+
+</section>
+
+
+</main>
+</div>
+
+</body>
+</html>

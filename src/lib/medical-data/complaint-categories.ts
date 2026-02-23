@@ -1,0 +1,60 @@
+import type { QuickReferenceComplaintCategory } from '@/lib/medication-reference/types'
+
+export const complaintCategories: QuickReferenceComplaintCategory[] = [
+  {
+    id: 'antimicrobials',
+    name: 'antimicrobials',
+    displayName: 'Antimicrobials',
+    color: 'red',
+    enabled: true,
+    sortOrder: 1,
+  },
+  {
+    id: 'pain-fever',
+    name: 'pain-fever',
+    displayName: 'Pain & Fever',
+    color: 'orange',
+    enabled: true,
+    sortOrder: 2,
+  },
+  {
+    id: 'respiratory',
+    name: 'respiratory',
+    displayName: 'Respiratory',
+    color: 'green',
+    enabled: true,
+    sortOrder: 3,
+  },
+  {
+    id: 'gastrointestinal',
+    name: 'gastrointestinal',
+    displayName: 'Gastrointestinal',
+    color: 'blue',
+    enabled: true,
+    sortOrder: 4,
+  },
+  {
+    id: 'allergy',
+    name: 'allergy',
+    displayName: 'Allergy',
+    color: 'pink',
+    enabled: true,
+    sortOrder: 5,
+  },
+  {
+    id: 'antispasmodics',
+    name: 'antispasmodics',
+    displayName: 'Antispasmodics',
+    color: 'yellow',
+    enabled: true,
+    sortOrder: 6,
+  },
+  {
+    id: 'corticosteroids',
+    name: 'corticosteroids',
+    displayName: 'Corticosteroids',
+    color: 'purple',
+    enabled: true,
+    sortOrder: 7,
+  },
+]

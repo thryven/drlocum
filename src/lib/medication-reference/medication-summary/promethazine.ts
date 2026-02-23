@@ -15,24 +15,11 @@ const promethazine: QuickReferenceMedication = {
   name: 'Promethazine',
   dosingProfiles: [
     {
+      formula: 'weight',
+      amount: 0.3,
+      unit: 'mg/kg/dose',
+      frequency: 'TDS',
       minAge: 24,
-      maxAge: 71,
-      formula: 'fixed',
-      amount: 5,
-      unit: 'mg/dose',
-      frequency: 'BD',
-      maxDose: 5,
-      maxDoseUnit: 'mg/dose',
-    },
-    {
-      minAge: 72,
-      maxAge: 143,
-      formula: 'fixed',
-      amount: 10,
-      unit: 'mg/dose',
-      frequency: 'BD',
-      maxDose: 10,
-      maxDoseUnit: 'mg/dose',
     },
   ],
   concentration: {

@@ -1,7 +1,7 @@
 import type { QuickReferenceMedication } from '../types'
 
 /**
- * Benadryl (Diphenhydramine)
+ * Diphenhydramine (Benadryl)
  * Categories: allergy
  *
  * MIMS:
@@ -11,22 +11,29 @@ import type { QuickReferenceMedication } from '../types'
  *
  * Frank Shann: 1-2 mg/kg 6-8H
  */
-const benadryl: QuickReferenceMedication = {
-  id: 'benadryl-quick',
-  name: 'Benadryl',
+const diphenhydramine_7: QuickReferenceMedication = {
+  id: 'diphenhydramine-7-quick',
+  name: 'Diphenhydramine(7mg)',
   dosingProfiles: [
     {
-      formula: 'weight',
-      amount: 1,
-      unit: 'mg/kg/dose',
+      minAge: 24, // 2 years
+      maxAge: 71, // up to 5 years
+      formula: 'fixed',
+      amount: 2.5,
+      unit: 'mL/dose',
       frequency: 'TDS',
-      maxDose: 50,
-      maxDoseUnit: 'mg/dose',
-      minAge: 24,
+    },
+    {
+      minAge: 72, // 6 years
+      maxAge: 143, // up to 12 years
+      formula: 'fixed',
+      amount: 5,
+      unit: 'mL/dose',
+      frequency: 'TDS',
     },
   ],
   concentration: {
-    amount: 14,
+    amount: 7,
     unit: 'mg/5ml',
     formulation: 'syrup',
   },
@@ -34,4 +41,4 @@ const benadryl: QuickReferenceMedication = {
   enabled: true,
 }
 
-export default benadryl
+export default diphenhydramine_7

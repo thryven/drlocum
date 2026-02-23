@@ -12,9 +12,9 @@ import type { QuickReferenceMedication } from '../types'
  * BNFc:
  * Asthma - 1 month–11 years: 1–2 mg/kg once daily (max. per dose 40 mg)
  */
-const prednisolone: QuickReferenceMedication = {
-  id: 'prednisolone-quick',
-  name: 'Prednisolone',
+const prednisolone_3: QuickReferenceMedication = {
+  id: 'prednisolone-3-quick',
+  name: 'Prednisolone(3mg)',
   dosingProfiles: [
     {
       formula: 'weight',
@@ -32,4 +32,4 @@ const prednisolone: QuickReferenceMedication = {
   enabled: true,
 }
 
-export default prednisolone
+export default prednisolone_3
