@@ -47,16 +47,14 @@ function getPropertyValue(page: PageObjectResponse, name: string): any {
 
 function pageToArticle(page: PageObjectResponse): Article {
   const titleProp = getPropertyValue(page, 'Name');
-  const slugProp = getPropertyValue(page, 'Slug');
   const summaryProp = getPropertyValue(page, 'Summary');
   const categoryProp = getPropertyValue(page, 'Category');
   const publishedDateProp = getPropertyValue(page, 'PublishedDate');
 
   const title = (titleProp?.type === 'title' && extractPlainText(titleProp.title)) || '';
   
-  // Try to get slug from 'Slug' property, otherwise generate from title.
-  const slugSource = (slugProp?.type === 'rich_text' && extractPlainText(slugProp.rich_text)) || title;
-  const slug = slugify(slugSource) || page.id;
+  // Always generate the slug from the title for consistency
+  const slug = slugify(title) || page.id;
 
   const summary = (summaryProp?.type === 'rich_text' && extractPlainText(summaryProp.rich_text)) || '';
   const category = (categoryProp?.type === 'select' && categoryProp.select?.name) || 'Uncategorized';
