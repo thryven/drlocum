@@ -123,8 +123,8 @@ export async function getArticle(slug: string): Promise<{ article: Article; bloc
     do {
         const response = await notion.blocks.children.list({
             block_id: article.id,
-            start_cursor: cursor,
             page_size: 100, // Notion's max page size
+            ...(cursor && { start_cursor: cursor }),
         });
 
         blocks.push(
