@@ -1,0 +1,158 @@
+/* ==========================================================================
+   Animations & Keyframes
+   ========================================================================== */
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/* Page Transition Animations */
+@keyframes page-exit {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Loading State Animations */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes draw-check {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes progress {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Animation Classes */
+
+/* Page transition utility classes */
+.page-exit {
+  animation: page-exit 200ms ease-out;
+}
+
+.page-enter {
+  animation: page-enter 300ms ease-out 100ms;
+  animation-fill-mode: backwards;
+}
+
+/* Loading animation utility classes */
+.animate-spin {
+  animation: rotate 1s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-check {
+  animation: draw-check 400ms ease-out;
+  stroke-dasharray: 100;
+}
+
+.animate-progress {
+  animation: progress 1.5s ease-in-out infinite;
+}
+
+/* Apply to animated elements for better performance */
+.animate-spin,
+.animate-pulse,
+.animate-check,
+.animate-progress,
+.page-exit,
+.page-enter {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Staggered animation utilities */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 300ms ease-out,
+    transform 300ms ease-out;
+}
+
+.stagger-item.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animation delay utilities for staggering */
+.stagger-delay-1 {
+  animation-delay: 50ms;
+}
+
+.stagger-delay-2 {
+  animation-delay: 100ms;
+}
+
+.stagger-delay-3 {
+  animation-delay: 150ms;
+}
+
+.stagger-delay-4 {
+  animation-delay: 200ms;
+}
+
+.stagger-delay-5 {
+  animation-delay: 250ms;
+}

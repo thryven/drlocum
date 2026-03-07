@@ -1,0 +1,182 @@
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+@layer utilities {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+/* Spacing Utility Classes */
+@utility spacing-section {
+  margin-bottom: var(--spacing-section);
+}
+@utility spacing-component {
+  margin-bottom: var(--spacing-component);
+}
+@utility spacing-element {
+  margin-bottom: var(--spacing-element);
+}
+@utility spacing-inline {
+  margin-bottom: var(--spacing-inline);
+}
+
+/* Gap utilities for flexbox and grid */
+@utility gap-section {
+  gap: var(--spacing-section);
+}
+@utility gap-component {
+  gap: var(--spacing-component);
+}
+@utility gap-element {
+  gap: var(--spacing-element);
+}
+@utility gap-inline {
+  gap: var(--spacing-inline);
+}
+
+/* Padding utilities */
+@utility padding-component {
+  padding: var(--spacing-component);
+}
+@utility padding-element {
+  padding: var(--spacing-element);
+}
+@utility padding-inline {
+  padding: var(--spacing-inline);
+}
+
+/* Border Radius Utility Classes */
+@utility rounded-none {
+  border-radius: var(--radius-none);
+}
+@utility rounded-sm {
+  border-radius: var(--radius-sm);
+}
+@utility rounded-base {
+  border-radius: var(--radius-base);
+}
+@utility rounded-md {
+  border-radius: var(--radius-md);
+}
+@utility rounded-lg {
+  border-radius: var(--radius-lg);
+}
+@utility rounded-xl {
+  border-radius: var(--radius-xl);
+}
+@utility rounded-2xl {
+  border-radius: var(--radius-2xl);
+}
+@utility rounded-full {
+  border-radius: var(--radius-full);
+}
+
+/* Component-specific Radius Utility Classes */
+@utility rounded-button {
+  border-radius: var(--radius-button);
+}
+@utility rounded-card {
+  border-radius: var(--radius-card);
+}
+@utility rounded-input {
+  border-radius: var(--radius-input);
+}
+@utility rounded-modal {
+  border-radius: var(--radius-modal);
+}
+@utility rounded-badge {
+  border-radius: var(--radius-badge);
+}
+
+/* Shadow Utility Classes */
+@utility shadow-xs {
+  box-shadow: var(--shadow-xs);
+}
+@utility shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+@utility shadow-base {
+  box-shadow: var(--shadow-base);
+}
+@utility shadow-md {
+  box-shadow: var(--shadow-md);
+}
+@utility shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+@utility shadow-xl {
+  box-shadow: var(--shadow-xl);
+}
+@utility shadow-2xl {
+  box-shadow: var(--shadow-2xl);
+}
+@utility shadow-primary {
+  box-shadow: var(--shadow-primary);
+}
+@utility shadow-none {
+  box-shadow: none;
+}
+
+/* GPU Acceleration Utilities */
+.will-animate-transform {
+  will-change: transform;
+}
+.will-animate-auto {
+  will-change: auto;
+}
+
+/* General Purpose Utilities */
+@utility sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+@utility zoom-safe {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+@utility zoom-safe-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+@utility enhanced-contrast {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+}
+@utility enhanced-contrast-muted {
+  color: hsl(var(--muted-foreground));
+  font-weight: 500;
+}
+.focus-visible-ring {
+  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+}
+
+/* Mobile & Responsive Utilities */
+@utility mobile-safe-area {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+@utility mobile-safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+@utility mobile-safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+@utility mobile-safe-area-full {
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+}
