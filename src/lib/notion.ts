@@ -51,7 +51,7 @@ function extractTitle(page: PageObjectResponse): string {
   const props = page.properties;
   for (const key of Object.keys(props)) {
     const prop = props[key];
-    if (prop.type === "title") {
+    if (prop && prop.type === "title") {
       return extractPlainText(prop.title);
     }
   }
