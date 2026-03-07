@@ -1,28 +1,4 @@
 {
   "mcpServers": {
-    "notionApi": {
-      "command": "bash",
-      "args": [
-        "-c",
-        "NOTION_TOKEN='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' NOTION_API_VERSION='2022-06-28' npx -y @notionhq/notion-mcp-server"
-      ]
-    }
-  },
-  "enabledTools": {
-    "notionApi": [
-      "API-get-user",
-      "API-get-users",
-      "API-get-self",
-      "API-post-search",
-      "API-get-block-children",
-      "API-retrieve-a-block",
-      "API-retrieve-a-page",
-      "API-retrieve-a-page-property",
-      "API-retrieve-a-comment",
-      "API-query-data-source",
-      "API-retrieve-a-data-source",
-      "API-list-data-source-templates",
-      "API-retrieve-a-database"
-    ]
   }
 }

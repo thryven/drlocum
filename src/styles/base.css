@@ -1,0 +1,323 @@
+/* ==========================================================================
+   Base Styles & Resets
+   ========================================================================== */
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground leading-relaxed;
+    /* Optimize text rendering for mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Support zoom and touch interactions on mobile */
+    touch-action: manipulation;
+    /* Improve text selection on mobile */
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  /* Smooth transitions for color properties */
+  body,
+  input,
+  select,
+  button,
+  textarea,
+  .bg-background,
+  .bg-card,
+  .bg-popover,
+  .bg-primary,
+  .bg-secondary,
+  .bg-muted,
+  .bg-accent,
+  .bg-destructive,
+  .text-foreground,
+  .text-card-foreground,
+  .text-popover-foreground,
+  .text-primary-foreground,
+  .text-secondary-foreground,
+  .text-muted-foreground,
+  .text-accent-foreground,
+  .text-destructive-foreground,
+  .border-border,
+  .border-input,
+  .ring-ring {
+    transition:
+      color 0.2s ease-in-out,
+      background-color 0.2s ease-in-out,
+      border-color 0.2s ease-in-out,
+      box-shadow 0.2s ease-in-out,
+      fill 0.2s ease-in-out;
+  }
+  
+  /* ==========================================================================
+     Accessibility & Fallbacks
+     ========================================================================== */
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    body {
+      --foreground: 0 0% 0%;
+      --background: 0 0% 100%;
+      --muted-foreground: 0 0% 20%;
+    }
+    .dark {
+      --foreground: 0 0% 100%;
+      --background: 0 0% 0%;
+      --muted-foreground: 0 0% 80%;
+    }
+  }
+
+  /* Reduced motion support - Comprehensive fallbacks */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      animation-delay: 0s !important;
+      transition-delay: 0s !important;
+      scroll-behavior: auto !important;
+    }
+
+    /* Override common animation classes */
+    .animate-spin,
+    .animate-ping,
+    .animate-pulse,
+    .animate-bounce,
+    .animate-check,
+    .animate-progress {
+      animation: none !important;
+    }
+
+    /* Override transition utilities */
+    .transition,
+    .transition-all,
+    .transition-colors,
+    .transition-opacity,
+    .transition-shadow,
+    .transition-transform {
+      transition: none !important;
+    }
+
+    /* Ensure interactive elements still provide visual feedback */
+    button:active,
+    [role="button"]:active {
+      opacity: 0.8;
+    }
+
+    /* Ensure focus is still visible */
+    *:focus-visible {
+      outline: 2px solid hsl(var(--ring));
+      outline-offset: 2px;
+    }
+
+    /* Ensure loading states are visible without animation */
+    [aria-busy="true"],
+    [data-loading="true"] {
+      opacity: 0.7;
+      cursor: wait;
+    }
+
+    /* Ensure disabled states are clear */
+    [disabled],
+    [aria-disabled="true"] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Ensure expanded/collapsed states are clear without animation */
+    [aria-expanded="true"] {
+      /* Content is visible - no additional styles needed */
+      display: block;
+    }
+
+    [aria-expanded="false"] {
+      /* Content is hidden - no additional styles needed */
+      display: none;
+    }
+
+    /* Ensure modal/dialog visibility without animation */
+    [data-state="open"],
+    [aria-modal="true"] {
+      display: block;
+    }
+
+    [data-state="closed"] {
+      display: none;
+    }
+    
+    /* Preserve essential functionality without animation */
+    .page-exit,
+    .page-enter {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    /* Keep spinner visible but static */
+    .animate-spin {
+      opacity: 1 !important;
+    }
+
+    /* Show progress bar at full width for indeterminate state */
+    .animate-progress {
+      transform: none !important;
+      width: 100% !important;
+    }
+
+    /* Remove will-change in reduced motion mode */
+    .will-animate,
+    .will-animate-transform,
+    .will-animate-opacity {
+      will-change: auto !important;
+    }
+
+    /* Ensure staggered items are immediately visible */
+    .stagger-item {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    /* Remove animation delays */
+    .stagger-delay-1,
+    .stagger-delay-2,
+    .stagger-delay-3,
+    .stagger-delay-4,
+    .stagger-delay-5 {
+      animation-delay: 0s !important;
+    }
+
+    /* Ensure collapsible content shows/hides instantly */
+    .CollapsibleContent[data-state="open"],
+    .CollapsibleContent[data-state="closed"] {
+      animation: none !important;
+    }
+
+    /* Accordion instant state changes */
+    [data-radix-accordion-content] {
+      animation: none !important;
+    }
+
+    /* Modal/Dialog instant appearance */
+    [data-radix-dialog-overlay],
+    [data-radix-dialog-content] {
+      animation: none !important;
+    }
+
+    /* Tooltip instant appearance */
+    [data-radix-tooltip-content] {
+      animation: none !important;
+    }
+
+    /* Dropdown instant appearance */
+    [data-radix-dropdown-menu-content],
+    [data-radix-select-content] {
+      animation: none !important;
+    }
+
+    /* Hover effects become instant state changes */
+    *:hover {
+      transition: none !important;
+    }
+
+    /* Focus effects become instant state changes */
+    *:focus,
+    *:focus-visible {
+      transition: none !important;
+    }
+
+    /* Active effects become instant state changes */
+    *:active {
+      transition: none !important;
+    }
+  }
+
+  @media (max-width: 767px) {
+    /* Optimize touch targets for mobile (minimum 48x48px) */
+    button,
+    a,
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    .touch-target {
+      min-height: 48px;
+      min-width: 48px;
+      padding: 12px 16px;
+    }
+
+    /* Ensure interactive elements have adequate spacing */
+    .interactive-list > * + * {
+      margin-top: var(--space-3);
+    }
+
+    /* Mobile navigation items */
+    nav a,
+    nav button {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-3);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    /* Hover effects for pointer devices */
+    @media (hover: hover) and (pointer: fine) {
+      button:hover,
+      a:hover,
+      .hoverable:hover {
+        transform: translateY(-2px);
+        transition: transform 200ms ease-out;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+        border-color: hsl(var(--primary) / 0.3);
+        transition:
+          transform 200ms ease-out,
+          box-shadow 200ms ease-out,
+          border-color 200ms ease-out;
+      }
+
+      .button-hover:hover {
+        transform: scale(1.02);
+        box-shadow: var(--shadow-md);
+        transition:
+          transform 200ms ease-out,
+          box-shadow 200ms ease-out;
+      }
+    }
+
+    /* Keyboard navigation enhancements */
+    *:focus-visible {
+      outline: 2px solid hsl(var(--primary));
+      outline-offset: 2px;
+      border-radius: var(--radius-base);
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid hsl(var(--primary));
+      outline-offset: 2px;
+      box-shadow: 0 0 0 4px hsl(var(--primary) / 0.1);
+    }
+  }
+}

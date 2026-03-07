@@ -1,0 +1,210 @@
+/* ==========================================================================
+   Animations & Keyframes
+   ========================================================================== */
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* Page Transition Animations */
+@keyframes page-exit {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Loading State Animations */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes draw-check {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes progress {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Animation Classes */
+.CollapsibleContent[data-state="open"] {
+  animation: slide-down 300ms ease-out;
+}
+.CollapsibleContent[data-state="closed"] {
+  animation: slide-up 300ms ease-out;
+}
+
+/* Page transition utility classes */
+.page-exit {
+  animation: page-exit 200ms ease-out;
+}
+
+.page-enter {
+  animation: page-enter 300ms ease-out 100ms;
+  animation-fill-mode: backwards;
+}
+
+/* Loading animation utility classes */
+.animate-spin {
+  animation: rotate 1s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-check {
+  animation: draw-check 400ms ease-out;
+  stroke-dasharray: 100;
+}
+
+.animate-progress {
+  animation: progress 1.5s ease-in-out infinite;
+}
+
+/* Apply to animated elements for better performance */
+.animate-spin,
+.animate-pulse,
+.animate-check,
+.animate-progress,
+.page-exit,
+.page-enter {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Staggered animation utilities */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 300ms ease-out,
+    transform 300ms ease-out;
+}
+
+.stagger-item.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animation delay utilities for staggering */
+.stagger-delay-1 {
+  animation-delay: 50ms;
+}
+
+.stagger-delay-2 {
+  animation-delay: 100ms;
+}
+
+.stagger-delay-3 {
+  animation-delay: 150ms;
+}
+
+.stagger-delay-4 {
+  animation-delay: 200ms;
+}
+
+.stagger-delay-5 {
+  animation-delay: 250ms;
+}
+
+/* Limit animation complexity for performance */
+.animate-simple {
+  animation-timing-function: linear;
+}
+
+.animate-performance {
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-element {
+    transition: none !important;
+  }
+  .animated-element:hover {
+    transform: none;
+    opacity: 0.9;
+  }
+}
