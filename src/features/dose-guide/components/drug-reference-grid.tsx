@@ -173,7 +173,7 @@ export const DrugReferenceGrid = memo(function DrugReferenceGrid({
                 drug={drug}
                 calculationResult={calculationResult}
                 categories={categories}
-                onDrugFavorite={onDrugFavorite ? () => onDrugFavorite(drug.id) : undefined}
+                onFavorite={onDrugFavorite ? () => onDrugFavorite(drug.id) : undefined}
                 isFavorite={isFavorite}
                 className='h-full w-full touch-manipulation transition-all duration-200 ease-in-out active:scale-[0.98]'
               />

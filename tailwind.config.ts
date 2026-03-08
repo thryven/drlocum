@@ -1,6 +1,6 @@
 import type { Config } from 'tailwindcss';
 import plugin from 'tailwindcss/plugin';
-import { screens } from './src/lib/breakpoints';
+import { screens } from '@/lib/breakpoints';
 
 export default {
   darkMode: 'class',
