@@ -18,7 +18,7 @@ import type { QuickReferenceComplaintCategory, QuickReferenceMedication } from '
 
 interface QuickDrugReferencePageProps {
   defaultWeight?: number
-  initialComplaintFilter?: string
+  initialComplaintFilter?: string | undefined
   medications: QuickReferenceMedication[]
   categories: QuickReferenceComplaintCategory[]
 }
