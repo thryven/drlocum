@@ -1,3 +1,4 @@
+
 // src/features/knowledge-base/lib/notion.ts
 import { Client } from '@notionhq/client'
 import type { BlockObjectResponse, PageObjectResponse, RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
@@ -111,24 +112,29 @@ export const getPublishedArticles = cache(getPublishedArticlesFn)
 
 // This function is no longer cached directly to avoid potential nested cache issues.
 // It relies on the cached `getPublishedArticles` function.
-export const getArticle = async (slug: string): Promise<{ article: Article; blocks: BlockObjectResponse[] } | null> => {
+export const getArticleMeta = async (slug: string): Promise<Article | null> => {
   if (!slug) {
     return null
   }
   try {
     const articles = await getPublishedArticles()
     const article = articles.find((a) => a.slug === slug)
+    return article || null
+  } catch (error) {
+    console.error(`Failed to fetch article metadata for slug "${slug}" from Notion:`, error)
+    return null
+  }
+}
 
-    if (!article) {
-      return null
-    }
-
+const getArticleContentFn = async (articleId: string): Promise<BlockObjectResponse[]> => {
+  if (!articleId) return []
+  try {
     const blocks: BlockObjectResponse[] = []
     let cursor: string | undefined
 
     do {
       const response = await notion.blocks.children.list({
-        block_id: article.id,
+        block_id: articleId,
         page_size: 100, // Notion's max page size
         ...(cursor && { start_cursor: cursor }),
       })
@@ -138,12 +144,10 @@ export const getArticle = async (slug: string): Promise<{ article: Article; bloc
       cursor = response.has_more ? response.next_cursor ?? undefined : undefined
     } while (cursor)
 
-    return {
-      article,
-      blocks,
-    }
+    return blocks
   } catch (error) {
-    console.error(`Failed to fetch article for slug "${slug}" from Notion:`, error)
-    return null
+    console.error(`Failed to fetch blocks for article ID "${articleId}" from Notion:`, error)
+    return [] // Return empty array on error
   }
 }
+export const getArticleContent = cache(getArticleContentFn)
