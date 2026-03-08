@@ -23,17 +23,21 @@ export interface Article {
 // ---- Helper Functions ----
 
 function extractPlainText(richText: RichTextItemResponse[]): string {
+  if (!richText) return ''
   return richText.map((t) => t.plain_text).join('')
 }
 
 function slugify(text: string): string {
   if (!text) return ''
   return text
+    .toString()
     .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // remove non-word characters
-    .replace(/\s+/g, '-') // replace spaces with hyphens
-    .replace(/-+/g, '-') // remove consecutive hyphens
     .trim()
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/[^\w-]+/g, '') // Remove all non-word chars except -
+    .replace(/--+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, '') // Trim - from end of text
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,17 +58,17 @@ function extractTitle(page: PageObjectResponse): string {
       return extractPlainText(prop.title)
     }
   }
-  return 'Untitled' // Fallback if no title property is found
+  return '' // Return empty string for better slug handling
 }
 
 function pageToArticle(page: PageObjectResponse): Article {
-  const title = extractTitle(page) // Use the robust title extraction
+  const title = extractTitle(page)
   const summaryProp = getPropertyValue(page, 'Summary')
   const categoryProp = getPropertyValue(page, 'Category')
   const publishedDateProp = getPropertyValue(page, 'PublishedDate')
 
-  // ALWAYS generate slug from the main title property for consistency
-  const slug = slugify(title) || page.id
+  // Use page ID as slug if title is empty to guarantee a unique slug
+  const slug = title ? slugify(title) : page.id
 
   const summary = (summaryProp?.type === 'rich_text' && extractPlainText(summaryProp.rich_text)) || ''
   const category = (categoryProp?.type === 'select' && categoryProp.select?.name) || 'Uncategorized'
@@ -105,7 +109,9 @@ const getPublishedArticlesFn = async (): Promise<Article[]> => {
 }
 export const getPublishedArticles = cache(getPublishedArticlesFn)
 
-const getArticleFn = async (slug: string): Promise<{ article: Article; blocks: BlockObjectResponse[] } | null> => {
+// This function is no longer cached directly to avoid potential nested cache issues.
+// It relies on the cached `getPublishedArticles` function.
+export const getArticle = async (slug: string): Promise<{ article: Article; blocks: BlockObjectResponse[] } | null> => {
   if (!slug) {
     return null
   }
@@ -141,4 +147,3 @@ const getArticleFn = async (slug: string): Promise<{ article: Article; blocks: B
     return null
   }
 }
-export const getArticle = cache(getArticleFn)
