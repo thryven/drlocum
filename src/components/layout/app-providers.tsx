@@ -4,7 +4,7 @@
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type React from 'react'
-import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeProvider } from '@/components/shared/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
 import { StoreInitializer } from '@/lib/stores/store-initializer'
 import { AppLayout } from './app-layout'

@@ -1,12 +1,12 @@
-// src/app/calculator/pregnancy/page.tsx
+// src/app/resource/pregnancy/page.tsx
 'use client'
 
 import { Info, RefreshCw } from 'lucide-react'
-import { PregnancyInputForm } from '@/components/calculator/pregnancy/pregnancy-input-form'
-import { PregnancyResults } from '@/components/calculator/pregnancy/pregnancy-results'
+import { PregnancyInputForm } from '@/features/calculators/components/pregnancy/pregnancy-input-form'
+import { PregnancyResults } from '@/features/calculators/components/pregnancy/pregnancy-results'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { usePregnancyCalculator } from '@/hooks/use-pregnancy-calculator'
+import { usePregnancyCalculator } from '@/features/calculators/hooks/use-pregnancy-calculator'
 
 /**
  * Page component that renders the pregnancy due date calculator UI.

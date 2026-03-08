@@ -2,7 +2,7 @@
 
 'use client'
 import { useEffect, useState } from 'react'
-import type { DeviceContext, DeviceType, Orientation } from '@/lib/types/device'
+import type { DeviceContext, DeviceType, Orientation } from '@/types/device'
 
 const MOBILE_BREAKPOINT = 768 // Corresponds to Tailwind's 'md' breakpoint
 const TABLET_BREAKPOINT = 1024 // Corresponds to Tailwind's 'lg' breakpoint
