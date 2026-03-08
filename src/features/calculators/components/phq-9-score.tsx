@@ -8,8 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { usePhq9Score } from '@/features/calculators/hooks/use-phq-9-score'
-import type { AnswerValue, Question } from '@/features/calculators/lib/phq-9-score'
-import { questions } from '@/features/calculators/lib/phq-9-score'
+import type { AnswerValue, Question } from '@/lib/utils/phq-9-score'
+import { questions } from '@/lib/utils/phq-9-score'
 import { cn } from '@/lib/utils'
 
 /**

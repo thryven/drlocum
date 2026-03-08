@@ -2,8 +2,8 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import type { AnswerValue, DassState } from '../lib/dass-score'
-import { calculateDassScore, initialState, questions } from '../lib/dass-score'
+import type { AnswerValue, DassState } from '@/lib/utils/dass-score'
+import { calculateDassScore, initialState, questions } from '@/lib/utils/dass-score'
 
 /**
  * Manage DASS questionnaire state and provide handlers for updating, submitting, and resetting it.

@@ -8,8 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useStopBangScore } from '@/features/calculators/hooks/use-stop-bang-score'
-import type { Question, YesNo } from '@/features/calculators/lib/stop-bang-score'
-import { questions } from '@/features/calculators/lib/stop-bang-score'
+import type { Question, YesNo } from '@/lib/utils/stop-bang-score'
+import { questions } from '@/lib/utils/stop-bang-score'
 import { cn } from '@/lib/utils'
 
 /**

@@ -1,27 +1,18 @@
 // src/features/knowledge-base/components/article-detail.tsx
 import { format } from 'date-fns'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
+import type { BlockObjectResponse } from '@notionhq/client/build/src/api-endpoints'
 import { Badge } from '@/components/ui/badge'
-import { getArticle } from '@/features/knowledge-base/lib/notion'
+import type { Article } from '@/features/knowledge-base/lib/notion'
 import { NotionRenderer } from './notion-renderer'
 
-export const revalidate = 60
-
 interface ArticleDetailProps {
-  slug: string
+  article: Article
+  blocks: BlockObjectResponse[]
 }
 
-export async function ArticleDetail({ slug }: ArticleDetailProps) {
-  const data = await getArticle(slug)
-
-  if (!data) {
-    notFound()
-  }
-
-  const { article, blocks } = data
-
+export function ArticleDetail({ article, blocks }: ArticleDetailProps) {
   return (
     <div className='w-full max-w-4xl mx-auto pb-24'>
       <Link

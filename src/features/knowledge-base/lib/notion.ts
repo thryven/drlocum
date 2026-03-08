@@ -1,4 +1,4 @@
-// src/features/knowledge-base/lib/notion.ts
+// src/lib/notion.ts
 import { Client } from '@notionhq/client';
 import type { BlockObjectResponse, PageObjectResponse, RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints';
 
@@ -43,9 +43,7 @@ function getPropertyValue(page: PageObjectResponse, name: string): any {
       (k) => k.toLowerCase() === name.toLowerCase()
     );
     if (!key) return undefined;
-    const prop = props[key];
-    if (!prop) return undefined;
-    return prop;
+    return props[key];
 }
 
 // More robust function to find the title property, as seen in the example
@@ -123,18 +121,11 @@ export async function getArticle(slug: string): Promise<{ article: Article; bloc
     let cursor: string | undefined = undefined;
 
     do {
-        const listParams: {
-            block_id: string;
-            page_size: number;
-            start_cursor?: string;
-        } = {
+        const response = await notion.blocks.children.list({
             block_id: article.id,
             page_size: 100, // Notion's max page size
-        };
-        if (cursor) {
-            listParams.start_cursor = cursor;
-        }
-        const response = await notion.blocks.children.list(listParams);
+            ...(cursor && { start_cursor: cursor }),
+        });
 
         blocks.push(
             ...response.results.filter(

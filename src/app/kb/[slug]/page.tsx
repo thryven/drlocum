@@ -1,7 +1,10 @@
 // src/app/kb/[slug]/page.tsx
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { ArticleDetail } from '@/features/knowledge-base/components/article-detail'
 import { getArticle, getPublishedArticles } from '@/features/knowledge-base/lib/notion'
+
+export const revalidate = 60
 
 interface PageProps {
   params: { slug: string }
@@ -29,5 +32,9 @@ export async function generateStaticParams() {
 }
 
 export default async function ArticlePage({ params }: PageProps) {
-  return <ArticleDetail slug={params.slug} />
+  const data = await getArticle(params.slug)
+  if (!data) {
+    notFound()
+  }
+  return <ArticleDetail article={data.article} blocks={data.blocks} />
 }

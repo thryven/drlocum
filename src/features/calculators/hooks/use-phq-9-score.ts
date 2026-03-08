@@ -2,8 +2,8 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import type { AnswerValue, Phq9State } from '../lib/phq-9-score'
-import { calculatePhq9Score, initialState, questions } from '../lib/phq-9-score'
+import type { AnswerValue, Phq9State } from '@/lib/utils/phq-9-score'
+import { calculatePhq9Score, initialState, questions } from '@/lib/utils/phq-9-score'
 
 /**
  * Manage PHQ-9 answers, compute the PHQ-9 score and completion status, and provide handlers for updating, submitting, and resetting the form.

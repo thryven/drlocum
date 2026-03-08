@@ -2,7 +2,7 @@
 'use client'
 
 import { useCallback, useMemo, useState } from 'react'
-import { calculateFraminghamScore, type FraminghamState, initialState } from '../lib/framingham-score'
+import { calculateFraminghamScore, type FraminghamState, initialState } from '@/lib/utils/framingham-score'
 
 /**
  * Provides form state, computed Framingham score, and handlers for managing input, submission, reset, and risk-color mapping.

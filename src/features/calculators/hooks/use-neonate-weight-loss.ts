@@ -2,7 +2,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { calculateNeonateWeightLoss, type WeightUnit } from '../lib/neonate-weight-loss'
+import { calculateNeonateWeightLoss, type WeightUnit } from '@/lib/utils/neonate-weight-loss'
 
 /**
  * Manage neonate weight inputs and compute the percentage weight loss.

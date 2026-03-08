@@ -11,8 +11,8 @@ import { Label } from '@/components/ui/label'
 import { ProgressBar } from '@/components/ui/progress-bar'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useDassScore } from '@/features/calculators/hooks/use-dass-score'
-import type { AnswerValue, Question } from '@/features/calculators/lib/dass-score'
-import { questions } from '@/features/calculators/lib/dass-score'
+import type { AnswerValue, Question } from '@/lib/utils/dass-score'
+import { questions } from '@/lib/utils/dass-score'
 import { cn } from '@/lib/utils'
 
 /**

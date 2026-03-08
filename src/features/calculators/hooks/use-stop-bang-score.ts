@@ -2,8 +2,8 @@
 'use client'
 
 import { useCallback, useState } from 'react'
-import type { StopBangState, YesNo } from '../lib/stop-bang-score'
-import { calculateStopBangScore, initialState } from '../lib/stop-bang-score'
+import type { StopBangState, YesNo } from '@/lib/utils/stop-bang-score'
+import { calculateStopBangScore, initialState } from '@/lib/utils/stop-bang-score'
 
 /**
  * Manage Stop–Bang questionnaire state and form handlers for a Stop–Bang score UI.

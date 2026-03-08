@@ -2,8 +2,8 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import type { Gender } from '../lib/ideal-body-weight'
-import { calculateAdjBW, calculateIBW } from '../lib/ideal-body-weight'
+import type { Gender } from '@/lib/utils/ideal-body-weight'
+import { calculateAdjBW, calculateIBW } from '@/lib/utils/ideal-body-weight'
 
 /**
  * Manage input state for gender, height (cm), and actual body weight and compute ideal body weight (IBW) and adjusted body weight (AdjBW) when inputs are valid.
