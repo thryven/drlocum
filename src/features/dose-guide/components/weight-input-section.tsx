@@ -6,9 +6,7 @@ import { useCallback, useEffect, useId, useState } from 'react'
 import { Label } from '@/components/ui/label'
 import { MobileFormField } from '@/components/ui/mobile-form'
 import { MobileInput } from '@/components/ui/mobile-input'
-import { useDevice } from '@/hooks/use-device'
 import { useScreenReader } from '@/hooks/use-screen-reader'
-import { cn } from '@/lib/utils'
 import { useCalculatorStore } from '../stores/calculator-store'
 
 interface WeightInputSectionProps {
@@ -21,7 +19,6 @@ interface WeightInputSectionProps {
  * @returns The rendered weight input section as JSX
  */
 export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProps>) {
-  const { isMobile } = useDevice()
   const { announceStatus } = useScreenReader()
 
   const { displayWeight, setDisplayWeight, setIsWeightManuallyEntered } = useCalculatorStore()
@@ -69,13 +66,10 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
 
   return (
     <div className='relative' id='weight-input'>
-      <MobileFormField className={cn('space-y-2', isMobile && 'space-y-2')}>
+      <MobileFormField className='space-y-2'>
         <div className='flex items-center justify-between'>
-          <Label
-            htmlFor={inputId}
-            className={cn('flex items-center gap-2 font-semibold', isMobile ? 'text-sm' : 'text-base')}
-          >
-            <Weight size={isMobile ? 16 : 20} className='text-primary' />
+          <Label htmlFor={inputId} className='flex items-center gap-2 font-semibold text-sm md:text-base'>
+            <Weight className='text-primary size-4 md:size-5' />
             Weight (Optional)
           </Label>
         </div>
@@ -93,8 +87,7 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
               value={localValue}
               onChange={handleInputChange}
               scrollIntoViewOnFocus={true}
-              size={isMobile ? 'default' : 'lg'}
-              className='text-base font-medium pr-12'
+              className='h-10 min-h-[44px] pl-3 pr-12 text-base font-medium md:h-12 md:min-h-[48px] md:pl-4'
               disabled={disabled}
               min='0'
               step='0.1'
@@ -104,10 +97,7 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
             />
             <label
               htmlFor={inputId}
-              className={cn(
-                'absolute right-3 top-1/2 -translate-y-1/2 font-medium text-muted-foreground cursor-text',
-                isMobile ? 'text-sm' : 'text-base',
-              )}
+              className='absolute right-3 top-1/2 -translate-y-1/2 cursor-text font-medium text-muted-foreground text-sm md:text-base'
             >
               kg
             </label>

@@ -7,9 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { MobileFormField } from '@/components/ui/mobile-form'
 import { MobileInput } from '@/components/ui/mobile-input'
-import { useDevice } from '@/hooks/use-device'
 import { useScreenReader } from '@/hooks/use-screen-reader'
-import { cn } from '@/lib/utils'
 import { useCalculatorStore } from '../stores/calculator-store'
 import type { AgeInputUnit } from '../lib/types'
 
@@ -29,7 +27,6 @@ interface AgeInputSectionProps {
 export function AgeInputSection({ disabled }: Readonly<AgeInputSectionProps>) {
   // Directly use the global state from Zustand store
   const { displayAge, displayAgeUnit, setDisplayAge, setIsWeightManuallyEntered } = useCalculatorStore()
-  const { isMobile } = useDevice()
   const { announceStatus } = useScreenReader()
 
   const inputId = useId()
@@ -62,13 +59,10 @@ export function AgeInputSection({ disabled }: Readonly<AgeInputSectionProps>) {
 
   return (
     <div className='relative' id='age-input'>
-      <MobileFormField className={cn('space-y-2', isMobile && 'space-y-2')}>
+      <MobileFormField className='space-y-2'>
         <div className='flex items-center justify-between'>
-          <Label
-            htmlFor={inputId}
-            className={cn('flex items-center gap-2 font-semibold', isMobile ? 'text-sm' : 'text-base')}
-          >
-            <Calendar size={isMobile ? 16 : 20} className='text-primary' />
+          <Label htmlFor={inputId} className='flex items-center gap-2 font-semibold text-sm md:text-base'>
+            <Calendar className='text-primary size-4 md:size-5' />
             Age
           </Label>
         </div>
@@ -83,8 +77,7 @@ export function AgeInputSection({ disabled }: Readonly<AgeInputSectionProps>) {
             value={displayAge > 0 ? displayAge.toString() : ''}
             onChange={handleAgeValueChange}
             scrollIntoViewOnFocus={true}
-            size={isMobile ? 'default' : 'lg'}
-            className='text-base font-medium'
+            className='h-10 min-h-[44px] px-3 text-base font-medium md:h-12 md:min-h-[48px] md:px-4'
             disabled={disabled}
             min='0'
             step='1'
@@ -96,13 +89,9 @@ export function AgeInputSection({ disabled }: Readonly<AgeInputSectionProps>) {
             id={unitId}
             type='button'
             variant='outline'
-            size={isMobile ? 'default' : 'default'}
             onClick={handleUnitToggle}
             disabled={disabled}
-            className={cn(
-              'min-w-[90px] font-medium transition-colors',
-              isMobile ? 'h-10 text-sm px-3' : 'h-10 text-sm px-3',
-            )}
+            className='h-10 min-w-[90px] px-3 text-sm font-medium transition-colors md:h-12'
             aria-label={`Toggle age unit. Currently ${displayAgeUnit}`}
           >
             {displayAgeUnit === 'years' ? 'Years' : 'Months'}
