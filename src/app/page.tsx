@@ -1,9 +1,9 @@
 // src/app/page.tsx
 import { Loader2 } from 'lucide-react'
 import { Suspense } from 'react'
-import { QuickDrugReferencePage } from '@/components/quick-reference'
-import { getWeightForAge } from '@/lib/medication-reference/calculations'
-import { loadComplaintCategories, loadMedications } from '@/lib/medication-reference/data-loader'
+import { QuickDrugReferencePage } from '@/features/dose-guide/components'
+import { getWeightForAge } from '@/features/dose-guide/lib/calculations/utils'
+import { loadComplaintCategories, loadMedications } from '@/features/dose-guide/lib/data-loader'
 
 /**
  * Renders a full-screen, centered loading indicator for the dose guide.
