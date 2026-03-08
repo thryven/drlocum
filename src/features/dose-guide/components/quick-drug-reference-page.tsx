@@ -148,23 +148,24 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
       <main
         id='main-content'
         className={cn(
-          'container mx-auto px-4 py-6 gap-component',
+          'container mx-auto flex flex-col',
+          'px-[clamp(0.75rem,4vw,1rem)] py-[clamp(1rem,5vh,1.5rem)]',
+          'gap-[clamp(1rem,4vw,1.5rem)]',
           isMobile && [
-            'px-3 py-4 gap-element',
             keyboard.isVisible && 'pb-2',
             'safe-area-inset-x safe-area-inset-bottom',
           ],
         )}
-        style={{ display: 'flex', flexDirection: 'column' }}
         aria-label='Dose guide content'
       >
         <Card
           className={cn(
-            isMobile && ['shadow-xs border-0 bg-card/50', keyboard.isVisible && 'shadow-none bg-transparent'],
+            'shadow-xs border-0 bg-card/50 md:shadow-sm md:border md:bg-card',
+            isMobile && keyboard.isVisible && 'shadow-none bg-transparent',
           )}
         >
-          <CardContent className={cn('padding-component', isMobile && 'pt-2 px-2 pb-2')}>
-            <div className={cn('grid', 'grid-cols-1 gap-inline md:grid-cols-2 md:gap-component')}>
+          <CardContent className='p-[clamp(0.5rem,2vw,1.5rem)]'>
+            <div className='grid grid-cols-1 gap-inline md:grid-cols-2 md:gap-component'>
               <AgeInputSection disabled={!isClient} />
               <WeightInputSection disabled={!isClient} />
             </div>
@@ -173,9 +174,12 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
         {availableComplaints.length > 1 && (
           <section id='category-filters' aria-labelledby='filters-heading'>
             <Card
-              className={cn(isMobile && ['shadow-xs border-0 bg-card/50', keyboard.isVisible && 'hidden sm:block'])}
+              className={cn(
+                'shadow-xs border-0 bg-card/50 md:shadow-sm md:border md:bg-card',
+                isMobile && keyboard.isVisible && 'hidden sm:block',
+              )}
             >
-              <CardContent className={cn('padding-component', isMobile && 'padding-element')}>
+              <CardContent className='p-[clamp(1rem,3vw,1.5rem)]'>
                 <h2 id='filters-heading' className='sr-only'>
                   Category Filters
                 </h2>
@@ -194,7 +198,7 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
           calculationResults={drugCalculationResults}
           onDrugFavorite={handleDrugFavorite}
           isLoading={isDatabaseLoading || isPending}
-          className={cn('spacing-component', isMobile && ['spacing-element', keyboard.isVisible && 'pb-2'])}
+          className={cn('mb-[clamp(1rem,4vw,1.5rem)]', isMobile && keyboard.isVisible && 'pb-2')}
           favorites={favorites}
         />
       </main>
