@@ -128,7 +128,6 @@ export function ComplaintFilterBar({
               size="sm"
               className="h-fluid-clear-btn min-h-[44px] px-fluid-clear-btn text-fluid-clear-btn"
               onClick={() => handleComplaintClick(null)}
-              aria-label="Clear filter"
             >
               <X className="size-fluid-clear-icon mr-fluid-xs" />
               Clear
@@ -154,8 +153,6 @@ export function ComplaintFilterBar({
       <TooltipProvider>
         <div
           className={cn('flex flex-wrap gap-fluid-lg', isPending && 'opacity-75 transition-opacity')}
-          role="tablist"
-          aria-label="Filter drugs by complaint category"
         >
           {allFilters.map((complaint) => {
             const isActive = selectedComplaint === complaint.id
@@ -178,8 +175,6 @@ export function ComplaintFilterBar({
                   getComplaintColorClasses(complaint.color, isActive),
                   isActive && 'ring-2 ring-offset-2 ring-current/30 shadow-md',
                 )}
-                role='tab'
-                aria-selected={isActive}
                 disabled={isPending}
               >
                 {iconElement}

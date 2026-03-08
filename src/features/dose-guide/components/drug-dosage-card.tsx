@@ -5,7 +5,6 @@ import { AlertTriangle, Heart } from 'lucide-react'
 import { useCallback, useRef, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { ContextMenuOverlay } from '@/components/ui/context-menu-overlay'
-import { AriaLabels } from '@/lib/utils/accessibility/labels'
 import { cn } from '@/lib/utils'
 import { useCalculatorStore } from '../stores/calculator-store'
 import type {
@@ -232,7 +231,6 @@ export function DrugDosageCard({
 
   const isValidCalculation = calculationResult.isCalculationValid
   const dosageText = `${formatDosage(calculationResult)} ${formatFrequency(calculationResult.frequencyText)}`
-  const cardAriaLabel = AriaLabels.drugDosageCard(drug.name, dosageText)
 
   const cardContent = (
     <div
@@ -241,7 +239,6 @@ export function DrugDosageCard({
         isPressing && 'scale-95',
         'cursor-pointer', // Indicate interactivity
       )}
-      aria-label={cardAriaLabel}
       onMouseDown={handlePressStart}
       onMouseUp={handlePressEnd}
       onMouseLeave={handlePressEnd}

@@ -3,7 +3,6 @@
 
 import { useMemo, useTransition } from 'react'
 import { useDevice } from '@/hooks/use-device'
-import { useScreenReader } from '@/hooks/use-screen-reader'
 import { useCalculatorStore } from '../stores/calculator-store'
 import type { QuickReferenceComplaintCategory as ComplaintCategory } from '../lib/types'
 
@@ -15,7 +14,7 @@ interface UseComplaintFilterProps {
 /**
  * Hook to manage the logic for the complaint filter bar.
  *
- * This hook encapsulates state management for transitions, accessibility announcements,
+ * This hook encapsulates state management for transitions,
  * and responsive rendering logic for the complaint filter bar.
  *
  * @param {UseComplaintFilterProps} props - The props for the hook.
@@ -28,7 +27,6 @@ interface UseComplaintFilterProps {
  */
 export function useComplaintFilter({ availableComplaints, onComplaintChange }: UseComplaintFilterProps) {
   const { isMobile } = useDevice()
-  const { announceStatus } = useScreenReader()
   const [isPending, startTransition] = useTransition()
   const { isCompactView } = useCalculatorStore()
 
@@ -49,13 +47,9 @@ export function useComplaintFilter({ availableComplaints, onComplaintChange }: U
 
   const handleComplaintClick = (complaintId: string | null) => {
     const newFilterId = complaintId === null ? 'favorites' : complaintId
-    const complaint = allFilters.find((c) => c.id === newFilterId)
     startTransition(() => {
       onComplaintChange(newFilterId)
     })
-    if (complaint) {
-      announceStatus(`Filtering by ${complaint.displayName}`)
-    }
   }
 
   return {

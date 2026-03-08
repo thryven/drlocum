@@ -1,0 +1,2 @@
+- no Accessibility feature
+- adapt fluid design system

@@ -79,7 +79,6 @@ export function ContextMenuOverlay({ isOpen, onClose, items, title, className }:
             transition={{ duration: 0.2 }}
             className='fixed inset-0 bg-background/80 backdrop-blur-sm z-50'
             onClick={onClose}
-            aria-hidden='true'
           />
 
           {/* Menu */}
@@ -95,9 +94,6 @@ export function ContextMenuOverlay({ isOpen, onClose, items, title, className }:
               'overflow-hidden',
               className,
             )}
-            role='dialog'
-            aria-modal='true'
-            aria-label={title || 'Context menu'}
           >
             {title && (
               <div className='px-4 py-3 border-b border-border'>
@@ -119,7 +115,6 @@ export function ContextMenuOverlay({ isOpen, onClose, items, title, className }:
                     'min-h-[48px]', // Touch-friendly
                     item.variant === 'destructive' && 'text-destructive hover:bg-destructive/10',
                   )}
-                  aria-label={item.label}
                 >
                   {item.icon && <span className='shrink-0 w-5 h-5'>{item.icon}</span>}
                   <span className='text-sm font-medium'>{item.label}</span>

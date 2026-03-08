@@ -54,8 +54,6 @@ export function AgeInputSection({ disabled }: Readonly<AgeInputSectionProps>) {
             min="0"
             step="1"
             showValidationIcon={false}
-            aria-label="Patient age"
-            aria-describedby={unitId}
           />
 
           <Button
@@ -65,7 +63,6 @@ export function AgeInputSection({ disabled }: Readonly<AgeInputSectionProps>) {
             onClick={handleUnitToggle}
             disabled={disabled}
             className="h-fluid-input w-fluid-toggle-btn px-fluid-input text-fluid-sm font-medium transition-colors"
-            aria-label={`Toggle age unit. Currently ${displayAgeUnit}`}
           >
             {displayAgeUnit === 'years' ? 'Years' : 'Months'}
           </Button>

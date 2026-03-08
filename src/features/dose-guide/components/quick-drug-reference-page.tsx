@@ -8,9 +8,7 @@ import { Component } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { MobileViewport } from '@/components/ui/mobile-viewport'
-import { QuickReferenceSkipLinks } from '@/components/ui/skip-links'
 import { useDevice } from '@/hooks/use-device'
-import { useScreenReader } from '@/hooks/use-screen-reader'
 import { cn } from '@/lib/utils'
 import { ComplaintFilterBar, DrugReferenceGrid } from './'
 import { AgeInputSection } from './age-input-section'
@@ -65,10 +63,8 @@ class PageErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState
 function ErrorFallback({ error, onRetry }: { error: Error; onRetry: () => void }) {
   const router = useRouter()
   const { isMobile } = useDevice()
-  const { announceNavigation } = useScreenReader()
 
   const handleGoBack = () => {
-    announceNavigation('Previous page')
     router.back()
   }
 
@@ -141,8 +137,6 @@ function QuickDrugReferenceContent(props: QuickDrugReferencePageProps) {
       style={getViewportStyles()}
       adjustForKeyboard={isMobile}
     >
-      <QuickReferenceSkipLinks />
-
       <main
         id='main-content'
         className={cn(
@@ -164,7 +158,7 @@ function QuickDrugReferenceContent(props: QuickDrugReferencePageProps) {
           </CardContent>
         </Card>
         {hasFilters && (
-          <section id='category-filters' aria-labelledby='filters-heading'>
+          <section id='category-filters'>
             <Card
               className={cn(
                 'shadow-xs border-0 bg-card/50 md:shadow-sm md:border md:bg-card',
@@ -172,9 +166,6 @@ function QuickDrugReferenceContent(props: QuickDrugReferencePageProps) {
               )}
             >
               <CardContent className='p-fluid-page-card-content'>
-                <h2 id='filters-heading' className='sr-only'>
-                  Category Filters
-                </h2>
                 <ComplaintFilterBar
                   availableComplaints={availableComplaints}
                   selectedComplaint={selectedComplaintFilter}

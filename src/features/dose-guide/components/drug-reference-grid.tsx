@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import { Search } from 'lucide-react'
 import { memo, useMemo } from 'react'
 import { useDevice } from '@/hooks/use-device'
-import { AriaLabels } from '@/lib/utils/accessibility/labels'
 import { cn } from '@/lib/utils'
 import { DrugDosageCard } from './'
 import type {
@@ -157,8 +156,6 @@ export const DrugReferenceGrid = memo(function DrugReferenceGrid({
     )
   }
 
-  const gridAriaLabel = AriaLabels.searchResults(sortedDrugs.length)
-
   return (
     <div className={cn('w-full', className)} id='medication-results'>
       {/* Drug Cards Grid */}
@@ -176,9 +173,6 @@ export const DrugReferenceGrid = memo(function DrugReferenceGrid({
         variants={gridContainerVariants}
         initial='hidden'
         animate='visible'
-        aria-label={gridAriaLabel}
-        aria-live='polite'
-        aria-busy={isLoading}
       >
         {sortedDrugs.map((drug) => {
           const calculationResult = calculationResults.get(drug.id) || null

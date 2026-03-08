@@ -20,7 +20,6 @@ interface WeightInputSectionProps {
 export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProps>) {
   const { localValue, handleInputChange } = useWeightInput()
   const inputId = useId()
-  const descriptionId = useId()
 
   return (
     <div className="relative" id="weight-input">
@@ -35,8 +34,6 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
             Weight (Optional)
           </Label>
         </div>
-
-        <div id={descriptionId} className="sr-only"></div>
 
         <div className="flex items-center gap-fluid-base">
           <div className="relative flex-1">
@@ -55,8 +52,6 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
               min="0"
               step="0.1"
               showValidationIcon={false}
-              aria-label="Patient weight in kilograms"
-              aria-describedby={descriptionId}
             />
 
             <label

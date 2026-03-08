@@ -2,7 +2,6 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { useScreenReader } from '@/hooks/use-screen-reader'
 import { useCalculatorStore } from '../stores/calculator-store'
 
 /**
@@ -16,8 +15,6 @@ import { useCalculatorStore } from '../stores/calculator-store'
  * - `handleInputChange`: Callback to handle changes to the weight input field.
  */
 export function useWeightInput() {
-  const { announceStatus } = useScreenReader()
-
   const { displayWeight, setDisplayWeight, setIsWeightManuallyEntered } = useCalculatorStore()
 
   // Local input string preserves what the user types (including "15." or ".5")
@@ -31,7 +28,6 @@ export function useWeightInput() {
         // Cleared input: reflect that in store and don't mark as manual entry
         setDisplayWeight(undefined)
         setIsWeightManuallyEntered(false)
-        announceStatus('Weight cleared')
         return
       }
 
@@ -40,14 +36,13 @@ export function useWeightInput() {
         // Valid numeric weight -> update immediately
         setDisplayWeight(numericValue)
         setIsWeightManuallyEntered(true)
-        announceStatus(`Weight updated to ${numericValue} kilograms`)
       } else {
         // Invalid or incomplete decimal input (e.g., "15." or "abc") -> clear stored weight
         setDisplayWeight(undefined)
         setIsWeightManuallyEntered(true)
       }
     },
-    [announceStatus, setDisplayWeight, setIsWeightManuallyEntered],
+    [setDisplayWeight, setIsWeightManuallyEntered],
   )
 
   // Keep local input in sync if displayWeight is changed externally
