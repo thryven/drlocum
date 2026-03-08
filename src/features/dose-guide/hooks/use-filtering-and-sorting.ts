@@ -1,0 +1,54 @@
+/**
+ * Hook providing filtering and sorting functionalities for the Quick Reference Database.
+ */
+
+import {
+  getEnabledCategories as getEnabledCategoriesFromUtils,
+  getFilteredMedications as getFiltered,
+  searchMedications as search,
+  sortMedicationsByName as sortByName,
+} from '../lib/filtering'
+import type { QuickReferenceComplaintCategory, QuickReferenceMedication } from '../lib/types'
+
+/**
+ * Provide filtering, searching, and sorting helpers for a set of medication-summary.
+ *
+ * @param medications - The medication-summary to be queried and sorted.
+ * @param categories - Complaint categories used to derive enabled categories.
+ * @returns An object with helper functions:
+ *  - `getFilteredMedications(categoryId?, audience?)`: returns medication-summary filtered by the optional category ID and audience, and limited to enabled medication-summary.
+ *  - `getEnabledCategories()`: returns the enabled complaint categories derived from `categories`.
+ *  - `searchMedications(searchTerm)`: returns medication-summary matching the search term.
+ *  - `sortMedicationsByName(ascending?)`: returns medication-summary sorted by name; pass `false` for descending order.
+ */
+export function useFilteringAndSorting(
+  medications: QuickReferenceMedication[],
+  categories: QuickReferenceComplaintCategory[],
+) {
+  const getFilteredMedications = (categoryId?: string | undefined, audience?: 'paediatric' | 'adult' | undefined) => {
+    return getFiltered(medications, {
+      categoryId,
+      enabledOnly: true,
+      audience,
+    })
+  }
+
+  const getEnabledCategories = () => {
+    return getEnabledCategoriesFromUtils(categories)
+  }
+
+  const searchMedications = (searchTerm: string) => {
+    return search(medications, searchTerm)
+  }
+
+  const sortMedicationsByName = (ascending = true) => {
+    return sortByName(medications, ascending)
+  }
+
+  return {
+    getFilteredMedications,
+    getEnabledCategories,
+    searchMedications,
+    sortMedicationsByName,
+  }
+}

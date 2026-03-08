@@ -3,7 +3,7 @@
 
 import { useEffect } from 'react'
 import { useAppStore } from './app-store'
-import { useCalculatorStore } from './calculator-store'
+import { useCalculatorStore } from '@/features/dose-guide/stores/calculator-store'
 
 /**
  * Initializes all persisted Zustand stores on the client side.
