@@ -2,14 +2,11 @@
 'use client'
 
 import { Filter, Star, X } from 'lucide-react'
-import { useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import MobileSelect from '@/components/ui/mobile-select'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import { useDevice } from '@/hooks/use-device'
-import { useScreenReader } from '@/hooks/use-screen-reader'
 import { cn } from '@/lib/utils'
-import { useCalculatorStore } from '../stores/calculator-store'
+import { useComplaintFilter } from '../hooks/use-complaint-filter'
 import type { QuickReferenceComplaintCategory as ComplaintCategory } from '../lib/types'
 
 // Color mapping for complaint categories using Tailwind classes
@@ -80,15 +77,14 @@ interface ComplaintFilterBarProps {
   onComplaintChange: (complaint: string) => void
   className?: string
 }
+
 /**
- * Render a responsive complaint category filter bar for selecting or clearing a complaint category.
+ * A responsive UI component for filtering by complaint category.
  *
- * Renders nothing when there is one or zero categories. On mobile it shows a searchable select; on desktop it shows a horizontal list of category buttons. Selecting or clearing a category calls `onComplaintChange` with the selected category id (or `null` to clear) and emits an accessibility announcement. While a transition is pending, interactive buttons are visually dimmed and disabled.
+ * This is a presentational component that delegates its logic to the `useComplaintFilter` hook.
+ * It renders a searchable select on mobile and a list of buttons on desktop.
  *
- * @param availableComplaints - Array of complaint category objects available for filtering. Each item must include `id`, `displayName`, and `color`.
- * @param selectedComplaint - Currently selected complaint id, or `null` when no specific category is selected.
- * @param onComplaintChange - Callback invoked with the new complaint id (or `null`) when the selection changes.
- * @param className - Optional additional container class names.
+ * @param {ComplaintFilterBarProps} props - The props for the component.
  * @returns The component's rendered JSX element, or `null` if no filter UI should be shown.
  */
 export function ComplaintFilterBar({
@@ -97,33 +93,10 @@ export function ComplaintFilterBar({
   onComplaintChange,
   className,
 }: Readonly<ComplaintFilterBarProps>) {
-  const { isMobile } = useDevice()
-  const { announceStatus } = useScreenReader()
-  const [isPending, startTransition] = useTransition()
-  const { isCompactView } = useCalculatorStore()
-
-  const favoriteCategory: ComplaintCategory = {
-    id: 'favorites',
-    name: 'favorites',
-    displayName: 'Favorites',
-    color: 'yellow',
-    icon: 'Star',
-    enabled: true,
-    sortOrder: -1, // Puts it at the start
-  }
-
-  const allFilters = [favoriteCategory, ...availableComplaints]
-
-  const handleComplaintClick = (complaintId: string | null) => {
-    const newFilterId = complaintId === null ? 'favorites' : complaintId
-    const complaint = allFilters.find((c) => c.id === newFilterId)
-    startTransition(() => {
-      onComplaintChange(newFilterId)
-    })
-    if (complaint) {
-      announceStatus(`Filtering by ${complaint.displayName}`)
-    }
-  }
+  const { isMobile, isCompactView, isPending, allFilters, handleComplaintClick } = useComplaintFilter({
+    availableComplaints,
+    onComplaintChange,
+  })
 
   if (allFilters.length <= 1) {
     return null
@@ -131,35 +104,34 @@ export function ComplaintFilterBar({
 
   // Mobile and Tablet View
   if (isMobile) {
-     {
-      const filterOptions = allFilters.map((c) => {
-        let iconElement: React.ReactNode
-        if (c.icon === 'Star') {
-          iconElement = <Star size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
-        }
-        return {
-          value: c.id,
-          label: c.displayName,
-          icon: iconElement,
-        }
-      })
-      return (
-        <div className={cn('w-full space-y-2', className)}>
-          <div className='flex items-center justify-between'>
+    const filterOptions = allFilters.map((c) => {
+      let iconElement: React.ReactNode
+      if (c.icon === 'Star') {
+        iconElement = <Star size={20} className={cn(c.id === 'favorites' && 'fill-current text-yellow-500')} />
+      }
+      return {
+        value: c.id,
+        label: c.displayName,
+        icon: iconElement,
+      }
+    })
+    return (
+      <div className={cn('w-full space-y-2', className)}>
+        <div className='flex items-center justify-between'>
           <h2
-  className="
-  hidden md:flex md:items-center
-  gap-[clamp(0.35rem,0.6vw,0.5rem)]
-  font-medium
-  text-muted-foreground
-  text-[clamp(0.75rem,0.9vw,0.9rem)]
-"
->
-  <Filter className="size-[clamp(0.9rem,1.2vw,1rem)]" />
-  Filter by category
-</h2>
-            {selectedComplaint && selectedComplaint !== 'favorites' && (
-              <Button
+            className="
+            hidden md:flex md:items-center
+            gap-[clamp(0.35rem,0.6vw,0.5rem)]
+            font-medium
+            text-muted-foreground
+            text-[clamp(0.75rem,0.9vw,0.9rem)]
+          "
+          >
+            <Filter className="size-[clamp(0.9rem,1.2vw,1rem)]" />
+            Filter by category
+          </h2>
+          {selectedComplaint && selectedComplaint !== 'favorites' && (
+            <Button
               variant="ghost"
               size="sm"
               className="
@@ -174,34 +146,33 @@ export function ComplaintFilterBar({
               <X className="size-[clamp(0.7rem,1vw,0.85rem)] mr-[clamp(0.2rem,0.5vw,0.35rem)]" />
               Clear
             </Button>
-            )}
-          </div>
-          <MobileSelect
-            options={filterOptions}
-            value={selectedComplaint}
-            onChange={(value) => handleComplaintClick(value)}
-            placeholder='Select a category...'
-            title='Filter by Category'
-            searchPlaceholder='Search categories...'
-            searchable={true}
-          />
+          )}
         </div>
-      )
-    }
+        <MobileSelect
+          options={filterOptions}
+          value={selectedComplaint}
+          onChange={(value) => handleComplaintClick(value)}
+          placeholder='Select a category...'
+          title='Filter by Category'
+          searchPlaceholder='Search categories...'
+          searchable={true}
+        />
+      </div>
+    )
   }
 
   // Desktop View: Horizontal button list
   return (
     <div className={cn('w-full', className)}>
       <TooltipProvider>
-      <div
-  className={cn(
-    "flex flex-wrap gap-[clamp(0.35rem,0.8vw,0.6rem)]",
-    isPending && "opacity-75 transition-opacity"
-  )}
-  role="tablist"
-  aria-label="Filter drugs by complaint category"
->
+        <div
+          className={cn(
+            "flex flex-wrap gap-[clamp(0.35rem,0.8vw,0.6rem)]",
+            isPending && "opacity-75 transition-opacity"
+          )}
+          role="tablist"
+          aria-label="Filter drugs by complaint category"
+        >
           {allFilters.map((complaint) => {
             const isActive = selectedComplaint === complaint.id
             let iconElement: React.ReactNode
