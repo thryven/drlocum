@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { calculatePregnancyFromEdd, calculatePregnancyInfo, type PregnancyInfo } from '@/features/calculators/lib/pregnancy-calculator'
+import { calculatePregnancyFromEdd, calculatePregnancyInfo, type PregnancyInfo } from '../lib/pregnancy-calculator'
 
 export type CalculationMethod = 'lmp' | 'ultrasound' | 'reverseUltrasound'
 
