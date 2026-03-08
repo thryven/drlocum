@@ -5,7 +5,6 @@ import { AlertTriangle, Heart } from 'lucide-react'
 import { useCallback, useRef, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { ContextMenuOverlay } from '@/components/ui/context-menu-overlay'
-import { useDevice } from '@/hooks/use-device'
 import { AriaLabels } from '@/lib/utils/accessibility/labels'
 import { cn } from '@/lib/utils'
 import { useCalculatorStore } from '../stores/calculator-store'
@@ -184,7 +183,6 @@ export function DrugDosageCard({
   className,
   isFavorite,
 }: DrugDosageCardProps) {
-  const { isMobile } = useDevice()
   const { isCompactView } = useCalculatorStore()
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false)
   const [isPressing, setIsPressing] = useState(false)
@@ -225,7 +223,7 @@ export function DrugDosageCard({
 
   if (!calculationResult) {
     return (
-      <div className={cn('p-3 animate-pulse', isMobile ? 'min-h-[60px]' : 'min-h-[68px]', className)}>
+      <div className={cn('p-3 animate-pulse min-h-[64px]', className)}>
         <div className='h-4 bg-muted rounded w-3/4 mb-2' />
         <div className='h-8 bg-muted rounded w-1/2' />
       </div>
@@ -253,9 +251,9 @@ export function DrugDosageCard({
       onTouchMove={handlePressEnd} // Cancel on scroll
     >
       <div className='flex flex-col gap-1'>
-        {!(isCompactView && isMobile) && <p className={cn('text-sm font-medium truncate', colors.text)}>{drug.name}</p>}
+        {!isCompactView && <p className={cn('text-[clamp(0.8rem,1vw,1rem)] font-medium truncate', colors.text)}>{drug.name}</p>}
         {!isCompactView && (calculationResult.doseRateText || calculationResult.concentrationText) && (
-          <div className='text-xs text-muted-foreground'>
+          <div className='text-[clamp(0.7rem,0.8vw,0.85rem)] text-muted-foreground'>
             {calculationResult.doseRateText && <span>{calculationResult.doseRateText}</span>}
             {calculationResult.concentrationText && (
               <span className='ml-1'>({calculationResult.concentrationText})</span>
@@ -263,23 +261,19 @@ export function DrugDosageCard({
           </div>
         )}
         {isValidCalculation ? (
-          isCompactView && isMobile ? (
-            <Badge
-              className={cn('font-bold mt-2', isMobile ? 'text-sm px-3 py-1' : 'text-base px-4 py-1.5', colors.badge)}
-            >
-              {drug.name} {dosageText}
-            </Badge>
-          ) : (
-            <Badge
-              className={cn('font-bold mt-2', isMobile ? 'text-sm px-3 py-1' : 'text-base px-4 py-1.5', colors.badge)}
-            >
-              {dosageText}
-            </Badge>
-          )
+          <Badge
+            className={cn(
+              'font-bold mt-2 text-center justify-center',
+              'text-[clamp(0.8rem,1vw,1rem)] px-[clamp(0.75rem,1.5vw,1rem)] py-[clamp(0.25rem,0.5vw,0.375rem)]',
+              colors.badge,
+            )}
+          >
+            {isCompactView ? `${drug.name} ${dosageText}` : dosageText}
+          </Badge>
         ) : (
           <div className='flex items-center gap-inline text-destructive mt-2'>
-            <AlertTriangle size={12} />
-            <span className='text-xs font-medium'>Calculation Error</span>
+            <AlertTriangle className='size-[clamp(0.75rem,1.2vw,1rem)]' />
+            <span className='text-[clamp(0.7rem,0.8vw,0.85rem)] font-medium'>Calculation Error</span>
           </div>
         )}
       </div>

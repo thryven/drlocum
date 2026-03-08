@@ -235,18 +235,12 @@ export function DrugReferenceGrid({
                 drug={drug}
                 calculationResult={calculationResult}
                 categories={categories}
-                onFavorite={onDrugFavorite ? () => onDrugFavorite(drug.id) : undefined}
+                onDrugFavorite={onDrugFavorite ? () => onDrugFavorite(drug.id) : undefined}
                 isFavorite={isFavorite}
                 className={cn(
-                  // Enhanced mobile touch feedback
                   'transition-all duration-200 ease-in-out',
-                  // Ensure cards fill the grid cell properly
                   'h-full w-full',
-                  // Mobile-specific optimizations
-                  isMobile && [
-                    'active:scale-[0.98]',
-                    'touch-manipulation', // Optimize touch events
-                  ],
+                  'active:scale-[0.98] touch-manipulation',
                 )}
               />
             </motion.div>
