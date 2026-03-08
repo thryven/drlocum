@@ -14,27 +14,28 @@ interface WeightInputSectionProps {
 }
 
 /**
- * Render a weight input section for entering patient weight in kilograms with validation, debounced updates to the calculator store, and screen reader announcements.
- *
- * @returns The rendered weight input section as JSX
+ * Render a weight input section for entering patient weight in kilograms
+ * with validation, debounced updates to the calculator store,
+ * and screen reader announcements.
  */
 export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProps>) {
   const { announceStatus } = useScreenReader()
 
-  const { displayWeight, setDisplayWeight, setIsWeightManuallyEntered } = useCalculatorStore()
+  const { displayWeight, setDisplayWeight, setIsWeightManuallyEntered } =
+    useCalculatorStore()
 
   const inputId = useId()
   const descriptionId = useId()
 
-  // Local input string preserves what the user types (including "15." or ".5")
-  const [localValue, setLocalValue] = useState<string>(displayWeight === undefined ? '' : String(displayWeight))
+  const [localValue, setLocalValue] = useState<string>(
+    displayWeight === undefined ? '' : String(displayWeight),
+  )
 
   const handleInputChange = useCallback(
     (value: string) => {
       setLocalValue(value)
 
       if (value.trim() === '') {
-        // Cleared input: reflect that in store and don't mark as manual entry
         setDisplayWeight(undefined)
         setIsWeightManuallyEntered(false)
         announceStatus('Weight cleared')
@@ -42,13 +43,12 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
       }
 
       const numericValue = Number.parseFloat(value)
+
       if (!Number.isNaN(numericValue) && numericValue > 0) {
-        // Valid numeric weight -> update immediately
         setDisplayWeight(numericValue)
         setIsWeightManuallyEntered(true)
         announceStatus(`Weight updated to ${numericValue} kilograms`)
       } else {
-        // Invalid or incomplete decimal input (e.g., "15." or "abc") -> clear stored weight
         setDisplayWeight(undefined)
         setIsWeightManuallyEntered(true)
       }
@@ -56,7 +56,6 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
     [announceStatus, setDisplayWeight, setIsWeightManuallyEntered],
   )
 
-  // Keep local input in sync if displayWeight is changed externally
   useEffect(() => {
     const displayStr = displayWeight === undefined ? '' : String(displayWeight)
     if (displayStr !== localValue) {
@@ -65,47 +64,68 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
   }, [displayWeight, localValue])
 
   return (
-    <div className='relative' id='weight-input'>
-      <MobileFormField className='space-y-2'>
-        <div className='flex items-center justify-between'>
+    <div className="relative" id="weight-input">
+      <MobileFormField className="space-y-[clamp(0.4rem,0.7vw,0.7rem)]">
+        
+        <div className="flex items-center justify-between">
           <Label
             htmlFor={inputId}
-            className='flex items-center gap-2 font-semibold text-sm sm:text-base'
+            className="flex items-center gap-[clamp(0.4rem,0.7vw,0.6rem)] font-semibold text-[clamp(0.8rem,1vw,1.2rem)]"
           >
-            <Weight className='text-primary size-4 sm:size-5' />
+            <Weight className="text-primary size-[clamp(0.95rem,1.3vw,1.4rem)]" />
             Weight (Optional)
           </Label>
         </div>
 
-        <div id={descriptionId} className='sr-only'></div>
+        <div id={descriptionId} className="sr-only"></div>
 
-        <div className='flex items-center gap-2'>
-          <div className='relative flex-1'>
+        <div className="flex items-center gap-[clamp(0.4rem,0.7vw,0.6rem)]">
+          <div className="relative flex-1">
+            
             <MobileInput
               id={inputId}
-              name='quick-weight'
-              type='text'
-              mobileKeyboard='decimal'
-              placeholder='e.g., 15.5'
+              name="quick-weight"
+              type="text"
+              mobileKeyboard="decimal"
+              placeholder="e.g., 15.5"
               value={localValue}
               onChange={handleInputChange}
               scrollIntoViewOnFocus={true}
-              className='h-10 min-h-[44px] pl-3 pr-12 text-base font-medium sm:h-11 sm:pl-4 lg:h-12 lg:pr-14'
+              className="
+                h-[clamp(2.5rem,3.5vw,3rem)]
+                min-h-[44px]
+                pl-[clamp(0.7rem,1vw,1rem)]
+                pr-[clamp(2.5rem,4vw,3.5rem)]
+                text-[clamp(0.9rem,1.1vw,1.1rem)]
+                font-medium
+              "
               disabled={disabled}
-              min='0'
-              step='0.1'
+              min="0"
+              step="0.1"
               showValidationIcon={false}
-              aria-label='Patient weight in kilograms'
+              aria-label="Patient weight in kilograms"
               aria-describedby={descriptionId}
             />
+
             <label
               htmlFor={inputId}
-              className='absolute right-3 top-1/2 -translate-y-1/2 cursor-text font-medium text-muted-foreground text-sm sm:text-base lg:right-4'
+              className="
+                absolute
+                right-[clamp(0.7rem,1vw,1rem)]
+                top-1/2
+                -translate-y-1/2
+                cursor-text
+                font-medium
+                text-muted-foreground
+                text-[clamp(0.8rem,1vw,1rem)]
+              "
             >
               kg
             </label>
+
           </div>
         </div>
+
       </MobileFormField>
     </div>
   )
