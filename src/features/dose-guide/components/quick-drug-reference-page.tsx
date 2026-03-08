@@ -4,25 +4,19 @@
 import { AlertTriangle, ArrowLeft, RefreshCw } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import type React from 'react'
-import { Component, useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
+import { Component } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { MobileViewport } from '@/components/ui/mobile-viewport'
 import { QuickReferenceSkipLinks } from '@/components/ui/skip-links'
 import { useDevice } from '@/hooks/use-device'
-import { useMobileKeyboard } from '@/hooks/use-mobile-keyboard'
 import { useScreenReader } from '@/hooks/use-screen-reader'
-import { useSwipeGesture } from '@/hooks/use-swipe-gesture'
-import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
 import { ComplaintFilterBar, DrugReferenceGrid } from './'
 import { AgeInputSection } from './age-input-section'
 import { WeightInputSection } from './weight-input-section'
-import { useQuickReferenceDatabase } from '../hooks'
-import { getWeightForAge } from '../lib/calculations/utils'
-import { useCalculatorStore } from '../stores/calculator-store'
+import { useDoseGuidePage } from '../hooks/use-dose-guide-page'
 import type {
-  QuickReferenceCalculation,
   QuickReferenceComplaintCategory,
   QuickReferenceMedication,
 } from '../lib/types'
@@ -67,15 +61,6 @@ class PageErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState
   }
 }
 
-/**
- * Render a fullscreen error fallback UI for the dose guide page.
- *
- * Shows a descriptive error card with actions to retry loading or navigate back.
- *
- * @param error - The occurred error; its message and stack are shown only in development.
- * @param onRetry - Callback invoked when the user requests a retry.
- * @returns A React element that displays the error message, "Try Again" and "Go Back" actions, and development-only error details when NODE_ENV is "development".
- */
 function ErrorFallback({ error, onRetry }: Readonly<{ error: Error; onRetry: () => void }>) {
   const router = useRouter()
   const { isMobile } = useDevice()
@@ -122,211 +107,23 @@ function ErrorFallback({ error, onRetry }: Readonly<{ error: Error; onRetry: () 
   )
 }
 
-/**
- * Render the pediatric dose guide UI and keep client-side dosing state in sync.
- *
- * Computes and stores dose calculations for the currently filtered pediatric medication-summary based on the displayed age and either a manually entered or age-derived weight, and provides handlers for navigation and user interactions (filter changes, selection, favorites, delete, history, share, refresh, and swipe navigation).
- *
- * @param defaultWeight - Optional initial weight to populate the weight input
- * @param initialComplaintFilter - Optional initial complaint/category filter to apply
- * @param medications - Quick-reference medication-summary used for filtering and dose calculations
- * @param categories - Complaint categories used to build the category filter bar
- * @returns The dose guide content as a React element
- */
-function QuickDrugReferenceContent({
-  defaultWeight,
-  initialComplaintFilter,
-  medications,
-  categories,
-}: Readonly<QuickDrugReferencePageProps>) {
-  const { isMobile } = useDevice()
-  const { keyboard, getViewportStyles } = useMobileKeyboard({ adjustViewport: isMobile })
-  const { announceStatus } = useScreenReader()
-  const { toast } = useToast()
-  const [isPending, startTransition] = useTransition()
-  const swipeContainerRef = useRef<HTMLDivElement>(null)
-
-  // Zustand store state and actions
+function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>) {
   const {
-    displayAge,
-    displayAgeUnit,
-    displayWeight,
-    isWeightManuallyEntered,
+    isMobile,
+    keyboard,
+    getViewportStyles,
+    isPending,
+    swipeContainerRef,
+    isDatabaseLoading,
+    isClient,
+    availableComplaints,
     selectedComplaintFilter,
+    filteredDrugs,
     drugCalculationResults,
     favorites,
-    toggleFavorite,
-    setDisplayWeight,
-    setSelectedComplaintFilter,
-    setDrugCalculationResults,
-  } = useCalculatorStore()
-
-  // Quick Reference Database hook
-  const {
-    isLoading: isDatabaseLoading,
-    error: databaseError,
-    getFilteredMedications,
-    getEnabledCategories,
-    calculateDose,
-  } = useQuickReferenceDatabase(medications, categories)
-
-  const [isClient, setIsClient] = useState(false)
-
-  const availableComplaints = useMemo(() => getEnabledCategories(), [getEnabledCategories])
-
-  const calculateAllDoses = useCallback(() => {
-    if (isDatabaseLoading) return
-
-    let medsToCalculate: QuickReferenceMedication[]
-    if (selectedComplaintFilter === 'favorites') {
-      medsToCalculate = medications.filter((med) => favorites.includes(med.id))
-    } else {
-      medsToCalculate = getFilteredMedications(selectedComplaintFilter, 'paediatric')
-    }
-
-    const results = new Map<string, QuickReferenceCalculation>()
-    const ageInMonths = displayAgeUnit === 'years' ? displayAge * 12 : displayAge
-
-    let weightToUse: number | undefined
-    if (isWeightManuallyEntered) {
-      if (typeof displayWeight !== 'number' || Number.isNaN(displayWeight)) {
-        setDrugCalculationResults(new Map())
-        return
-      }
-      weightToUse = displayWeight
-    } else {
-      weightToUse = getWeightForAge(ageInMonths)
-    }
-
-    if (typeof weightToUse !== 'number' || Number.isNaN(weightToUse) || weightToUse <= 0) {
-      setDrugCalculationResults(new Map())
-      return
-    }
-
-    if (!isWeightManuallyEntered && weightToUse !== displayWeight) {
-      setDisplayWeight(weightToUse)
-    }
-
-    for (const medication of medsToCalculate) {
-      const result = calculateDose(medication.id, weightToUse, ageInMonths)
-      if (result) {
-        results.set(medication.id, {
-          medicationId: medication.id,
-          doseMg: result.doseMg,
-          adminVolumeMl: result.adminVolume,
-          frequencyText: result.frequency,
-          formulationText: medication.concentration?.formulation ?? 'N/A',
-          isCalculationValid: result.isValid,
-          hasWarnings: result.warnings.length > 0,
-          warningCount: result.warnings.length,
-          doseRateText: result.doseRateText ?? null,
-          concentrationText: medication.concentration
-            ? `${medication.concentration.amount}${medication.concentration.unit}`
-            : 'N/A',
-        })
-      }
-    }
-    setDrugCalculationResults(results)
-  }, [
-    isDatabaseLoading,
-    getFilteredMedications,
-    selectedComplaintFilter,
-    displayAgeUnit,
-    displayAge,
-    isWeightManuallyEntered,
-    displayWeight,
-    setDrugCalculationResults,
-    setDisplayWeight,
-    calculateDose,
-    medications,
-    favorites,
-  ])
-
-  const handleFilterChange = useCallback(
-    (complaintId: string) => {
-      startTransition(() => {
-        setSelectedComplaintFilter(complaintId)
-      })
-    },
-    [setSelectedComplaintFilter],
-  )
-
-  const handleDrugFavorite = useCallback(
-    (drugId: string) => {
-      const drug = medications.find((d) => d.id === drugId)
-      if (!drug) return
-      const isCurrentlyFavorite = favorites.includes(drugId)
-      toggleFavorite(drugId)
-      announceStatus(`${drug.name} ${isCurrentlyFavorite ? 'removed from' : 'added to'} favorites`)
-      toast({
-        title: isCurrentlyFavorite ? 'Removed from Favorites' : 'Added to Favorites',
-        description: `${drug.name} has been ${isCurrentlyFavorite ? 'removed from' : 'added to'} your favorites.`,
-        duration: 3000,
-      })
-    },
-    [medications, announceStatus, toggleFavorite, favorites, toast],
-  )
-
-  // Swipe gesture handling
-  const handleSwipe = useCallback(
-    (direction: 'left' | 'right') => {
-      if (availableComplaints.length === 0) return
-
-      const currentIndex = availableComplaints.findIndex(
-        (c) => c.id === (selectedComplaintFilter ?? availableComplaints[0]?.id),
-      )
-      if (currentIndex === -1) return
-
-      const nextIndex =
-        direction === 'left'
-          ? (currentIndex + 1) % availableComplaints.length
-          : (currentIndex - 1 + availableComplaints.length) % availableComplaints.length
-
-      const nextComplaint = availableComplaints[nextIndex]
-      if (nextComplaint) {
-        handleFilterChange(nextComplaint.id)
-      }
-    },
-    [availableComplaints, selectedComplaintFilter, handleFilterChange],
-  )
-
-  useSwipeGesture(
-    swipeContainerRef,
-    {
-      onSwipeLeft: () => handleSwipe('left'),
-      onSwipeRight: () => handleSwipe('right'),
-    },
-    { enabled: isMobile },
-  )
-
-  // Initialize client-side state
-  useEffect(() => {
-    setIsClient(true)
-    if (defaultWeight) setDisplayWeight(defaultWeight)
-    if (initialComplaintFilter) setSelectedComplaintFilter(initialComplaintFilter)
-    announceStatus('Dose guide loaded for pediatric patients')
-  }, [defaultWeight, initialComplaintFilter, setDisplayWeight, setSelectedComplaintFilter, announceStatus])
-
-  // Calculate doses when dependencies change
-  useEffect(() => {
-    if (isClient && !isDatabaseLoading) {
-      calculateAllDoses()
-    }
-  }, [isClient, isDatabaseLoading, calculateAllDoses])
-
-  // Handle database errors
-  useEffect(() => {
-    if (databaseError) {
-      throw new Error(databaseError)
-    }
-  }, [databaseError])
-
-  const filteredDrugs = useMemo(() => {
-    if (selectedComplaintFilter === 'favorites') {
-      return medications.filter((med) => favorites.includes(med.id))
-    }
-    return getFilteredMedications(selectedComplaintFilter, 'paediatric')
-  }, [medications, selectedComplaintFilter, favorites, getFilteredMedications])
+    handleFilterChange,
+    handleDrugFavorite,
+  } = useDoseGuidePage(props)
 
   if (!isClient) {
     return (
@@ -367,7 +164,7 @@ function QuickDrugReferenceContent({
           )}
         >
           <CardContent className={cn('padding-component', isMobile && 'pt-2 px-2 pb-2')}>
-            <div className={cn('grid', isMobile ? 'grid-cols-1 gap-inline' : 'grid-cols-2 gap-component')}>
+            <div className={cn('grid', 'grid-cols-1 gap-inline md:grid-cols-2 md:gap-component')}>
               <AgeInputSection disabled={!isClient} />
               <WeightInputSection disabled={!isClient} />
             </div>
@@ -393,7 +190,7 @@ function QuickDrugReferenceContent({
         )}
         <DrugReferenceGrid
           drugs={filteredDrugs}
-          categories={categories}
+          categories={props.categories}
           calculationResults={drugCalculationResults}
           onDrugFavorite={handleDrugFavorite}
           isLoading={isDatabaseLoading || isPending}
@@ -405,12 +202,6 @@ function QuickDrugReferenceContent({
   )
 }
 
-/**
- * Render the dose guide page wrapped in an error boundary.
- *
- * @param props - Props forwarded to QuickDrugReferenceContent (page configuration and data)
- * @returns A React element that renders the dose guide content inside a page-level error boundary
- */
 export function QuickDrugReferencePage(props: Readonly<QuickDrugReferencePageProps>) {
   return (
     <PageErrorBoundary>

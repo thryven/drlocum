@@ -4,13 +4,7 @@
  */
 
 import { useCallback } from 'react'
-import { calculateDose as coreCalculateDose } from '@/features/dose-guide/lib/calculations/core'
-import type {
-  QuickReferenceCalculationResult,
-  QuickReferenceComplaintCategory,
-  QuickReferenceMedication,
-  ValidationResult,
-} from '../lib/types'
+import type { QuickReferenceComplaintCategory, QuickReferenceMedication, ValidationResult } from '../lib/types'
 import { validateMedication } from '@/features/dose-guide/lib/validation'
 import { useCalculation } from './use-calculation'
 import { useFilteringAndSorting } from './use-filtering-and-sorting'
@@ -36,17 +30,6 @@ export function useQuickReferenceDatabase(
   const filtering = useFilteringAndSorting(initialMedications, initialCategories)
   const calculation = useCalculation(initialMedications)
 
-  const calculateDose = useCallback(
-    (medicationId: string, weight: number, age?: number): QuickReferenceCalculationResult | null => {
-      const medication = initialMedications.find((med) => med.id === medicationId)
-      if (!medication) {
-        return null
-      }
-      return coreCalculateDose(medication, weight, age)
-    },
-    [initialMedications],
-  )
-
   const validateMedicationCallback = useCallback((medication: QuickReferenceMedication): ValidationResult => {
     return validateMedication(medication)
   }, [])
@@ -58,7 +41,6 @@ export function useQuickReferenceDatabase(
     error: null,
     ...filtering,
     ...calculation,
-    calculateDose,
     validateMedication: validateMedicationCallback,
   }
 }

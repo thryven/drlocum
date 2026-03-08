@@ -2,12 +2,11 @@
 'use client'
 
 import { Weight } from 'lucide-react'
-import { useCallback, useEffect, useId, useState } from 'react'
+import { useId } from 'react'
 import { Label } from '@/components/ui/label'
 import { MobileFormField } from '@/components/ui/mobile-form'
 import { MobileInput } from '@/components/ui/mobile-input'
-import { useScreenReader } from '@/hooks/use-screen-reader'
-import { useCalculatorStore } from '../stores/calculator-store'
+import { useWeightInput } from '../hooks/use-weight-input'
 
 interface WeightInputSectionProps {
   disabled?: boolean
@@ -19,49 +18,9 @@ interface WeightInputSectionProps {
  * and screen reader announcements.
  */
 export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProps>) {
-  const { announceStatus } = useScreenReader()
-
-  const { displayWeight, setDisplayWeight, setIsWeightManuallyEntered } =
-    useCalculatorStore()
-
+  const { localValue, handleInputChange } = useWeightInput()
   const inputId = useId()
   const descriptionId = useId()
-
-  const [localValue, setLocalValue] = useState<string>(
-    displayWeight === undefined ? '' : String(displayWeight),
-  )
-
-  const handleInputChange = useCallback(
-    (value: string) => {
-      setLocalValue(value)
-
-      if (value.trim() === '') {
-        setDisplayWeight(undefined)
-        setIsWeightManuallyEntered(false)
-        announceStatus('Weight cleared')
-        return
-      }
-
-      const numericValue = Number.parseFloat(value)
-
-      if (!Number.isNaN(numericValue) && numericValue > 0) {
-        setDisplayWeight(numericValue)
-        setIsWeightManuallyEntered(true)
-        announceStatus(`Weight updated to ${numericValue} kilograms`)
-      } else {
-        setDisplayWeight(undefined)
-        setIsWeightManuallyEntered(true)
-      }
-    },
-    [announceStatus, setDisplayWeight, setIsWeightManuallyEntered],
-  )
-
-  useEffect(() => {
-    const displayStr = displayWeight === undefined ? '' : String(displayWeight)
-    if (displayStr !== localValue) {
-      setLocalValue(displayStr)
-    }
-  }, [displayWeight, localValue])
 
   return (
     <div className="relative" id="weight-input">
