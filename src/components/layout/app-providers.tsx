@@ -6,6 +6,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import type React from 'react'
 import { ThemeProvider } from '@/components/shared/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
+import { DeviceProvider } from '@/hooks/use-device'
 import { StoreInitializer } from '@/lib/stores/store-initializer'
 import { AppLayout } from './app-layout'
 
@@ -30,12 +31,14 @@ import { AppLayout } from './app-layout'
  */
 export function AppProviders({ children }: { children: React.ReactNode }): React.ReactElement {
   return (
-    <ThemeProvider attribute='class' defaultTheme='light' enableSystem={false} themes={['light', 'dark']}>
-      <StoreInitializer />
-      <AppLayout>{children}</AppLayout>
-      <Toaster />
-      <Analytics />
-      <SpeedInsights />
-    </ThemeProvider>
+    <DeviceProvider>
+      <ThemeProvider attribute='class' defaultTheme='light' enableSystem={false} themes={['light', 'dark']}>
+        <StoreInitializer />
+        <AppLayout>{children}</AppLayout>
+        <Toaster />
+        <Analytics />
+        <SpeedInsights />
+      </ThemeProvider>
+    </DeviceProvider>
   )
 }

@@ -1,4 +1,5 @@
 import type {Config} from 'tailwindcss';
+import { screens } from './src/lib/breakpoints';
 
 export default {
   darkMode: 'class',
@@ -8,6 +9,7 @@ export default {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens,
     extend: {
       fontFamily: {
         body: ['"PT Sans"', 'sans-serif'],
