@@ -1,88 +1,84 @@
-
-// src/features/knowledge-base/lib/notion.ts
-import { Client } from '@notionhq/client'
-import type { BlockObjectResponse, PageObjectResponse, RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints'
-import { cache } from 'react'
+// src/lib/notion.ts
+import { Client } from '@notionhq/client';
+import type { BlockObjectResponse, PageObjectResponse, RichTextItemResponse } from '@notionhq/client/build/src/api-endpoints';
 
 // Initializing a client
 const notion = new Client({
   auth: process.env.NOTION_API_KEY || '',
-})
+});
 
 // const databaseId = process.env.NOTION_DATABASE_ID!;
-const databaseId = '3102b197c4f1809ba46fd823432ebf80'
+const databaseId = "3102b197c4f1809ba46fd823432ebf80";
 
 export interface Article {
-  id: string
-  slug: string
-  title: string
-  summary: string
-  category: string
-  publishedDate: string
+  id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  category: string;
+  publishedDate: string;
 }
 
 // ---- Helper Functions ----
 
 function extractPlainText(richText: RichTextItemResponse[]): string {
-  if (!richText) return ''
-  return richText.map((t) => t.plain_text).join('')
+  return richText.map((t) => t.plain_text).join('');
 }
 
 function slugify(text: string): string {
-  if (!text) return ''
+  if (!text) return '';
   return text
-    .toString()
     .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-') // Replace spaces with -
-    .replace(/[^\w-]+/g, '') // Remove all non-word chars except -
-    .replace(/--+/g, '-') // Replace multiple - with single -
-    .replace(/^-+/, '') // Trim - from start of text
-    .replace(/-+$/, '') // Trim - from end of text
+    .replace(/[^\w\s-]/g, "") // remove non-word characters
+    .replace(/\s+/g, "-") // replace spaces with hyphens
+    .replace(/-+/g, "-") // remove consecutive hyphens
+    .trim();
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getPropertyValue(page: PageObjectResponse, name: string): any {
-  const props = page.properties
-  // Case-insensitive property lookup
-  const key = Object.keys(props).find((k) => k.toLowerCase() === name.toLowerCase())
-  if (!key) return undefined
-  return props[key]
+    const props = page.properties;
+    // Case-insensitive property lookup
+    const key = Object.keys(props).find(
+      (k) => k.toLowerCase() === name.toLowerCase()
+    );
+    if (!key) return undefined;
+    return props[key];
 }
 
 // More robust function to find the title property, as seen in the example
 function extractTitle(page: PageObjectResponse): string {
-  const props = page.properties
+  const props = page.properties;
   for (const key of Object.keys(props)) {
-    const prop = props[key]
-    if (prop && prop.type === 'title') {
-      return extractPlainText(prop.title)
+    const prop = props[key];
+    if (prop && prop.type === "title") {
+      return extractPlainText(prop.title);
     }
   }
-  return '' // Return empty string for better slug handling
+  return "Untitled"; // Fallback if no title property is found
 }
+
 
 function pageToArticle(page: PageObjectResponse): Article {
-  const title = extractTitle(page)
-  const summaryProp = getPropertyValue(page, 'Summary')
-  const categoryProp = getPropertyValue(page, 'Category')
-  const publishedDateProp = getPropertyValue(page, 'PublishedDate')
+  const title = extractTitle(page); // Use the robust title extraction
+  const summaryProp = getPropertyValue(page, 'Summary');
+  const categoryProp = getPropertyValue(page, 'Category');
+  const publishedDateProp = getPropertyValue(page, 'PublishedDate');
 
-  // Use page ID as slug if title is empty to guarantee a unique slug
-  const slug = title ? slugify(title) : page.id
+  // ALWAYS generate slug from the main title property for consistency
+  const slug = slugify(title) || page.id;
 
-  const summary = (summaryProp?.type === 'rich_text' && extractPlainText(summaryProp.rich_text)) || ''
-  const category = (categoryProp?.type === 'select' && categoryProp.select?.name) || 'Uncategorized'
-  const publishedDate =
-    (publishedDateProp?.type === 'date' && publishedDateProp.date?.start) || new Date().toISOString()
+  const summary = (summaryProp?.type === 'rich_text' && extractPlainText(summaryProp.rich_text)) || '';
+  const category = (categoryProp?.type === 'select' && categoryProp.select?.name) || 'Uncategorized';
+  const publishedDate = (publishedDateProp?.type === 'date' && publishedDateProp.date?.start) || new Date().toISOString();
 
-  return { id: page.id, title, slug, summary, category, publishedDate }
+  return { id: page.id, title, slug, summary, category, publishedDate };
 }
 
-const getPublishedArticlesFn = async (): Promise<Article[]> => {
+export async function getPublishedArticles(): Promise<Article[]> {
   if (!databaseId || !process.env.NOTION_API_KEY) {
-    console.warn('Notion API key or Database ID not set. Returning empty array.')
-    return []
+    console.warn("Notion API key or Database ID not set. Returning empty array.");
+    return [];
   }
   try {
     const response = await notion.databases.query({
@@ -99,55 +95,54 @@ const getPublishedArticlesFn = async (): Promise<Article[]> => {
           direction: 'descending',
         },
       ],
-    })
+    });
     return response.results
       .filter((page): page is PageObjectResponse => 'properties' in page && page.object === 'page')
-      .map(pageToArticle)
+      .map(pageToArticle);
   } catch (error) {
-    console.error('Failed to fetch articles from Notion:', error)
-    return []
+    console.error("Failed to fetch articles from Notion:", error);
+    return [];
   }
 }
-export const getPublishedArticles = cache(getPublishedArticlesFn)
 
-// This function is no longer cached directly to avoid potential nested cache issues.
-// It relies on the cached `getPublishedArticles` function.
-export const getArticleMeta = async (slug: string): Promise<Article | null> => {
+export async function getArticle(slug: string): Promise<{ article: Article; blocks: BlockObjectResponse[] } | null> {
   if (!slug) {
-    return null
+    return null;
   }
   try {
-    const articles = await getPublishedArticles()
-    const article = articles.find((a) => a.slug === slug)
-    return article || null
-  } catch (error) {
-    console.error(`Failed to fetch article metadata for slug "${slug}" from Notion:`, error)
-    return null
-  }
-}
+    const articles = await getPublishedArticles();
+    const article = articles.find((a) => a.slug === slug);
 
-const getArticleContentFn = async (articleId: string): Promise<BlockObjectResponse[]> => {
-  if (!articleId) return []
-  try {
-    const blocks: BlockObjectResponse[] = []
-    let cursor: string | undefined
+    if (!article) {
+      return null;
+    }
+
+    const blocks: BlockObjectResponse[] = [];
+    let cursor: string | undefined = undefined;
 
     do {
-      const response = await notion.blocks.children.list({
-        block_id: articleId,
-        page_size: 100, // Notion's max page size
-        ...(cursor && { start_cursor: cursor }),
-      })
+        const response = await notion.blocks.children.list({
+            block_id: article.id,
+            page_size: 100, // Notion's max page size
+            ...(cursor && { start_cursor: cursor }),
+        });
 
-      blocks.push(...response.results.filter((b): b is BlockObjectResponse => 'type' in b))
+        blocks.push(
+            ...response.results.filter(
+                (b): b is BlockObjectResponse => 'type' in b
+            )
+        );
 
-      cursor = response.has_more ? response.next_cursor ?? undefined : undefined
-    } while (cursor)
+        cursor = response.has_more ? (response.next_cursor ?? undefined) : undefined;
+    } while (cursor);
 
-    return blocks
+
+    return {
+      article,
+      blocks,
+    };
   } catch (error) {
-    console.error(`Failed to fetch blocks for article ID "${articleId}" from Notion:`, error)
-    return [] // Return empty array on error
+    console.error(`Failed to fetch article for slug "${slug}" from Notion:`, error);
+    return null;
   }
 }
-export const getArticleContent = cache(getArticleContentFn)
