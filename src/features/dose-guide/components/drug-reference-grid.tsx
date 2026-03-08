@@ -2,8 +2,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Loader2, Search } from 'lucide-react'
-import { useMemo } from 'react'
+import { Search } from 'lucide-react'
+import { memo, useMemo } from 'react'
 import { useDevice } from '@/hooks/use-device'
 import { AriaLabels } from '@/lib/utils/accessibility/labels'
 import { cn } from '@/lib/utils'
@@ -46,26 +46,6 @@ function EmptyState({ title, description, icon }: EmptyStateProps) {
       <div className='text-muted-foreground'>{icon || <Search size={isMobile ? 48 : 40} />}</div>
       <h3 className={cn('font-semibold text-foreground', isMobile ? 'text-lg' : 'text-base')}>{title}</h3>
       <p className={cn('text-muted-foreground max-w-md', isMobile ? 'text-sm' : 'text-xs')}>{description}</p>
-    </div>
-  )
-}
-
-/**
- * Renders a centered loading indicator and status message for dosage calculations.
- *
- * The visual layout adapts for mobile vs. desktop sizes.
- *
- * @returns A JSX element containing a spinner and the text "Calculating dosages..."
- */
-function LoadingState() {
-  const { isMobile } = useDevice()
-
-  return (
-    <div className='flex flex-col items-center justify-center py-12 px-4 text-center gap-element'>
-      <div>
-        <Loader2 size={isMobile ? 32 : 28} className='animate-spin text-muted-foreground' />
-      </div>
-      <p className={cn('text-muted-foreground', isMobile ? 'text-sm' : 'text-xs')}>Calculating dosages...</p>
     </div>
   )
 }
@@ -136,13 +116,14 @@ const gridItemVariants = {
 
 /**
  * Render a responsive, accessible grid of medication dosage cards.
- *
  * Renders loading placeholders, empty states, or a sorted grid of DrugDosageCard items.
+ *
+ * This component is wrapped in React.memo to prevent unnecessary re-renders.
  *
  * @param calculationResults - Map from medication `id` to its dosage calculation result; used to populate each card (missing entries render a card with `null` result)
  * @returns A React element containing the medication results grid, loading placeholders, or an appropriate empty state
  */
-export function DrugReferenceGrid({
+export const DrugReferenceGrid = memo(function DrugReferenceGrid({
   drugs,
   categories,
   calculationResults,
@@ -155,20 +136,11 @@ export function DrugReferenceGrid({
 
   const sortedDrugs = useMemo(() => [...drugs].sort((a, b) => a.name.localeCompare(b.name)), [drugs])
 
-  // Show loading state
+  // Show loading skeleton grid
   if (isLoading) {
     return (
       <div className={cn('w-full', className)}>
-        <LoadingState />
-      </div>
-    )
-  }
-
-  // Show loading grid if we have drugs but no calculation results yet
-  if (drugs.length > 0 && calculationResults.size === 0) {
-    return (
-      <div className={cn('w-full', className)}>
-        <LoadingGrid count={Math.min(drugs.length, 8)} />
+        <LoadingGrid count={8} />
       </div>
     )
   }
@@ -180,18 +152,6 @@ export function DrugReferenceGrid({
         <EmptyState
           title='No medications found'
           description='Try adjusting your filters or check back later for more medications.'
-        />
-      </div>
-    )
-  }
-
-  // Show empty state if drugs exist but no calculations available
-  if (calculationResults.size === 0) {
-    return (
-      <div className={cn('w-full', className)}>
-        <EmptyState
-          title='No dosages available'
-          description='Unable to calculate dosages for the selected medications. Please check the weight input and try again.'
         />
       </div>
     )
@@ -261,4 +221,4 @@ export function DrugReferenceGrid({
       )}
     </div>
   )
-}
+})

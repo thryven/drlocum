@@ -45,6 +45,11 @@ class PageErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState
     return { hasError: true, error }
   }
 
+  override componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    // In a real application, you would send this to an error tracking service like Sentry
+    console.error('Dose Guide Page Error:', error, errorInfo)
+  }
+
   handleRetry = () => {
     this.setState({ hasError: false, error: null })
   }
@@ -116,7 +121,6 @@ function QuickDrugReferenceContent(props: QuickDrugReferencePageProps) {
     isPending,
     swipeContainerRef,
     isDatabaseLoading,
-    isClient,
     availableComplaints,
     selectedComplaintFilter,
     filteredDrugs,
@@ -127,7 +131,6 @@ function QuickDrugReferenceContent(props: QuickDrugReferencePageProps) {
   } = useDoseGuidePage(props)
 
   const isLoading = isDatabaseLoading || isPending
-  const isInitializing = !isClient
   const isKeyboardMode = isMobile && keyboard.isVisible
   const hasFilters = availableComplaints.length > 1
 
@@ -155,8 +158,8 @@ function QuickDrugReferenceContent(props: QuickDrugReferencePageProps) {
         >
           <CardContent className='p-fluid-page-card'>
             <div className='grid grid-cols-1 gap-inline md:grid-cols-2 md:gap-component'>
-              <AgeInputSection disabled={isInitializing} />
-              <WeightInputSection disabled={isInitializing} />
+              <AgeInputSection disabled={isLoading} />
+              <WeightInputSection disabled={isLoading} />
             </div>
           </CardContent>
         </Card>
@@ -186,7 +189,7 @@ function QuickDrugReferenceContent(props: QuickDrugReferencePageProps) {
           categories={props.categories}
           calculationResults={drugCalculationResults}
           onDrugFavorite={handleDrugFavorite}
-          isLoading={isLoading || isInitializing}
+          isLoading={isLoading}
           className={cn('mb-fluid-page-grid', isKeyboardMode && 'pb-2')}
           favorites={favorites}
         />

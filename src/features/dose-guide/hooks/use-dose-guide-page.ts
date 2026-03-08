@@ -1,7 +1,7 @@
 // src/features/dose-guide/hooks/use-dose-guide-page.ts
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useTransition } from 'react'
 import { useDevice } from '@/hooks/use-device'
 import { useMobileKeyboard } from '@/hooks/use-mobile-keyboard'
 import { useScreenReader } from '@/hooks/use-screen-reader'
@@ -57,8 +57,6 @@ export function useDoseGuidePage({
     getEnabledCategories,
     calculateDose,
   } = useQuickReferenceDatabase(medications, categories)
-
-  const [isClient, setIsClient] = useState(false)
 
   const availableComplaints = useMemo(() => getEnabledCategories(), [getEnabledCategories])
 
@@ -187,17 +185,16 @@ export function useDoseGuidePage({
   )
 
   useEffect(() => {
-    setIsClient(true)
     if (defaultWeight) setDisplayWeight(defaultWeight)
     if (initialComplaintFilter) setSelectedComplaintFilter(initialComplaintFilter)
     announceStatus('Dose guide loaded for pediatric patients')
   }, [defaultWeight, initialComplaintFilter, setDisplayWeight, setSelectedComplaintFilter, announceStatus])
 
   useEffect(() => {
-    if (isClient && !isDatabaseLoading) {
+    if (!isDatabaseLoading) {
       calculateAllDoses()
     }
-  }, [isClient, isDatabaseLoading, calculateAllDoses])
+  }, [isDatabaseLoading, calculateAllDoses])
 
   useEffect(() => {
     if (databaseError) {
@@ -215,11 +212,10 @@ export function useDoseGuidePage({
   return {
     isMobile,
     keyboard,
-    getViewportStyles,
+    getViewportStyles: useCallback(getViewportStyles, [getViewportStyles]),
     isPending,
     swipeContainerRef,
     isDatabaseLoading,
-    isClient,
     availableComplaints,
     selectedComplaintFilter,
     filteredDrugs,
