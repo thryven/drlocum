@@ -68,8 +68,11 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
     <div className='relative' id='weight-input'>
       <MobileFormField className='space-y-2'>
         <div className='flex items-center justify-between'>
-          <Label htmlFor={inputId} className='flex items-center gap-2 font-semibold text-sm md:text-base'>
-            <Weight className='text-primary size-4 md:size-5' />
+          <Label
+            htmlFor={inputId}
+            className='flex items-center gap-2 font-semibold text-sm sm:text-base'
+          >
+            <Weight className='text-primary size-4 sm:size-5' />
             Weight (Optional)
           </Label>
         </div>
@@ -87,7 +90,7 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
               value={localValue}
               onChange={handleInputChange}
               scrollIntoViewOnFocus={true}
-              className='h-10 min-h-[44px] pl-3 pr-12 text-base font-medium md:h-12 md:min-h-[48px] md:pl-4'
+              className='h-10 min-h-[44px] pl-3 pr-12 text-base font-medium sm:h-11 sm:pl-4 lg:h-12 lg:pr-14'
               disabled={disabled}
               min='0'
               step='0.1'
@@ -97,7 +100,7 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
             />
             <label
               htmlFor={inputId}
-              className='absolute right-3 top-1/2 -translate-y-1/2 cursor-text font-medium text-muted-foreground text-sm md:text-base'
+              className='absolute right-3 top-1/2 -translate-y-1/2 cursor-text font-medium text-muted-foreground text-sm sm:text-base lg:right-4'
             >
               kg
             </label>

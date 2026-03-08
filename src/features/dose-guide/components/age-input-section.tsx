@@ -61,8 +61,11 @@ export function AgeInputSection({ disabled }: Readonly<AgeInputSectionProps>) {
     <div className='relative' id='age-input'>
       <MobileFormField className='space-y-2'>
         <div className='flex items-center justify-between'>
-          <Label htmlFor={inputId} className='flex items-center gap-2 font-semibold text-sm md:text-base'>
-            <Calendar className='text-primary size-4 md:size-5' />
+          <Label
+            htmlFor={inputId}
+            className='flex items-center gap-2 font-semibold text-sm sm:text-base'
+          >
+            <Calendar className='text-primary size-4 sm:size-5' />
             Age
           </Label>
         </div>
@@ -77,7 +80,7 @@ export function AgeInputSection({ disabled }: Readonly<AgeInputSectionProps>) {
             value={displayAge > 0 ? displayAge.toString() : ''}
             onChange={handleAgeValueChange}
             scrollIntoViewOnFocus={true}
-            className='h-10 min-h-[44px] px-3 text-base font-medium md:h-12 md:min-h-[48px] md:px-4'
+            className='h-10 min-h-[44px] px-3 text-base font-medium sm:h-11 lg:h-12'
             disabled={disabled}
             min='0'
             step='1'
@@ -91,7 +94,7 @@ export function AgeInputSection({ disabled }: Readonly<AgeInputSectionProps>) {
             variant='outline'
             onClick={handleUnitToggle}
             disabled={disabled}
-            className='h-10 min-w-[90px] px-3 text-sm font-medium transition-colors md:h-12'
+            className='h-10 min-w-[90px] px-3 text-sm font-medium transition-colors sm:h-11 sm:text-base lg:h-12'
             aria-label={`Toggle age unit. Currently ${displayAgeUnit}`}
           >
             {displayAgeUnit === 'years' ? 'Years' : 'Months'}
