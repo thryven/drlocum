@@ -4,7 +4,6 @@
 import { motion } from 'framer-motion'
 import { Search } from 'lucide-react'
 import { memo, useMemo } from 'react'
-import { useDevice } from '@/hooks/use-device'
 import { cn } from '@/lib/utils'
 import { DrugDosageCard } from './'
 import type {
@@ -38,13 +37,13 @@ interface EmptyStateProps {
  * @returns A JSX element containing a centered icon, title, and description with responsive sizing for mobile
  */
 function EmptyState({ title, description, icon }: EmptyStateProps) {
-  const { isMobile } = useDevice()
-
   return (
     <div className='flex flex-col items-center justify-center py-12 px-4 text-center gap-element'>
-      <div className='text-muted-foreground'>{icon || <Search size={isMobile ? 48 : 40} />}</div>
-      <h3 className={cn('font-semibold text-foreground', isMobile ? 'text-lg' : 'text-base')}>{title}</h3>
-      <p className={cn('text-muted-foreground max-w-md', isMobile ? 'text-sm' : 'text-xs')}>{description}</p>
+      <div className='text-muted-foreground'>
+        {icon || <Search className='h-[clamp(2.5rem,5vw,3rem)] w-[clamp(2.5rem,5vw,3rem)]' />}
+      </div>
+      <h3 className='font-semibold text-foreground text-[clamp(1rem,2vw,1.125rem)]'>{title}</h3>
+      <p className='text-muted-foreground max-w-md text-[clamp(0.75rem,1.5vw,0.875rem)]'>{description}</p>
     </div>
   )
 }
@@ -58,34 +57,26 @@ function EmptyState({ title, description, icon }: EmptyStateProps) {
  * @returns A JSX.Element containing the responsive grid of skeleton placeholders
  */
 function LoadingGrid({ count = 8 }: { count?: number }) {
-  const { isMobile } = useDevice()
-
   return (
-    <div
-      className={cn(
-        'grid gap-element auto-rows-max',
-        // Responsive grid columns
-        isMobile ? 'grid-cols-2' : 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5',
-      )}
-    >
+    <div className='grid auto-rows-max grid-cols-2 gap-element md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
       {Array.from({ length: count }, (_, index) => {
         const skeletonId = `skeleton-${count}-${index}`
         return (
           <div key={skeletonId} className='animate-pulse'>
             <div
-              className='rounded-lg border bg-card padding-element gap-inline'
+              className='gap-inline rounded-lg border bg-card padding-element'
               style={{ display: 'flex', flexDirection: 'column' }}
             >
               <div className='flex items-start justify-between'>
-                <div className='gap-inline flex-1' style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div className='h-4 bg-muted rounded w-3/4' />
-                  <div className='h-3 bg-muted rounded w-1/2' />
+                <div className='flex-1 gap-inline' style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div className='h-4 w-3/4 rounded bg-muted' />
+                  <div className='h-3 w-1/2 rounded bg-muted' />
                 </div>
-                <div className='h-4 w-4 bg-muted rounded' />
+                <div className='h-4 w-4 rounded bg-muted' />
               </div>
               <div className='gap-inline' style={{ display: 'flex', flexDirection: 'column' }}>
-                <div className='h-5 bg-muted rounded w-1/3' />
-                <div className='h-3 bg-muted rounded w-2/3' />
+                <div className='h-5 w-1/3 rounded bg-muted' />
+                <div className='h-3 w-2/3 rounded bg-muted' />
               </div>
             </div>
           </div>
@@ -131,8 +122,6 @@ export const DrugReferenceGrid = memo(function DrugReferenceGrid({
   className,
   favorites,
 }: Readonly<DrugReferenceGridProps>) {
-  const { isMobile } = useDevice()
-
   const sortedDrugs = useMemo(() => [...drugs].sort((a, b) => a.name.localeCompare(b.name)), [drugs])
 
   // Show loading skeleton grid
@@ -160,12 +149,7 @@ export const DrugReferenceGrid = memo(function DrugReferenceGrid({
     <div className={cn('w-full', className)} id='medication-results'>
       {/* Drug Cards Grid */}
       <motion.section
-        className={cn(
-          // Base grid styles with mobile optimizations
-          'grid gap-inline auto-rows-max',
-          // Responsive grid columns optimized for different screen sizes
-          'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5',
-        )}
+        className='grid auto-rows-max grid-cols-2 gap-inline md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
         style={{
           // CSS Grid masonry-like behavior
           gridAutoRows: 'max-content',
@@ -191,11 +175,7 @@ export const DrugReferenceGrid = memo(function DrugReferenceGrid({
                 categories={categories}
                 onDrugFavorite={onDrugFavorite ? () => onDrugFavorite(drug.id) : undefined}
                 isFavorite={isFavorite}
-                className={cn(
-                  'transition-all duration-200 ease-in-out',
-                  'h-full w-full',
-                  'active:scale-[0.98] touch-manipulation',
-                )}
+                className='h-full w-full touch-manipulation transition-all duration-200 ease-in-out active:scale-[0.98]'
               />
             </motion.div>
           )
@@ -205,7 +185,7 @@ export const DrugReferenceGrid = memo(function DrugReferenceGrid({
       {/* Results Summary */}
       {drugs.length > 0 && (
         <div className='spacing-component text-center'>
-          <p className={cn('text-muted-foreground', isMobile ? 'text-sm' : 'text-xs')}>
+          <p className='text-muted-foreground text-[clamp(0.75rem,1.5vw,0.875rem)]'>
             Showing {drugs.length} medication{drugs.length === 1 ? '' : 's'}
             {calculationResults.size < drugs.length && (
               <span className='block spacing-inline'>Some medications may not have dosage calculations available</span>
