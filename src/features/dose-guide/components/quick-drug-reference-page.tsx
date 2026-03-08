@@ -16,10 +16,7 @@ import { ComplaintFilterBar, DrugReferenceGrid } from './'
 import { AgeInputSection } from './age-input-section'
 import { WeightInputSection } from './weight-input-section'
 import { useDoseGuidePage } from '../hooks/use-dose-guide-page'
-import type {
-  QuickReferenceComplaintCategory,
-  QuickReferenceMedication,
-} from '../lib/types'
+import type { QuickReferenceComplaintCategory, QuickReferenceMedication } from '../lib/types'
 
 interface QuickDrugReferencePageProps {
   defaultWeight?: number
@@ -50,7 +47,6 @@ class PageErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState
 
   handleRetry = () => {
     this.setState({ hasError: false, error: null })
-    globalThis.location.reload()
   }
 
   override render() {
@@ -61,7 +57,7 @@ class PageErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState
   }
 }
 
-function ErrorFallback({ error, onRetry }: Readonly<{ error: Error; onRetry: () => void }>) {
+function ErrorFallback({ error, onRetry }: { error: Error; onRetry: () => void }) {
   const router = useRouter()
   const { isMobile } = useDevice()
   const { announceNavigation } = useScreenReader()
@@ -69,6 +65,11 @@ function ErrorFallback({ error, onRetry }: Readonly<{ error: Error; onRetry: () 
   const handleGoBack = () => {
     announceNavigation('Previous page')
     router.back()
+  }
+
+  const handleRetryClick = () => {
+    onRetry() // Resets the error boundary's internal state
+    router.refresh() // This tells Next.js to re-fetch Server Components and re-render
   }
 
   return (
@@ -84,7 +85,7 @@ function ErrorFallback({ error, onRetry }: Readonly<{ error: Error; onRetry: () 
           </CardDescription>
         </CardHeader>
         <CardContent className='space-y-3'>
-          <Button onClick={onRetry} className='w-full' size={isMobile ? 'touch' : 'default'}>
+          <Button onClick={handleRetryClick} className='w-full' size={isMobile ? 'touch' : 'default'}>
             <RefreshCw className='w-4 h-4 mr-2' />
             Try Again
           </Button>
@@ -107,7 +108,7 @@ function ErrorFallback({ error, onRetry }: Readonly<{ error: Error; onRetry: () 
   )
 }
 
-function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>) {
+function QuickDrugReferenceContent(props: QuickDrugReferencePageProps) {
   const {
     isMobile,
     keyboard,
@@ -125,18 +126,10 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
     handleDrugFavorite,
   } = useDoseGuidePage(props)
 
-  if (!isClient) {
-    return (
-      <div className='min-h-screen flex items-center justify-center'>
-        <div className='text-center space-y-4'>
-          <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto' />
-          <p className='text-sm text-muted-foreground'>Loading dose guide...</p>
-        </div>
-      </div>
-    )
-  }
-
+  const isLoading = isDatabaseLoading || isPending
+  const isInitializing = !isClient
   const isKeyboardMode = isMobile && keyboard.isVisible
+  const hasFilters = availableComplaints.length > 1
 
   return (
     <MobileViewport
@@ -151,10 +144,7 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
         id='main-content'
         className={cn(
           'container mx-auto flex flex-col p-fluid-page gap-fluid-page',
-          isMobile && [
-            keyboard.isVisible && 'pb-2',
-            'safe-area-inset-x safe-area-inset-bottom',
-          ],
+          isMobile && [keyboard.isVisible && 'pb-2', 'safe-area-inset-x safe-area-inset-bottom'],
         )}
       >
         <Card
@@ -165,12 +155,12 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
         >
           <CardContent className='p-fluid-page-card'>
             <div className='grid grid-cols-1 gap-inline md:grid-cols-2 md:gap-component'>
-              <AgeInputSection disabled={!isClient} />
-              <WeightInputSection disabled={!isClient} />
+              <AgeInputSection disabled={isInitializing} />
+              <WeightInputSection disabled={isInitializing} />
             </div>
           </CardContent>
         </Card>
-        {availableComplaints.length > 1 && (
+        {hasFilters && (
           <section id='category-filters' aria-labelledby='filters-heading'>
             <Card
               className={cn(
@@ -196,7 +186,7 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
           categories={props.categories}
           calculationResults={drugCalculationResults}
           onDrugFavorite={handleDrugFavorite}
-          isLoading={isDatabaseLoading || isPending}
+          isLoading={isLoading || isInitializing}
           className={cn('mb-fluid-page-grid', isKeyboardMode && 'pb-2')}
           favorites={favorites}
         />
@@ -205,7 +195,7 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
   )
 }
 
-export function QuickDrugReferencePage(props: Readonly<QuickDrugReferencePageProps>) {
+export function QuickDrugReferencePage(props: QuickDrugReferencePageProps) {
   return (
     <PageErrorBoundary>
       <QuickDrugReferenceContent {...props} />

@@ -1,7 +1,6 @@
 // src/features/dose-guide/hooks/use-dose-guide-page.ts
 'use client'
 
-import type React from 'react'
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from 'react'
 import { useDevice } from '@/hooks/use-device'
 import { useMobileKeyboard } from '@/hooks/use-mobile-keyboard'
@@ -118,17 +117,17 @@ export function useDoseGuidePage({
     setDrugCalculationResults(results)
   }, [
     isDatabaseLoading,
-    getFilteredMedications,
     selectedComplaintFilter,
+    medications,
+    favorites,
+    getFilteredMedications,
     displayAgeUnit,
     displayAge,
     isWeightManuallyEntered,
     displayWeight,
     setDrugCalculationResults,
-    setDisplayWeight,
     calculateDose,
-    medications,
-    favorites,
+    setDisplayWeight,
   ])
 
   const handleFilterChange = useCallback(
@@ -153,7 +152,7 @@ export function useDoseGuidePage({
         duration: 3000,
       })
     },
-    [medications, announceStatus, toggleFavorite, favorites, toast],
+    [medications, favorites, toggleFavorite, announceStatus, toast],
   )
 
   const handleSwipe = useCallback(
