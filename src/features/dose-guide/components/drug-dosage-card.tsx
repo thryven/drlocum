@@ -251,9 +251,9 @@ export function DrugDosageCard({
       onTouchMove={handlePressEnd} // Cancel on scroll
     >
       <div className='flex flex-col gap-1'>
-        {!isCompactView && <p className={cn('text-[clamp(0.8rem,1vw,1rem)] font-medium truncate', colors.text)}>{drug.name}</p>}
+        {!isCompactView && <p className={cn('text-fluid-drug-name font-medium truncate', colors.text)}>{drug.name}</p>}
         {!isCompactView && (calculationResult.doseRateText || calculationResult.concentrationText) && (
-          <div className='text-[clamp(0.7rem,0.8vw,0.85rem)] text-muted-foreground'>
+          <div className='text-fluid-drug-details text-muted-foreground'>
             {calculationResult.doseRateText && <span>{calculationResult.doseRateText}</span>}
             {calculationResult.concentrationText && (
               <span className='ml-1'>({calculationResult.concentrationText})</span>
@@ -263,8 +263,7 @@ export function DrugDosageCard({
         {isValidCalculation ? (
           <Badge
             className={cn(
-              'font-bold mt-2 text-center justify-center',
-              'text-[clamp(0.8rem,1vw,1rem)] px-[clamp(0.75rem,1.5vw,1rem)] py-[clamp(0.25rem,0.5vw,0.375rem)]',
+              'font-bold mt-2 text-center justify-center text-fluid-drug-badge px-fluid-drug-badge py-fluid-drug-badge',
               colors.badge,
             )}
           >
@@ -272,8 +271,8 @@ export function DrugDosageCard({
           </Badge>
         ) : (
           <div className='flex items-center gap-inline text-destructive mt-2'>
-            <AlertTriangle className='size-[clamp(0.75rem,1.2vw,1rem)]' />
-            <span className='text-[clamp(0.7rem,0.8vw,0.85rem)] font-medium'>Calculation Error</span>
+            <AlertTriangle className='size-fluid-drug-icon' />
+            <span className='text-fluid-drug-details font-medium'>Calculation Error</span>
           </div>
         )}
       </div>

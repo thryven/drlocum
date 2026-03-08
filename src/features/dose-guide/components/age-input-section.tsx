@@ -28,18 +28,18 @@ export function AgeInputSection({ disabled }: Readonly<AgeInputSectionProps>) {
 
   return (
     <div className="relative" id="age-input">
-      <MobileFormField className="space-y-[clamp(0.35rem,0.6vw,0.6rem)]">
+      <MobileFormField className="space-y-fluid-input-field">
         <div className="flex items-center justify-between">
           <Label
             htmlFor={inputId}
-            className="flex items-center gap-[clamp(0.35rem,0.7vw,0.6rem)] font-semibold text-[clamp(0.8rem,1vw,1.2rem)]"
+            className="flex items-center gap-fluid-base font-semibold text-fluid-input-label"
           >
-            <Calendar className="text-primary size-[clamp(0.9rem,1.2vw,1.35rem)]" />
+            <Calendar className="text-primary size-fluid-input-icon" />
             Age
           </Label>
         </div>
 
-        <div className="flex items-center gap-[clamp(0.35rem,0.7vw,0.6rem)]">
+        <div className="flex items-center gap-fluid-base">
           <MobileInput
             id={inputId}
             name="quick-age"
@@ -49,13 +49,7 @@ export function AgeInputSection({ disabled }: Readonly<AgeInputSectionProps>) {
             value={displayAge > 0 ? displayAge.toString() : ''}
             onChange={handleAgeValueChange}
             scrollIntoViewOnFocus={true}
-            className="
-              h-[clamp(2.5rem,3.5vw,3rem)]
-              min-h-[44px]
-              px-[clamp(0.6rem,1vw,0.9rem)]
-              text-[clamp(0.9rem,1.1vw,1.1rem)]
-              font-medium
-            "
+            className="h-fluid-input min-h-[44px] px-fluid-input text-fluid-input-value font-medium"
             disabled={disabled}
             min="0"
             step="1"
@@ -70,14 +64,7 @@ export function AgeInputSection({ disabled }: Readonly<AgeInputSectionProps>) {
             variant="outline"
             onClick={handleUnitToggle}
             disabled={disabled}
-            className="
-              h-[clamp(2.5rem,3.5vw,3rem)]
-              min-w-[clamp(5rem,7vw,6rem)]
-              px-[clamp(0.6rem,1vw,0.9rem)]
-              text-[clamp(0.85rem,1vw,1rem)]
-              font-medium
-              transition-colors
-            "
+            className="h-fluid-input w-fluid-toggle-btn px-fluid-input text-fluid-sm font-medium transition-colors"
             aria-label={`Toggle age unit. Currently ${displayAgeUnit}`}
           >
             {displayAgeUnit === 'years' ? 'Years' : 'Months'}

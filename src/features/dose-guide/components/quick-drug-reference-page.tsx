@@ -148,9 +148,7 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
       <main
         id='main-content'
         className={cn(
-          'container mx-auto flex flex-col',
-          'px-[clamp(0.75rem,4vw,1rem)] py-[clamp(1rem,5vh,1.5rem)]',
-          'gap-[clamp(1rem,4vw,1.5rem)]',
+          'container mx-auto flex flex-col p-fluid-page gap-fluid-page',
           isMobile && [
             keyboard.isVisible && 'pb-2',
             'safe-area-inset-x safe-area-inset-bottom',
@@ -164,7 +162,7 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
             isMobile && keyboard.isVisible && 'shadow-none bg-transparent',
           )}
         >
-          <CardContent className='p-[clamp(0.5rem,2vw,1.5rem)]'>
+          <CardContent className='p-fluid-page-card'>
             <div className='grid grid-cols-1 gap-inline md:grid-cols-2 md:gap-component'>
               <AgeInputSection disabled={!isClient} />
               <WeightInputSection disabled={!isClient} />
@@ -179,7 +177,7 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
                 isMobile && keyboard.isVisible && 'hidden sm:block',
               )}
             >
-              <CardContent className='p-[clamp(1rem,3vw,1.5rem)]'>
+              <CardContent className='p-fluid-page-card-content'>
                 <h2 id='filters-heading' className='sr-only'>
                   Category Filters
                 </h2>
@@ -198,7 +196,7 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
           calculationResults={drugCalculationResults}
           onDrugFavorite={handleDrugFavorite}
           isLoading={isDatabaseLoading || isPending}
-          className={cn('mb-[clamp(1rem,4vw,1.5rem)]', isMobile && keyboard.isVisible && 'pb-2')}
+          className={cn('mb-fluid-page-grid', isMobile && keyboard.isVisible && 'pb-2')}
           favorites={favorites}
         />
       </main>

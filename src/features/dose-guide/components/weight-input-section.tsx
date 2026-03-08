@@ -24,21 +24,21 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
 
   return (
     <div className="relative" id="weight-input">
-      <MobileFormField className="space-y-[clamp(0.4rem,0.7vw,0.7rem)]">
+      <MobileFormField className="space-y-fluid-input-field">
         
         <div className="flex items-center justify-between">
           <Label
             htmlFor={inputId}
-            className="flex items-center gap-[clamp(0.4rem,0.7vw,0.6rem)] font-semibold text-[clamp(0.8rem,1vw,1.2rem)]"
+            className="flex items-center gap-fluid-base font-semibold text-fluid-input-label"
           >
-            <Weight className="text-primary size-[clamp(0.95rem,1.3vw,1.4rem)]" />
+            <Weight className="text-primary size-fluid-icon-lg" />
             Weight (Optional)
           </Label>
         </div>
 
         <div id={descriptionId} className="sr-only"></div>
 
-        <div className="flex items-center gap-[clamp(0.4rem,0.7vw,0.6rem)]">
+        <div className="flex items-center gap-fluid-base">
           <div className="relative flex-1">
             
             <MobileInput
@@ -50,14 +50,7 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
               value={localValue}
               onChange={handleInputChange}
               scrollIntoViewOnFocus={true}
-              className="
-                h-[clamp(2.5rem,3.5vw,3rem)]
-                min-h-[44px]
-                pl-[clamp(0.7rem,1vw,1rem)]
-                pr-[clamp(2.5rem,4vw,3.5rem)]
-                text-[clamp(0.9rem,1.1vw,1.1rem)]
-                font-medium
-              "
+              className="h-fluid-input min-h-[44px] pl-fluid-input pr-fluid-input-unit text-fluid-input-value font-medium"
               disabled={disabled}
               min="0"
               step="0.1"
@@ -68,16 +61,7 @@ export function WeightInputSection({ disabled }: Readonly<WeightInputSectionProp
 
             <label
               htmlFor={inputId}
-              className="
-                absolute
-                right-[clamp(0.7rem,1vw,1rem)]
-                top-1/2
-                -translate-y-1/2
-                cursor-text
-                font-medium
-                text-muted-foreground
-                text-[clamp(0.8rem,1vw,1rem)]
-              "
+              className="absolute top-1/2 -translate-y-1/2 cursor-text font-medium text-muted-foreground text-fluid-unit right-fluid-unit"
             >
               kg
             </label>

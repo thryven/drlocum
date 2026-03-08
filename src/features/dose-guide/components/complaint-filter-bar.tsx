@@ -118,32 +118,19 @@ export function ComplaintFilterBar({
     return (
       <div className={cn('w-full space-y-2', className)}>
         <div className='flex items-center justify-between'>
-          <h2
-            className="
-            hidden md:flex md:items-center
-            gap-[clamp(0.35rem,0.6vw,0.5rem)]
-            font-medium
-            text-muted-foreground
-            text-[clamp(0.75rem,0.9vw,0.9rem)]
-          "
-          >
-            <Filter className="size-[clamp(0.9rem,1.2vw,1rem)]" />
+          <h2 className="hidden md:flex md:items-center gap-fluid-sm font-medium text-muted-foreground text-fluid-filter-label">
+            <Filter className="size-fluid-filter-icon" />
             Filter by category
           </h2>
           {selectedComplaint && selectedComplaint !== 'favorites' && (
             <Button
               variant="ghost"
               size="sm"
-              className="
-                h-[clamp(2rem,3vw,2.25rem)]
-                min-h-[44px]
-                px-[clamp(0.4rem,0.8vw,0.6rem)]
-                text-[clamp(0.7rem,0.85vw,0.8rem)]
-              "
+              className="h-fluid-clear-btn min-h-[44px] px-fluid-clear-btn text-fluid-clear-btn"
               onClick={() => handleComplaintClick(null)}
               aria-label="Clear filter"
             >
-              <X className="size-[clamp(0.7rem,1vw,0.85rem)] mr-[clamp(0.2rem,0.5vw,0.35rem)]" />
+              <X className="size-fluid-clear-icon mr-fluid-xs" />
               Clear
             </Button>
           )}
@@ -166,10 +153,7 @@ export function ComplaintFilterBar({
     <div className={cn('w-full', className)}>
       <TooltipProvider>
         <div
-          className={cn(
-            "flex flex-wrap gap-[clamp(0.35rem,0.8vw,0.6rem)]",
-            isPending && "opacity-75 transition-opacity"
-          )}
+          className={cn('flex flex-wrap gap-fluid-lg', isPending && 'opacity-75 transition-opacity')}
           role="tablist"
           aria-label="Filter drugs by complaint category"
         >
@@ -190,7 +174,7 @@ export function ComplaintFilterBar({
                 size={'sm'}
                 onClick={() => handleComplaintClick(complaint.id)}
                 className={cn(
-                  'font-medium transition-all duration-200 h-[clamp(2.25rem,3.2vw,2.6rem)] min-h-[44px]    px-[clamp(0.6rem,1.1vw,0.9rem)]    text-[clamp(0.8rem,0.95vw,0.95rem)]    gap-[clamp(0.3rem,0.6vw,0.45rem)]',
+                  'font-medium transition-all duration-200 h-fluid-btn min-h-[44px] px-fluid-btn text-fluid-filter-btn gap-fluid-sm',
                   getComplaintColorClasses(complaint.color, isActive),
                   isActive && 'ring-2 ring-offset-2 ring-current/30 shadow-md',
                 )}
