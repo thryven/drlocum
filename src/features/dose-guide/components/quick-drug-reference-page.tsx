@@ -22,8 +22,8 @@ import type {
 } from '../lib/types'
 
 interface QuickDrugReferencePageProps {
-  defaultWeight?: number | undefined
-  initialComplaintFilter?: string | undefined
+  defaultWeight?: number
+  initialComplaintFilter?: string
   medications: QuickReferenceMedication[]
   categories: QuickReferenceComplaintCategory[]
 }
@@ -136,6 +136,8 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
     )
   }
 
+  const isKeyboardMode = isMobile && keyboard.isVisible
+
   return (
     <MobileViewport
       ref={swipeContainerRef}
@@ -154,12 +156,11 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
             'safe-area-inset-x safe-area-inset-bottom',
           ],
         )}
-        aria-label='Dose guide content'
       >
         <Card
           className={cn(
             'shadow-xs border-0 bg-card/50 md:shadow-sm md:border md:bg-card',
-            isMobile && keyboard.isVisible && 'shadow-none bg-transparent',
+            isKeyboardMode && 'shadow-none bg-transparent',
           )}
         >
           <CardContent className='p-fluid-page-card'>
@@ -174,7 +175,7 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
             <Card
               className={cn(
                 'shadow-xs border-0 bg-card/50 md:shadow-sm md:border md:bg-card',
-                isMobile && keyboard.isVisible && 'hidden sm:block',
+                isKeyboardMode && 'hidden sm:block',
               )}
             >
               <CardContent className='p-fluid-page-card-content'>
@@ -196,7 +197,7 @@ function QuickDrugReferenceContent(props: Readonly<QuickDrugReferencePageProps>)
           calculationResults={drugCalculationResults}
           onDrugFavorite={handleDrugFavorite}
           isLoading={isDatabaseLoading || isPending}
-          className={cn('mb-fluid-page-grid', isMobile && keyboard.isVisible && 'pb-2')}
+          className={cn('mb-fluid-page-grid', isKeyboardMode && 'pb-2')}
           favorites={favorites}
         />
       </main>
